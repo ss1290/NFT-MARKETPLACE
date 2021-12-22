@@ -43,15 +43,31 @@ contract OpenMarket is ERC721 {
 
     function tokenforsale(uint tokenId, uint price) public {
         require(ownerOf(tokenId) == _msgSender(),"Not owner");
-        require(_exists(tokenId),"Not not exist");
+        require(_exists(tokenId),"Token not exist");
         forsale[tokenId] = true;
         costOftoken[tokenId] = price;
     }
 
     function priceChange(uint price, uint tokenId) public {
           require(ownerOf(tokenId) == _msgSender(),"Not owner");
-          require(_exists(tokenId),"Not not exist");
+          require(_exists(tokenId),"Token not exist");
           costOftoken[tokenId] = price;
+    }
+
+    function buyNFT(uint tokenId)public {
+        address owner = ownerOf(tokenId);
+        require(_msgSender() != address(0),"Buyer address zero");
+        require(_msgSender() != owner , "Transfer to owner");
+        _tokenApprovals[tokenId] = _msgSender();
+        transferFrom(owner, _msgSender(), tokenId);
+        _tokenApprovals[tokenId] = address(0);
+    }
+
+    function removeFromSale(uint tokenId)public{
+        require(ownerOf(tokenId) == _msgSender(),"Not owner");
+        require(_exists(tokenId),"Token not exist");
+        forsale[tokenId] = false;
+        costOftoken[tokenId] = 0;
     }
 
 
