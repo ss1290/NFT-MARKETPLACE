@@ -70,6 +70,22 @@ contract OpenMarket is ERC721 {
         costOftoken[tokenId] = 0;
     }
 
+function _TransferFrom(address to, uint tokenId) public{
+     require(to != msg.sender , 'Can  not transfer to same address');
+     require(to != address(0) , 'Can  not be zero address');
+     require(_exists(tokenId),"Not not exist");
+     
+      transferFrom(msg.sender,to,tokenId);
+
+ }
+
+ function _Approve(address to , uint tokenId) public {
+      require(to != msg.sender , 'Can  not transfer to same address');
+     require(to != address(0) , 'Can  not be zero address');
+      require(_exists(tokenId),"Not not exist");
+     approve(to , tokenId);
+ }
+
 
   
 
