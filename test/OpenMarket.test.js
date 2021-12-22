@@ -28,14 +28,15 @@ contract('KryptoBird', (accounts) => {
         })
         it('has a name', async() => {
             const name = await contract.name()
-            assert.equal(name, 'Kryptonion')
+            assert.equal(name, 'NFT TOKEN')
         })
         it('has a symbol', async() => {
             const symbol = await contract.symbol()
-            assert.equal(symbol, 'KN')
+            assert.equal(symbol, 'TFN')
         })
         it('supports interface', async() => {
-            const check = contract.supportInterface
+            const check = await contract.supportsInterface('0x80ac58cd') || contract.supportsInterface('0x5b5e139f')
+            assert.equal(check,true)
         })
     })
 })
