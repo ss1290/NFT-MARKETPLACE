@@ -51,9 +51,7 @@ contract('KryptoBird', (accounts) => {
                assert.notEqual(rec, null)
                assert.notEqual(rec, undefined)
                assert.notEqual(rec, 0x0)
-               assert.notEqual(rec, '')
-               assert.notEqual(rec, null)
-               assert.notEqual(rec, undefined)
+              
                
             })
 
@@ -63,9 +61,7 @@ contract('KryptoBird', (accounts) => {
                assert.notEqual(rec, null)
                assert.notEqual(rec, undefined)
                assert.notEqual(rec, 0x0)
-               assert.notEqual(rec, '')
-               assert.notEqual(rec, null)
-               assert.notEqual(rec, undefined)
+               
              })
         })
 
