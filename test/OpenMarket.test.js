@@ -34,5 +34,8 @@ contract('KryptoBird', (accounts) => {
             const symbol = await contract.symbol()
             assert.equal(symbol, 'KN')
         })
+        it('supports interface', async() => {
+            const check = contract.supportInterface
+        })
     })
 })
