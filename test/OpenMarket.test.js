@@ -34,8 +34,12 @@ contract('KryptoBird', (accounts) => {
             const symbol = await contract.symbol()
             assert.equal(symbol, 'TFN')
         })
-        it('supports interface', async() => {
-            const check = await contract.supportsInterface('0x80ac58cd') || contract.supportsInterface('0x5b5e139f')
+        it('supports IERC721interface', async() => {
+            const check = await contract.supportsInterface('0x80ac58cd')
+            assert.equal(check,true)
+        })
+        it('supports IERC721Metadatainterface', async() => {
+            const check = await contract.supportsInterface('0x5b5e139f')
             assert.equal(check,true)
         })
     })
