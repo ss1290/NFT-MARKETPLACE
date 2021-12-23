@@ -11,7 +11,7 @@ require('chai')
 contract('OpenMarket', (accounts) => {
     let contract
     // before tells our tests to run this first before anything else 
-    before( async () => {
+    beforeEach( async () => {
     contract = await OpenMarket.deployed() 
     })
 
@@ -44,7 +44,7 @@ contract('OpenMarket', (accounts) => {
         })
     })
     
-    describe("Minting tokens and tokenURI Minting tokens in batch",async()=>{
+    describe("Minting token & tokenURI Minting tokens in batch",async()=>{
         it("token should be minted",async()=>{
            const result = await contract.mint({from:accounts[0]})
             let balance = await contract.balanceOf(accounts[0]);
