@@ -86,7 +86,7 @@ contract OpenMarket is ERC721, Ownable {
         _tokenPrice[tokenId] = price;
     }
 
-    function changeTokenPrice(uint price, uint tokenId) public {
+    function changeTokenPrice( uint tokenId,uint price) public {
         require(_tokenForSale[tokenId],"Token is not for sale, set it sale first!");
         require(ownerOf(tokenId) == _msgSender(),"Only owner can set the value!");
         require(_exists(tokenId),"Token does not exist!");
@@ -109,6 +109,13 @@ contract OpenMarket is ERC721, Ownable {
         require(ownerOf(tokenId) == _msgSender(),"Only token owner can set value");
         require(_exists(tokenId),"Token does not exist");
         _tokenForSale[tokenId] = false;
+    }
+
+    function isTokenForSale(uint tokenId)public view returns(bool){
+        return _tokenForSale[tokenId];
+    }
+    function getTokenPrice(uint tokenId)public view returns(uint){
+        return _tokenPrice[tokenId];
     }
 
     function _transferFrom(address to, uint tokenId) internal {
