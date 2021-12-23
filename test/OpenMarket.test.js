@@ -59,43 +59,78 @@ contract('OpenMarket', (accounts) => {
             
         })
     })
-
-    describe('priceChange and removeFromSale', async() => {
-
-        it('priceChange ', async() => {
-           const price = await contract.priceChange(5,0)
-           assert.notEqual(rec, '')
-           assert.notEqual(rec, null)
-           assert.notEqual(rec, undefined)     
+    describe("Minting tokens and Minting tokens in batch",async()=>{
+        it("token should be minted",async()=>{
+            await contract.mint({from:accounts[0]})
+            let balance = await contract.balanceOf(accounts[0]);
+            assert.equal(balance,1)
         })
+        it("token should be minted in batch",async()=>{
+            await contract.mintInBatch(10,{from:accounts[0]})
+            let balance = await contract.balanceOf(accounts[0]);
+            assert.equal(balance,11)
+        })
+    })
+    describe("Set token for sale & remove token from sale",async()=>{
+        it("Token by default should not be on sale",async()=>{
+            await contract.mint()
+            let tokenSaleStatus = await contract.isTokenForSale(0)
+            assert.equal(tokenSaleStatus,false)
+        })
+        it("Should set a token to sale",async()=>{
+            await contract.setTokenForSale(0,1212)
+            let tokenSaleStatus = await contract.isTokenForSale(0)
+            assert.equal(tokenSaleStatus,true)
+        })
+        it("Token should have a price if on sale",async()=>{
+            let tokenPrice = await contract.getTokenPrice(0)
+            assert.equal(tokenPrice,1212)
+        })
+        it("Token price should changed according to user choice",async()=>{
+            await contract.changeTokenPrice(0,3000)
+            let tokenPrice = await contract.getTokenPrice(0)
+            assert.equal(tokenPrice,3000)
 
-        it('removeFromSale', async() => {
-            const rec = await contract.removeFromSale(0)
-           assert.notEqual(rec, '')
-           assert.notEqual(rec, null)
-           assert.notEqual(rec, undefined)
-         })
+        })
+        it("Should remove token from sale",async()=>{
+            await contract.removeTokenFromSale(0)
+            let tokenSaleStatus = await contract.isTokenForSale(0)
+            assert.equal(tokenSaleStatus,false)
+        })
     })
 
-        describe('transferFrom and approve', async() => {
+    describe("BUYNFT", async()=>{
+        it("Should be able to buy token",async()=>{
+            await contract.mint()
+            await contract.setTokenForSale(0,1212)
+            await contract.buyNFT(0,{from:accounts[1]})
+            let newTokenOwner = await contract.ownerOf(0)
+            assert.equal(newTokenOwner, accounts[1]);
+        })
+        it("Buyer should get the token",async()=>{
+            let currentTokenOwner = await contract.ownerOf(0)
+            assert.equal(currentTokenOwner,accounts[1])
+        })
+        it("Token should be removed from sale",async()=>{
+            let isTokenForSale = await contract.isTokenForSale(0)
+            assert.equal(isTokenForSale,false)
+        })
+    })
 
-            it('transferFrom ', async() => {
-               const rec = await contract._TransferFrom('0xaE54d5De8B53B0bc9Ce2a91D56Ee742064a9269D',0)
-               assert.notEqual(rec, '')
-               assert.notEqual(rec, null)
-               assert.notEqual(rec, undefined)
-               assert.notEqual(rec, 0x0)
-              
-               
-            })
-
-            it('approve', async() => {
-                const rec = await contract._Approve('0xaE54d5De8B53B0bc9Ce2a91D56Ee742064a9269D',0)
-               assert.notEqual(rec, '')
-               assert.notEqual(rec, null)
-               assert.notEqual(rec, undefined)
-               assert.notEqual(rec, 0x0)
-               
+    describe('transferFrom and approve', async() => {
+        // it('transferFrom ', async() => {
+        //        await contract.mint();
+        //        await contract.TransferFrom(accounts[2],0) 
+        //        const balance = await contract.balanceOf(accounts[2])
+        //        assert.equal(balance, 1)
+        //     })
+        it('approve', async() => {
+                await contract.mint({from:accounts[0]});
+                const rec = await contract.approve(accounts[1],1)
+                const check1 = await contract.checkApproval(accounts[0],1);
+                const check2 = await contract.checkApproval(accounts[1],1);
+                assert.equal(check1,true)
+                assert.equal(check2,true)
              })
         })
 
