@@ -42,9 +42,6 @@ contract OpenMarket is ERC721, Ownable {
             _mint(msg.sender, newItemId);
         }
     }
-    function totalSupply() public view returns(uint256) {
-        return totalTokens.length;
-    }
     
     function setBaseURI(string memory _newBaseURI) public onlyOwner {
         baseURI = _newBaseURI;
@@ -118,23 +115,24 @@ contract OpenMarket is ERC721, Ownable {
         return _tokenPrice[tokenId];
     }
 
-    function _transferFrom(address to, uint tokenId) internal {
+    function TransferFrom(address to, uint tokenId) public {
+        require(_isApprovedOrOwner(msg.sender, tokenId), "ERC721: transfer caller is not owner nor approved");
         require(to != msg.sender , 'Can  not transfer to same address');
         require(to != address(0) , 'Can  not be zero address');
         require(_exists(tokenId),"No token  exists");
-        
-        transferFrom(msg.sender,to,tokenId);
-
+        _transfer(msg.sender,to,tokenId);
     }
 
-    function _apProve(address to , uint tokenId) internal {
+    function approve(address to , uint256 tokenId) public override {
         require(to != msg.sender , 'Can  not transfer to same address');
         require(to != address(0) , 'Can  not be zero address');
         require(_exists(tokenId),"No token exist");
-        approve(to , tokenId);
+        _approve(to , tokenId);
     }
 
-
+    function checkApproval(address spender, uint256 tokenId) public view returns(bool) {
+        return _isApprovedOrOwner(spender,tokenId);
+    }
   
 
     //  function _transferFrom(address from, address to , uint256 tokenid) public payable {
