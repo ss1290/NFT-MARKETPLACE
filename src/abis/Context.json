@@ -492,18 +492,8 @@
     "version": "0.8.11+commit.d7f03943.Emscripten.clang"
   },
   "networks": {},
-<<<<<<< HEAD
-<<<<<<< HEAD
   "schemaVersion": "3.4.4",
-  "updatedAt": "2021-12-22T11:25:36.502Z",
-=======
-  "schemaVersion": "3.4.3",
-  "updatedAt": "2021-12-22T16:11:06.481Z",
->>>>>>> 478dd373ccfbf082fd4f4f482d0973e4e410a678
-=======
-  "schemaVersion": "3.4.4",
-  "updatedAt": "2021-12-23T14:20:35.616Z",
->>>>>>> 3798e889d5062dc4fe8331d1bac8f2e46c17d3d7
+  "updatedAt": "2021-12-23T19:40:40.445Z",
   "devdoc": {
     "details": "Provides information about the current execution context, including the sender of the transaction and its data. While these are generally available via msg.sender and msg.data, they should not be accessed in such a direct manner, since when dealing with meta-transactions the account sending and paying for execution may not be the actual sender (as far as an application is concerned). This contract is only required for intermediate, library-like contracts.",
     "kind": "dev",

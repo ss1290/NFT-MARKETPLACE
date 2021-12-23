@@ -41,6 +41,10 @@ contract OpenMarket is ERC721, Ownable {
         return newItemId ;
     }
 
+    function totalSupply() public view returns(uint256){
+        return totalTokens.length;
+    }
+
 
 
 
