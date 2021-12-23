@@ -116,11 +116,12 @@ contract OpenMarket is ERC721, Ownable {
     }
 
     function TransferFrom(address to, uint tokenId) public {
+        address owner = ownerOf(tokenId);
         require(_isApprovedOrOwner(msg.sender, tokenId), "ERC721: transfer caller is not owner nor approved");
         require(to != msg.sender , 'Can  not transfer to same address');
         require(to != address(0) , 'Can  not be zero address');
         require(_exists(tokenId),"No token  exists");
-        _transfer(msg.sender,to,tokenId);
+        _transfer(owner,to,tokenId);
     }
 
     function approve(address to , uint256 tokenId) public override {
@@ -129,10 +130,7 @@ contract OpenMarket is ERC721, Ownable {
         require(_exists(tokenId),"No token exist");
         _approve(to , tokenId);
     }
-
-    function checkApproval(address spender, uint256 tokenId) public view returns(bool) {
-        return _isApprovedOrOwner(spender,tokenId);
-    }
+    
   
 
     //  function _transferFrom(address from, address to , uint256 tokenid) public payable {

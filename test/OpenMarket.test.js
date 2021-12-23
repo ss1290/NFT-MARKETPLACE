@@ -43,11 +43,16 @@ contract('OpenMarket', (accounts) => {
             assert.equal(check,true)
         })
     })
-    describe("Minting tokens and Minting tokens in batch",async()=>{
+    
+    describe("Minting tokens and tokenURI Minting tokens in batch",async()=>{
         it("token should be minted",async()=>{
             await contract.mint({from:accounts[0]})
             let balance = await contract.balanceOf(accounts[0]);
             assert.equal(balance,1)
+        })
+        it("check for valid tokenURI",async() => {
+            const tokenURI = await contract.tokenURI(0);
+            assert.equal(tokenURI, "testURI0.json" )
         })
         it("token should be minted in batch",async()=>{
             await contract.mintInBatch(10,{from:accounts[0]})
@@ -102,22 +107,16 @@ contract('OpenMarket', (accounts) => {
     })
 
     describe('transferFrom and approve', async() => {
-        // it('transferFrom ', async() => {
-        //        await contract.mint();
-        //        await contract.TransferFrom(accounts[2],0) 
-        //        const balance = await contract.balanceOf(accounts[2])
-        //        assert.equal(balance, 1)
-        //     })
         it('approve', async() => {
                 await contract.mint({from:accounts[0]});
-                const rec = await contract.approve(accounts[1],1)
-                const check1 = await contract.checkApproval(accounts[0],1);
-                const check2 = await contract.checkApproval(accounts[1],1);
-                assert.equal(check1,true)
-                assert.equal(check2,true)
-             })
+                await contract.approve(accounts[1],0)
+                const address = await contract.getApproved(0);
+                assert.equal(address,accounts[1])
         })
-
-      
-
+        it('transferFrom ', async() => {
+               await contract.TransferFrom(accounts[2],0,{from:accounts[1]}) 
+               const balance = await contract.balanceOf(accounts[2])
+               assert.equal(balance, 1)
+            })
+        })
 })
