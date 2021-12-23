@@ -3,10 +3,14 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract OpenMarket is ERC721 {
+contract OpenMarket is ERC721, Ownable {
     using Counters for Counters.Counter;
+    using Strings for uint256;
 
+    string private baseURI;
+    string private baseExtension = ".json";
     //   uint256[] tokenid;
     //   uint256[] costOftoken;
     //   mapping(uint256 => uint256) private costOf;
@@ -19,7 +23,9 @@ contract OpenMarket is ERC721 {
 
     uint[] private totalTokens;
 
-    constructor() ERC721("NFT TOKEN", "TFN") {}
+    constructor(string memory _initBaseURI) ERC721("NFT TOKEN", "TFN") {
+        setBaseURI(_initBaseURI);
+    }
 
     function mint() public
     {
@@ -39,6 +45,39 @@ contract OpenMarket is ERC721 {
     }
     function totalSupply() public view returns(uint256) {
         return totalTokens.length;
+    }
+    
+    function setBaseURI(string memory _newBaseURI) public onlyOwner {
+        baseURI = _newBaseURI;
+    }
+    
+    function _baseURI() internal view virtual override returns (string memory) {
+        return baseURI;
+    }
+
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        virtual
+        override
+        returns (string memory)
+    {
+        require(
+            _exists(tokenId),
+            "ERC721Metadata: URI query for nonexistent token"
+        );
+
+        string memory currentBaseURI = _baseURI();
+        return
+            bytes(currentBaseURI).length > 0
+                ? string(
+                    abi.encodePacked(
+                        currentBaseURI,
+                        tokenId.toString(),
+                        baseExtension
+                    )
+                )
+                : "";
     }
 
     function tokenforsale(uint tokenId, uint price) public {
