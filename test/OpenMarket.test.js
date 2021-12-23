@@ -46,9 +46,12 @@ contract('OpenMarket', (accounts) => {
     
     describe("Minting tokens and tokenURI Minting tokens in batch",async()=>{
         it("token should be minted",async()=>{
-            await contract.mint({from:accounts[0]})
+           const result = await contract.mint({from:accounts[0]})
             let balance = await contract.balanceOf(accounts[0]);
             assert.equal(balance,1)
+            const event = result.logs[0].args
+            assert.equal(event.from, '0x0000000000000000000000000000000000000000', 'from the contract')
+            assert.equal(event.to, accounts[0], 'to is msg.sender')
         })
         it("check for valid tokenURI",async() => {
             const tokenURI = await contract.tokenURI(0);
