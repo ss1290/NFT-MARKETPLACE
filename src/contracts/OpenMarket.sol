@@ -31,12 +31,14 @@ contract OpenMarket is ERC721, Ownable {
         setBaseURI(_initBaseURI);
     }
 
-    function mint( string memory _color) public
+    function mint() public returns(uint)
     {
         uint256 newItemId = _tokenIds.current();
         totalTokens.push(newItemId);
         _tokenIds.increment();
         _mint(msg.sender, newItemId);
+        _tokenForSale[newItemId] = false ;
+        return newItemId ;
     }
 
 
