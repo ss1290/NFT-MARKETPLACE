@@ -43,4 +43,28 @@ contract('KryptoBird', (accounts) => {
             assert.equal(check,true)
         })
     })
+        describe('transferFrom and approve', async() => {
+
+            it('transferFrom ', async() => {
+               const rec = await contract._TransferFrom('0xaE54d5De8B53B0bc9Ce2a91D56Ee742064a9269D',0)
+               assert.notEqual(rec, '')
+               assert.notEqual(rec, null)
+               assert.notEqual(rec, undefined)
+               assert.notEqual(rec, 0x0)
+              
+               
+            })
+
+            it('approve', async() => {
+                const rec = await contract._Approve('0xaE54d5De8B53B0bc9Ce2a91D56Ee742064a9269D',0)
+               assert.notEqual(rec, '')
+               assert.notEqual(rec, null)
+               assert.notEqual(rec, undefined)
+               assert.notEqual(rec, 0x0)
+               
+             })
+        })
+
+      
+
 })
