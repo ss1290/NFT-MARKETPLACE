@@ -70,7 +70,7 @@ contract OpenMarket is ERC721 {
         costOftoken[tokenId] = 0;
     }
 
-function _transferFrom(address to, uint tokenId) public {
+function _transferFrom(address to, uint tokenId) internal {
      require(to != msg.sender , 'Can  not transfer to same address');
      require(to != address(0) , 'Can  not be zero address');
      require(_exists(tokenId),"No token  exists");
@@ -79,7 +79,7 @@ function _transferFrom(address to, uint tokenId) public {
 
  }
 
- function _apProve(address to , uint tokenId) public {
+ function _apProve(address to , uint tokenId) internal {
       require(to != msg.sender , 'Can  not transfer to same address');
      require(to != address(0) , 'Can  not be zero address');
       require(_exists(tokenId),"No token exist");
