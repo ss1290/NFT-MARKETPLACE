@@ -41,7 +41,7 @@ contract OpenMarket is ERC721 {
         return totalTokens.length;
     }
 
-    function tokenforsale(uint tokenId, uint price) public {
+    function tokenForsale(uint tokenId, uint price) public {
         require(ownerOf(tokenId) == _msgSender(),"Not owner");
         require(_exists(tokenId),"Token not exist");
         forsale[tokenId] = true;

@@ -59,6 +59,24 @@ contract('OpenMarket', (accounts) => {
             
         })
     })
+
+    describe('priceChange and removeFromSale', async() => {
+
+        it('priceChange ', async() => {
+           const price = await contract.priceChange(5,0)
+           assert.notEqual(rec, '')
+           assert.notEqual(rec, null)
+           assert.notEqual(rec, undefined)     
+        })
+
+        it('removeFromSale', async() => {
+            const rec = await contract.removeFromSale(0)
+           assert.notEqual(rec, '')
+           assert.notEqual(rec, null)
+           assert.notEqual(rec, undefined)
+         })
+    })
+
         describe('transferFrom and approve', async() => {
 
             it('transferFrom ', async() => {
