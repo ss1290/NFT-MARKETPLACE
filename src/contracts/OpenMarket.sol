@@ -41,7 +41,6 @@ contract OpenMarket is ERC721, Ownable {
     function setBaseURI(string memory _newBaseURI) internal onlyOwner {
         baseURI = _newBaseURI;
     }
-    
     function _baseURI() internal view virtual override returns (string memory) {
         return baseURI;
     }
