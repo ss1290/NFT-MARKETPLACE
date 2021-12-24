@@ -45,21 +45,13 @@ contract OpenMarket is ERC721, Ownable {
         return totalTokens.length;
     }
 
-
-
-
     function mintInBatch(uint256 noOfTokens) public {
         for(uint i=0;i<noOfTokens;i++) {
             uint256 newItemId = _tokenIds.current();
             totalTokens.push (newItemId);
             _tokenIds.increment();
             _mint(msg.sender,  newItemId);
-        }
-
-        
-
-
-        
+        }   
     }
     
     function setBaseURI(string memory _newBaseURI) public onlyOwner {
@@ -149,25 +141,5 @@ contract OpenMarket is ERC721, Ownable {
         require(_exists(tokenId),"No token exist");
         _approve(to , tokenId);
     }
-    
-  
-
-    //  function _transferFrom(address from, address to , uint256 tokenid) public payable {
-    //     require(etherOf[to] >= costOf[tokenid], 'Low ether in buyers account');
-    //     transferFrom(from,to,tokenid);
-    //     etherOf[to]-=costOf[tokenid];
-    //     etherOf[from]+=costOf[tokenid];
-    // }
-
 }
-    // uint256 private tokenCounter;
-    // constructor() ERC721("Kryptonion", "KN"){
-    //     tokenCounter = 0;
-    // }
-
-    // function mint() public {
-    //     uint256 newNFTTokenId = tokenCounter;
-    //     _mint(msg.sender, newNFTTokenId);
-    //     tokenCounter+=1;
-    // }
-// }
+    
