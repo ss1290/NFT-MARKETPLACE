@@ -3,31 +3,29 @@ import Web3 from "web3";
 import detectEthereumProvider from "@metamask/detect-provider";
 import KryptoBird from '../abis/OpenMarket.json'
 
+
 import './App.css';
 
 class App extends Component {
 
-
-       test = ()=>{
-      console.log("23232")
-    }
+    
     async componentDidMount() {
         await this.loadWeb3();
         await this.loadBlockchainData();
     }
 
-    // first up is to detect ethereum provider
     async loadWeb3() {
         const provider = await detectEthereumProvider();
-
-        // modern browsers
-        // if there is a provider then lets
-        // lets log that it's working and access the window from the doc
-        // to set Web3 to the provider 
+        console.log(provider,"grgegh")
+        
         
         if(provider) {
             console.log('ethereum wallet is connected')
-            window.web3 = new Web3(Web3.givenProvider   )
+    
+            var web3 = new Web3();
+
+            await window.web3.currentProvider.enable()
+            window.web3 = new Web3(web3.currentProvider  || "HTTP://127.0.0.1:7545")
         } else {
             // no ethereum provider
             console.log('no ethereum wallet detected')
@@ -37,7 +35,10 @@ class App extends Component {
     async loadBlockchainData() {
         const web3 = window.web3
         const accounts = await web3.eth.getAccounts()
+        console.log(accounts, "tuudui")
+        const account = accounts[0]
         this.setState({account:accounts[0]})
+        console.log(accounts)
 
       
         const networkId = await web3.eth.net.getId()
@@ -57,8 +58,10 @@ class App extends Component {
 
             const symbol = await contract.methods.symbol().call()
             this.setState({symbol})
-            const mint = await contract.methods.mint().send()
-            this.setState({mint})
+
+
+           
+
             
             
          } else {
@@ -72,8 +75,7 @@ class App extends Component {
          this.state = {
              account: '',
              contract:null,
-             totalSupply:0,
-             kryptoBirdz:[]
+            
          }
     }
 
@@ -84,12 +86,13 @@ class App extends Component {
         return (
             <div>
                  Open Market
-<button onClick={this.test}> Connect wallet</button>
+
 <p>{this.state.account}</p>
 
 <p>{this.state.name}</p>
-
+<p>{this.state.total}</p>
 <p>{this.state.symbol}</p>
+
 
 
 
