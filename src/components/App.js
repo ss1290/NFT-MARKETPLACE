@@ -39,26 +39,26 @@ class App extends Component {
         const accounts = await web3.eth.getAccounts()
         this.setState({account:accounts[0]})
 
-        // create a constant js variable networkId which 
-        //is set to blockchain network id 
+      
         const networkId = await web3.eth.net.getId()
         const networkData = KryptoBird.networks[networkId]
          if(networkData) {
-             // EXERCISE TIME!!!! :)
-             // 1. create a var abi set to the Kryptobird abi
-             // 2. create a var address set to networkData address
-             // 3. create a var contract which grabs a 
-             //new instance of web3 eth Contract  
-             // 4. log in the console the var contract successfully - GOOD LUCK!!!!
-
+            
              const abi = KryptoBird.abi;
              const address = networkData.address; 
              const contract = new web3.eth.Contract(abi, address)
              this.setState(()=>({contract}))
 
             
-             const totalSupply = await contract.methods.totalSupply().call()
-            this.setState({totalSupply})
+             
+
+            const name = await contract.methods.name().call()
+            this.setState({name})
+
+            const symbol = await contract.methods.symbol().call()
+            this.setState({symbol})
+            const mint = await contract.methods.mint().send()
+            this.setState({mint})
             
             
          } else {
@@ -86,6 +86,15 @@ class App extends Component {
                  Open Market
 <button onClick={this.test}> Connect wallet</button>
 <p>{this.state.account}</p>
+
+<p>{this.state.name}</p>
+
+<p>{this.state.symbol}</p>
+
+
+
+
+
 
 
             </div>
