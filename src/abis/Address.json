@@ -8055,8 +8055,12 @@
   "updatedAt": "2021-12-23T08:24:57.262Z",
 =======
   "schemaVersion": "3.4.4",
+<<<<<<< HEAD
   "updatedAt": "2021-12-23T14:20:35.580Z",
 >>>>>>> 3798e889d5062dc4fe8331d1bac8f2e46c17d3d7
+=======
+  "updatedAt": "2021-12-24T11:24:39.107Z",
+>>>>>>> d97696965cd6d3253a95091d3df52fe641efed17
   "devdoc": {
     "details": "Collection of functions related to the address type",
     "kind": "dev",
