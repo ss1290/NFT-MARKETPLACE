@@ -1,18 +1,17 @@
 import React from "react";
 import {Link} from 'react-router-dom';
+import Card from './card'
 
-const AllNFT = ()=>(
-    <div>
-     <h1>Buy what you like!</h1>
-     <ul>
-        <li>
-           <h2><Link to="/NFT/jaguar">Jaguar</Link></h2> 
-        </li>
-        <li>
-           <h2><Link to="/NFT/mercedes">Merecedes</Link></h2> 
-        </li>
-     </ul>
-    </div>
-);
+const AllNFT = ()=>{
+
+return (
+<div>
+   <h1>Nft collections</h1>
+   <Card />
+   </div>
+)
+  
+    
+};
 
 export default AllNFT;
