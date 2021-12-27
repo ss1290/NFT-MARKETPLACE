@@ -2,7 +2,8 @@ import React from "react";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import {Link} from "react-router-dom";
 
-const Home = () => (
+const Home = () => {
+  return (
   <div className="home-page">
     <Container>
       <Row>
@@ -14,20 +15,17 @@ const Home = () => (
           
         </Col>
         <Col>
-          <img className="home-token" src='/img/home-token.jpg' height={200} width={200} />
+        <Link to="/Buynft">
+        <button onclick="show()">
+          <img  className="home-token" src='/img/home-token.jpg' height={200} width={200} />
+          </button>
+          </Link>
         </Col>
       </Row>
     </Container>
   </div>
+  )
+}
 
-);
 export default Home;
 
-<div classNameName="Home">
-  <div className="Column">
-
-  </div>
-  <div className="Home-image-container">
-
-  </div>
-</div>
