@@ -3,7 +3,7 @@ const Web3 = require('web3');
 const myContract = require('../src/abis/OpenMarket.json')
 const mysql = require('mysql');
 const tokenList = require('../fetchedData/mint.json');
-
+const transfer = require('../fetchedData/transfer.json');
 //Create connection
 const db = mysql.createConnection({ 
     host     : 'localhost',
@@ -68,15 +68,15 @@ app.get('/addtoken',(req,res) =>{
 });
 
 
-app.get('/transfer/:id',async(req,res)=>{
+app.get('/transfer',async(req,res) =>{
     const addresses = await web3.eth.getAccounts();
-//     let token = tokenList
-    
-//     token.previousOwner = '0x4BF56b7549e1D369b6B0AeC2de51bb67D31eBA5d'
-//     token.currentOwner = "0x6100Ef9a6B7bD8b791cAf8be033EC2ee1544d8b5"
-// console.log(JSON.stringify(token))
-// const filePath = path.join(__dirname, "../fetchedData/mint.json");
-//       fs.writeFileSync(filePath,JSON.stringify(token));  
+    console.log(updateList);
+    let sql = `UPDATE Token SET previousOwner = '${transfer.transferFrom}', currentOwner = '${transfer.transferTo}' WHERE tokenId = ${transfer.tokenId}`;
+    let query = db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send('token transfered');
+    });
 })
 
 app.listen('3000',()=>{
