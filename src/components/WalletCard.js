@@ -1,7 +1,8 @@
 
 import React, {useState} from 'react'
 import {ethers} from 'ethers'
-// import './WalletCard.css'
+import './WalletCard.css'
+import { useEffect } from 'react'
 
 const WalletCard = () => {
 
@@ -27,9 +28,53 @@ const WalletCard = () => {
 
 		} else {
 			console.log('Need to install MetaMask');
-			setErrorMessage('Please install MetaMask browser extension to interact');
+			setErrorMessage( <span>
+				<p>
+				  {" "}
+				  🦊{" "}
+				  <a target="_blank" href={`https://metamask.io/download.html`}>
+					You must install Metamask, a virtual Ethereum wallet, in your
+					browser.
+				  </a>
+				</p>
+			  </span>);
 		}
 	}
+	
+
+
+	useEffect(()=>{
+		const account =localStorage.getItem('Account');
+		const balance = localStorage.getItem('Balance')
+		if(account && balance){
+			setDefaultAccount(account);
+			setUserBalance(balance);
+		}
+		
+
+	},[]);
+
+	useEffect(()=>{
+		localStorage.setItem('Account' , defaultAccount);
+		localStorage.setItem('Balance' , userBalance);
+		
+
+	});
+
+	// const x =localStorage.getItem('Account');
+	
+	// useEffect(()=>{
+	// 	if(localStorage){
+	// 	const x = localStorage.getItem('Account');
+	// 	setDefaultAccount(x);
+	// 	}
+
+
+	// },[]);
+
+	
+
+
 
 	// update account, will cause component re-render
 	const accountChangedHandler = (newAccount) => {
@@ -51,16 +96,18 @@ const WalletCard = () => {
 		// reload the page to avoid any errors with chain change mid use of application
 		window.location.reload();
 	}
-
+	if (window.ethereum && window.ethereum.isMetaMask) {
 
 	// listen for account changes
 	window.ethereum.on('accountsChanged', accountChangedHandler);
 
 	window.ethereum.on('chainChanged', chainChangedHandler);
+	}
 	
 	return (
 		<div className='walletCard'>
-		<h4> {"Connection to MetaMask using window.ethereum methods"} </h4>
+		<h4> {"Connection to MetaMask 🦊 using window.ethereum methods"} </h4>
+		
 			<button onClick={connectWalletHandler}>{connButtonText}</button>
 			<div className='accountDisplay'>
 				<h3>Address: {defaultAccount}</h3>
