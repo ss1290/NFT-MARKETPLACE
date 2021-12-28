@@ -17,6 +17,7 @@
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
     "chai-bignumber": "3.0.0",
+    "jquery": "^3.6.0",
     "mdb-react-ui-kit": "^2.2.0",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.4",

@@ -1,5 +1,4 @@
 
-
 body {
     background-color: #F5F5F5
 }
@@ -161,4 +160,14 @@ body {
   padding: 10px;  
 
   border: 1px solid rgb(65, 65, 68);
+}
+.aligncenter {
+    display: flex; 
+    justify-content: center; 
+    
+}
+.imgicon{
+    height : 40px;
+    width : 40 px;
+    margin : auto;
 }
