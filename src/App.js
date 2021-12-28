@@ -1,15 +1,16 @@
-import React from 'react'
-import Navbar from './components/Navbar'
-import Firstpage from './components/firstpage'
+
+import './App.css';
+import WalletCard from './WalletCard';
 
 
- const App = () => {
+function App() {
+
   return (
-    <div>
-  <Navbar/>
-  <Firstpage/>
-  </div>
-  )
+    <div className="App">
+    <WalletCard/>
+    
+    </div>
+  );
 }
 
-export default App
+export default App;
