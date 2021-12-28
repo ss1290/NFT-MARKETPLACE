@@ -1,10 +1,28 @@
 const express = require('express');
 const Web3 = require('web3');
 const myContract = require('../src/abis/OpenMarket.json')
+const mysql = require('mysql');
+const tokenList = require('../fetchedData/mint.json');
+
+//Create connection
+const db = mysql.createConnection({ 
+    host     : 'localhost',
+    user     : 'root',
+    database: 'MYNFT'  
+});
+//connect
+db.connect((err)=>{
+    if(err){
+        throw err;
+    }
+    console.log('MySql Connected...');
+});
 
 const app = express();
 
 const web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+
+
 
 const deployedNetwork = myContract.networks["5777"];
 const contract = new web3.eth.Contract(myContract.abi,deployedNetwork.address);
@@ -23,6 +41,32 @@ app.get('/contract',async(req,res)=>{
         console.log(contract);
     }
 })
+app.get('/createdb',(req,res)=>{
+    let sql = 'CREATE DATABASE MYNFT'
+    db.query(sql, (err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send('Database created...');
+    });
+})
+app.get('/createtokenstable',(req,res)=>{
+    let sql = 'CREATE TABLE Token(tokenId int AUTO_INCREMENT, tokenName VARCHAR(255), tokenURI VARCHAR(255),tokenCreator VARCHAR(255),currentOwner VARCHAR(255),previousOwner VARCHAR(255), PRIMARY KEY (tokenId))'; 
+    db.query(sql, (err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send('Token table created');
+    });
+})
+app.get('/addtoken',(req,res) =>{
+    let token = tokenList;
+    let sql = 'INSERT INTO Token SET ?';
+    let query = db.query(sql, token,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send('token minted');
+    });
+});
+
 app.get('/balanceOf',async(req,res)=>{
     const addresses = await web3.eth.getAccounts();
     const balance=await contract.methods.balanceOf("0x897e8Be7FBd291A389a13cC799c85503Af033dA7").call();
