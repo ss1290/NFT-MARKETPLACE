@@ -14,7 +14,11 @@ const Home = () => (
           
         </Col>
         <Col>
-          <img className="home-token" src='/img/home-token.jpg' height={200} width={200} />
+        <Link to="/Buynft">
+        <button>
+          <img  className="home-token" src='/img/home-token.jpg' height={200} width={200} />
+          </button>
+          </Link>
         </Col>
       </Row>
     </Container>
