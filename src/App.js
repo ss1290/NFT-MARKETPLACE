@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import Firstpage from './components/firstpage'
 import 'App.css'
 
+
  const App = () => {
   return (
     <div>

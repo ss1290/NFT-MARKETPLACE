@@ -1,6 +1,7 @@
 import React from 'react';
 import {BrowserRouter,Routes,Route} from 'react-router-dom';
 import Home from "../components/Home";
+import Buynft from "../components/Buynft"
 import AllNFT from "../components/AllNFT";
 import MyNFT from "../components/MyNFT";
 import Create from "../components/Create";
@@ -16,6 +17,7 @@ const AppRouter = ()=>(
             <Header />
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/buynft" element={<Buynft />} />
                 <Route path="/AllNFT" element={<AllNFT />} />
                 <Route path="/MyNFT" element={<MyNFT />} />
                 <Route path="/create" element={<Create />} />

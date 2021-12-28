@@ -21,7 +21,8 @@ const Home = () => (
       </Row>
     </Container>
   </div>
+  )
 
-);
+
 export default Home;
 
