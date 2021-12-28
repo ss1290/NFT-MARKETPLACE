@@ -6,16 +6,9 @@ const app = express();
 
 const web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
 
-var networkId;
-const init = async()=>{
-    const id = await web3.eth.net.getId();
-    networkId = id;
-}
-init();
-console.log(networkId)
-// const deployedNetwork = myContract.networks[networkId];
-// const contract = new web3.eth.Contract(myContract.abi,deployedNetwork.address);
-// console.log(contract);
+const deployedNetwork = myContract.networks["5777"];
+const contract = new web3.eth.Contract(myContract.abi,deployedNetwork.address);
+console.log(contract);
 
 app.get('/web3Exists',async(req,res)=>{
     if(web3){
@@ -30,10 +23,10 @@ app.get('/contract',async(req,res)=>{
         console.log(contract);
     }
 })
-app.get('/mint',async(req,res)=>{
-    await contract.methods.mint().send()
-    console.log(contract.methods.current())
-    res.send('token minted');
+app.get('/balanceOf',async(req,res)=>{
+    const addresses = await web3.eth.getAccounts();
+    const balance=await contract.methods.balanceOf("0x897e8Be7FBd291A389a13cC799c85503Af033dA7").call();
+    res.send(balance);
 })
 app.listen('3000',()=>{
     console.log('server started on port 3000');
