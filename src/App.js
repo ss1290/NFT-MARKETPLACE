@@ -8,7 +8,7 @@ import Firstpage from './components/firstpage'
   <Navbar/>
   <Firstpage/>
   </div>
-  )
+  );
 }
 
 export default App

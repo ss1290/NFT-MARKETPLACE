@@ -2,6 +2,7 @@
 import React, {useState} from 'react'
 import {ethers} from 'ethers'
 import './WalletCard.css'
+import { useEffect } from 'react'
 
 const WalletCard = () => {
 
@@ -39,6 +40,41 @@ const WalletCard = () => {
 			  </span>);
 		}
 	}
+	
+
+
+	useEffect(()=>{
+		const account =localStorage.getItem('Account');
+		const balance = localStorage.getItem('Balance')
+		if(account && balance){
+			setDefaultAccount(account);
+			setUserBalance(balance);
+		}
+		
+
+	},[]);
+
+	useEffect(()=>{
+		localStorage.setItem('Account' , defaultAccount);
+		localStorage.setItem('Balance' , userBalance);
+		
+
+	});
+
+	// const x =localStorage.getItem('Account');
+	
+	// useEffect(()=>{
+	// 	if(localStorage){
+	// 	const x = localStorage.getItem('Account');
+	// 	setDefaultAccount(x);
+	// 	}
+
+
+	// },[]);
+
+	
+
+
 
 	// update account, will cause component re-render
 	const accountChangedHandler = (newAccount) => {
