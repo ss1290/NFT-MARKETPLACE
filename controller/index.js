@@ -58,7 +58,7 @@ app.get('/createtokenstable',(req,res)=>{
     });
 })
 app.get('/addtoken',(req,res) =>{
-    let token = tokenList;
+    let token = tokenList[0];
     let sql = 'INSERT INTO Token SET ?';
     let query = db.query(sql, token,(err,result)=>{
         if(err) throw err;
@@ -66,6 +66,10 @@ app.get('/addtoken',(req,res) =>{
         res.send('token minted');
     });
 });
+
+app.get('/addtokeninbatch',(req,res) =>{
+
+})
 
 app.get('/balanceOf',async(req,res)=>{
     const addresses = await web3.eth.getAccounts();
