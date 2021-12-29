@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import './profile.css';
+import '../components/profile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AllNFT from './AllNFT';
 const MyProfile = () => (
