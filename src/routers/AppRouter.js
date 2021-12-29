@@ -12,6 +12,9 @@ import NFT from "../routes/NFT";
 import Profilesettings from "../components/profileSettings";
 import Create from "../routes/Create";
 
+
+
+
 const AppRouter = ()=>(
     <BrowserRouter>
         <div>
@@ -26,8 +29,14 @@ const AppRouter = ()=>(
                 <Route path="/connect" element={<Connect />} />
                 <Route path="/NFT/:NFTname" element={<NFT />}/>
                 <Route path="/profile" element={<MyProfile />} />
+<<<<<<< Updated upstream
                 <Route path="/profileSettings" element={<Profilesettings />} />
+=======
+                <Route path="/profile-settings" element={<Profilesettings />} />
+              
+>>>>>>> Stashed changes
                 <Route path="*" element={<NotFoundPage />} />
+                
             </Routes>
         </div>
     </BrowserRouter>

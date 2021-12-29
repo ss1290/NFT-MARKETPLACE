@@ -1558,7 +1558,11 @@
             "nameLocation": "105:5:11",
             "nodeType": "VariableDeclaration",
             "scope": 1761,
+<<<<<<< Updated upstream
             "src": "90:33:11",
+=======
+            "src": "94:33:11",
+>>>>>>> Stashed changes
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1613,7 +1617,11 @@
             "nameLocation": "139:24:11",
             "nodeType": "VariableDeclaration",
             "scope": 1761,
+<<<<<<< Updated upstream
             "src": "127:36:11",
+=======
+            "src": "132:36:11",
+>>>>>>> Stashed changes
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1685,7 +1693,11 @@
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 1734,
+<<<<<<< Updated upstream
                           "src": "225:5:11",
+=======
+                          "src": "234:5:11",
+>>>>>>> Stashed changes
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
@@ -1798,7 +1810,11 @@
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 1736,
+<<<<<<< Updated upstream
                       "src": "375:24:11",
+=======
+                      "src": "391:24:11",
+>>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -1812,7 +1828,11 @@
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 1750,
+<<<<<<< Updated upstream
                       "src": "402:9:11",
+=======
+                      "src": "418:9:11",
+>>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -1843,7 +1863,11 @@
                   "name": "restricted",
                   "nodeType": "IdentifierPath",
                   "referencedDeclaration": 1748,
+<<<<<<< Updated upstream
                   "src": "358:10:11"
+=======
+                  "src": "373:10:11"
+>>>>>>> Stashed changes
                 },
                 "nodeType": "ModifierInvocation",
                 "src": "358:10:11"
@@ -1864,7 +1888,11 @@
                   "nameLocation": "340:9:11",
                   "nodeType": "VariableDeclaration",
                   "scope": 1760,
+<<<<<<< Updated upstream
                   "src": "335:14:11",
+=======
+                  "src": "350:14:11",
+>>>>>>> Stashed changes
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1893,14 +1921,22 @@
               "src": "369:0:11"
             },
             "scope": 1761,
+<<<<<<< Updated upstream
             "src": "313:103:11",
+=======
+            "src": "328:105:11",
+>>>>>>> Stashed changes
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           }
         ],
         "scope": 1762,
+<<<<<<< Updated upstream
         "src": "66:352:11",
+=======
+        "src": "69:367:11",
+>>>>>>> Stashed changes
         "usedErrors": []
       }
     ],
@@ -1955,7 +1991,11 @@
             "nameLocation": "105:5:11",
             "nodeType": "VariableDeclaration",
             "scope": 1761,
+<<<<<<< Updated upstream
             "src": "90:33:11",
+=======
+            "src": "94:33:11",
+>>>>>>> Stashed changes
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2010,7 +2050,11 @@
             "nameLocation": "139:24:11",
             "nodeType": "VariableDeclaration",
             "scope": 1761,
+<<<<<<< Updated upstream
             "src": "127:36:11",
+=======
+            "src": "132:36:11",
+>>>>>>> Stashed changes
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -2082,7 +2126,11 @@
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 1734,
+<<<<<<< Updated upstream
                           "src": "225:5:11",
+=======
+                          "src": "234:5:11",
+>>>>>>> Stashed changes
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
@@ -2195,7 +2243,11 @@
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 1736,
+<<<<<<< Updated upstream
                       "src": "375:24:11",
+=======
+                      "src": "391:24:11",
+>>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -2209,7 +2261,11 @@
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 1750,
+<<<<<<< Updated upstream
                       "src": "402:9:11",
+=======
+                      "src": "418:9:11",
+>>>>>>> Stashed changes
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -2240,7 +2296,11 @@
                   "name": "restricted",
                   "nodeType": "IdentifierPath",
                   "referencedDeclaration": 1748,
+<<<<<<< Updated upstream
                   "src": "358:10:11"
+=======
+                  "src": "373:10:11"
+>>>>>>> Stashed changes
                 },
                 "nodeType": "ModifierInvocation",
                 "src": "358:10:11"
@@ -2261,7 +2321,11 @@
                   "nameLocation": "340:9:11",
                   "nodeType": "VariableDeclaration",
                   "scope": 1760,
+<<<<<<< Updated upstream
                   "src": "335:14:11",
+=======
+                  "src": "350:14:11",
+>>>>>>> Stashed changes
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2290,14 +2354,22 @@
               "src": "369:0:11"
             },
             "scope": 1761,
+<<<<<<< Updated upstream
             "src": "313:103:11",
+=======
+            "src": "328:105:11",
+>>>>>>> Stashed changes
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           }
         ],
         "scope": 1762,
+<<<<<<< Updated upstream
         "src": "66:352:11",
+=======
+        "src": "69:367:11",
+>>>>>>> Stashed changes
         "usedErrors": []
       }
     ],
@@ -2320,6 +2392,7 @@
     "5777": {
       "events": {},
       "links": {},
+<<<<<<< Updated upstream
 <<<<<<< HEAD
       "address": "0x897931eaC44b93C463254949F16f76f9aacd7EA7",
       "transactionHash": "0x4848df8fa29b0380a24b056ccead44eda3a31c58f172edf85e04c4a77ac6b8dc"
@@ -2339,6 +2412,14 @@
   "networkType": "ethereum",
 =======
   "updatedAt": "2021-12-23T14:20:41.025Z",
+=======
+      "address": "0xccbc63b96CCaB4c825dC93Cf9772111489254b91",
+      "transactionHash": "0xda0df7ffb96bf28694241861e8c1548a19813f99724ab3ea54fa765daa009b2e"
+    }
+  },
+  "schemaVersion": "3.4.3",
+  "updatedAt": "2021-12-29T18:16:02.786Z",
+>>>>>>> Stashed changes
   "networkType": "ethereum",
 >>>>>>> 3798e889d5062dc4fe8331d1bac8f2e46c17d3d7
 =======
