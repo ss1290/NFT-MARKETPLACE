@@ -938,7 +938,11 @@
   },
   "networks": {},
   "schemaVersion": "3.4.4",
+<<<<<<< HEAD
   "updatedAt": "2021-12-28T13:40:24.569Z",
+=======
+  "updatedAt": "2021-12-28T19:01:34.328Z",
+>>>>>>> shashankBackend
   "devdoc": {
     "details": "See https://eips.ethereum.org/EIPS/eip-721",
     "kind": "dev",

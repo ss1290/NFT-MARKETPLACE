@@ -498,7 +498,11 @@
   },
   "networks": {},
   "schemaVersion": "3.4.4",
+<<<<<<< HEAD
   "updatedAt": "2021-12-28T13:40:24.568Z",
+=======
+  "updatedAt": "2021-12-28T19:01:34.303Z",
+>>>>>>> shashankBackend
   "devdoc": {
     "details": "Interface for any contract that wants to support safeTransfers from ERC721 asset contracts.",
     "kind": "dev",

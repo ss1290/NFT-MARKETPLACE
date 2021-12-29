@@ -2993,7 +2993,11 @@
   },
   "networks": {},
   "schemaVersion": "3.4.4",
+<<<<<<< HEAD
   "updatedAt": "2021-12-28T13:40:24.560Z",
+=======
+  "updatedAt": "2021-12-28T19:01:34.297Z",
+>>>>>>> shashankBackend
   "devdoc": {
     "details": "Required interface of an ERC721 compliant contract.",
     "events": {
