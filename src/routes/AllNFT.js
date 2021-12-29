@@ -56,9 +56,10 @@ const AllNFT = ()=>{
   
 
 return (
-<div>
-   <h1>Nft collections</h1>
+<div className="d-flex justify-content-around">
+<div className="text-center">
    <Card  cardInfo ={cardInfo}/>
+   </div>
    </div>
 )
   
