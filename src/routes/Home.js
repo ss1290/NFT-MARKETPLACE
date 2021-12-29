@@ -16,7 +16,7 @@ const Home = () => {
         </Col>
         <Col>
         <Link to="/Buynft">
-        <button onclick="show()">
+        <button>
           <img  className="home-token" src='/img/home-token.jpg' height={200} width={200} />
           </button>
           </Link>

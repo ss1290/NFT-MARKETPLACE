@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from 'react-router-dom';
-import Card from './card'
+import Card from '../components/card'
 
 const AllNFT = ()=>{
    const cardInfo = [
@@ -56,13 +56,14 @@ const AllNFT = ()=>{
   
 
 return (
-<div>
-   <h1>Nft collections</h1>
+<div className="d-flex justify-content-around">
+<div className="text-center">
    <Card  cardInfo ={cardInfo}/>
+   </div>
    </div>
 )
   
     
 };
 
-export default AllNFT;
+export default AllNFT ;

@@ -5113,7 +5113,21 @@
   },
   "networks": {},
   "schemaVersion": "3.4.4",
+<<<<<<< HEAD
   "updatedAt": "2021-12-28T13:40:24.599Z",
+=======
+<<<<<<< HEAD
+  "updatedAt": "2021-12-28T19:01:34.358Z",
+>>>>>>> shashankBackend
+=======
+  "schemaVersion": "3.4.4",
+<<<<<<< HEAD
+  "updatedAt": "2021-12-23T14:20:35.624Z",
+>>>>>>> 3798e889d5062dc4fe8331d1bac8f2e46c17d3d7
+=======
+  "updatedAt": "2021-12-24T11:24:39.219Z",
+>>>>>>> d97696965cd6d3253a95091d3df52fe641efed17
+>>>>>>> main
   "devdoc": {
     "details": "String operations.",
     "kind": "dev",

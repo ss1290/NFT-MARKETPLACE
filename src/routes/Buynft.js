@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, Row, Col,Card,ListGroup,ListGroupItem,Accordion,Table } from "react-bootstrap";
+import { Button, Container, Row, Col,Card,ListGroup,Accordion,Table } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {Link} from "react-router-dom";
 import { SiEthereum } from 'react-icons/si';
@@ -9,7 +9,7 @@ import {MdChildFriendly} from 'react-icons/md';
 import {AiOutlineWallet } from 'react-icons/ai';
 import { BsClock } from 'react-icons/bs';
 import { CgDetailsMore } from 'react-icons/cg'
-import "./buynft.css";
+import "../styles/buynft.css";
 
 const Buynft = ()=> {
     return (
@@ -41,7 +41,7 @@ const Buynft = ()=> {
         <div className='col1'>
       <Col responsive>
       <Link to="/Buynft">
-      <button onclick="show()">
+      <button >
         <img  className="home-token" src='/img/home-token.jpg' height={200} width={200} />
         </button>
         </Link>

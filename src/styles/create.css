@@ -1,0 +1,39 @@
+.create-page{
+    border-top: 2px solid gray;
+    background-color: white;
+    font-size: 25px;
+    margin:0 auto;
+}
+.create-page h1{
+    font-weight: bold;
+    margin: 30px 26%;
+}
+.create-page-form{
+    margin: 20px 25%;
+    background-color: white;
+    display: block;
+    max-width: 80%;
+    height: max-content;
+}
+.create-page-form input{
+    margin: 10px 25px;
+    font-size: 20px;
+    max-width: 90%;
+}
+
+.create-page-form label{
+    font-weight: bold;
+    font-size: 20px;
+    margin: 2px 25px;
+}
+.text-muted{
+    font-size: 15px;
+    margin: 2px 10px;
+    max-width: 100%;
+}
+.create-page-form button{
+    font-size: 15px;
+    margin-left: 20px;
+    padding: 0px 40px;
+    border-radius: 10px;
+}

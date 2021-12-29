@@ -1,7 +1,7 @@
 
 import React, {useState} from 'react'
 import {ethers} from 'ethers'
-import './WalletCard.css'
+import '../styles/WalletCard.css'
 import { useEffect } from 'react'
 
 const WalletCard = () => {
@@ -117,4 +117,4 @@ const WalletCard = () => {
 	);
 }
 
-export default WalletCard;
+export default WalletCard ;
