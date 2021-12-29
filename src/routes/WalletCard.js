@@ -1,9 +1,8 @@
+
 import React, {useState} from 'react'
 import {ethers} from 'ethers'
 import '../styles/WalletCard.css'
 import { useEffect } from 'react'
-
-
 
 const WalletCard = () => {
 
@@ -11,9 +10,11 @@ const WalletCard = () => {
 	const [defaultAccount, setDefaultAccount] = useState(null);
 	const [userBalance, setUserBalance] = useState(null);
 	const [connButtonText, setConnButtonText] = useState('Connect Wallet');
+
 	const connectWalletHandler = () => {
 		if (window.ethereum && window.ethereum.isMetaMask) {
 			console.log('MetaMask Here!');
+
 			window.ethereum.request({ method: 'eth_requestAccounts'})
 			.then(result => {
 				accountChangedHandler(result[0]);
@@ -22,7 +23,6 @@ const WalletCard = () => {
 			})
 			.catch(error => {
 				setErrorMessage(error.message);
-				console.log(errorMessage)
 			
 			});
 
@@ -32,7 +32,7 @@ const WalletCard = () => {
 				<p>
 				  {" "}
 				  🦊{" "}
-				  <a target="_blank" rel="noreferrer" href={`https://metamask.io/download.html`}>
+				  <a target="_blank" href={`https://metamask.io/download.html`}>
 					You must install Metamask, a virtual Ethereum wallet, in your
 					browser.
 				  </a>
@@ -41,6 +41,8 @@ const WalletCard = () => {
 		}
 	}
 	
+
+
 	useEffect(()=>{
 		const account =localStorage.getItem('Account');
 		const balance = localStorage.getItem('Balance')
@@ -51,19 +53,33 @@ const WalletCard = () => {
 		
 
 	},[]);
+
 	useEffect(()=>{
-		const account =localStorage.getItem('Account');
-		if(!account){
-			setConnButtonText("Connect Wallet");
-		}
 		localStorage.setItem('Account' , defaultAccount);
 		localStorage.setItem('Balance' , userBalance);
-	},[defaultAccount, userBalance]);
+		
+
+	});
+
+	// const x =localStorage.getItem('Account');
+	
+	// useEffect(()=>{
+	// 	if(localStorage){
+	// 	const x = localStorage.getItem('Account');
+	// 	setDefaultAccount(x);
+	// 	}
+
+
+	// },[]);
+
+	
+
+
 
 	// update account, will cause component re-render
 	const accountChangedHandler = (newAccount) => {
 		setDefaultAccount(newAccount);
-		setUserBalance('');
+		getAccountBalance(newAccount.toString());
 	}
 
 	const getAccountBalance = (account) => {
@@ -75,9 +91,7 @@ const WalletCard = () => {
 			setErrorMessage(error.message);
 		});
 	};
-	const disconnectHandler = ()=>{
-		console.log("disconnected")
-	}
+
 	const chainChangedHandler = () => {
 		// reload the page to avoid any errors with chain change mid use of application
 		window.location.reload();
@@ -86,9 +100,10 @@ const WalletCard = () => {
 
 	// listen for account changes
 	window.ethereum.on('accountsChanged', accountChangedHandler);
-	window.ethereum.on('disconnect',disconnectHandler)
+
 	window.ethereum.on('chainChanged', chainChangedHandler);
 	}
+	
 	return (
 		<div className='walletCard'>
 		<h4> {"Connection to MetaMask 🦊 using window.ethereum methods"} </h4>
@@ -100,8 +115,7 @@ const WalletCard = () => {
 			<div className='balanceDisplay'>
 				<h3>Balance: {userBalance}</h3>
 			</div>
-			
-
+			{errorMessage}
 		</div>
 	);
 }

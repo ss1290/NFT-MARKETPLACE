@@ -3,6 +3,12 @@
     margin-left: 581px;
 }
 
+.title2{
+    margin-top: 0px;
+    margin-left: 19px;
+    margin-bottom: 53px;
+}
+
 .col1{    
     margin-top: -300px;
     margin-bottom: 34px;
@@ -35,4 +41,12 @@
 
 .accitem{
     width: 373px;
+}
+
+.accheader{
+    width: 1098px;
+}
+
+.accitem2{
+    width: 1123px;
 }
