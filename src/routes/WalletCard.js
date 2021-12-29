@@ -68,12 +68,9 @@ const WalletCard = () => {
 
 	// },[]);
 
-	
-
-
-
 	// update account, will cause component re-render
 	const accountChangedHandler = (newAccount) => {
+		setUserBalance('');
 		setDefaultAccount(newAccount);
 		setUserBalance('');
 	}
