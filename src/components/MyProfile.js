@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import './profile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AllNFT from './AllNFT';
 const MyProfile = () => (
     <div>
         
@@ -44,9 +45,9 @@ const MyProfile = () => (
             </div>
             <br /><br /><br /><br /><br /><br />
             <div className="text-center">
-            <h2>
-                No items to display
-            </h2>
+            
+                {<AllNFT/>}
+            
             </div>
             <br /><br /><br /><br /><br /><br />
 

@@ -65,4 +65,4 @@ return (
     
 };
 
-export default AllNFT;
+export default AllNFT ;
