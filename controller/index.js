@@ -18,13 +18,13 @@ db.connect((err)=>{
 
 const app = express();
 
-const web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+// const web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
 
 
 
-const deployedNetwork = myContract.networks["5777"];
-const contract = new web3.eth.Contract(myContract.abi,deployedNetwork.address);
-console.log(contract);
+// const deployedNetwork = myContract.networks["5777"];
+// const contract = new web3.eth.Contract(myContract.abi,deployedNetwork.address);
+// console.log(contract);
 
 app.get('/web3Exists',async(req,res)=>{
     if(web3){
@@ -33,12 +33,20 @@ app.get('/web3Exists',async(req,res)=>{
     }
 })
 
+
 app.get('/contract',async(req,res)=>{
     if(contract) {
         res.send('contract fetched!');
         console.log(contract);
     }
 })
+let sql3 = 'CREATE TABLE Token(tokenId int, tokenName VARCHAR(255), tokenURI VARCHAR(255),tokenCreator VARCHAR(255),currentOwner VARCHAR(255),previousOwner VARCHAR(255),transactionHistory VARCHAR(255),tokenDescription VARCHAR(255), tokenPrice int,forSale BOOLEAN, PRIMARY KEY (tokenId),CONSTRAINT fk_userToken FOREIGN KEY (currentOwner) REFERENCES USER(walletAddress))'; 
+    db.query(sql3, (err,result)=>{
+        if(err) throw err;
+        console.log(result);
+})
+
+
 
 app.get('/createUser',(req,res) =>{
     let user ={walletAddress:'0x897e8Be7FBd291A389a13cC799c85503Af033dA7',name:'Ronit',bio:'good guy',email:'ronit.rawat@gmail.com',myNFT:''}
