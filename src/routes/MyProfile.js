@@ -7,14 +7,14 @@ const MyProfile = () => (
     <div>
         
 
-        <div className="align">
+        <div className="aligncenter">
         <h1>Profile</h1>
-        <div className="align-end">
         
-        <Link to="/profileSettings"><img className="imgicon" src="https://img.icons8.com/ios-filled/50/000000/settings.png"/>{' '}</Link>
         
        
-        </div>
+        
+       
+        
         </div>
         <br />
 
@@ -38,18 +38,17 @@ const MyProfile = () => (
                 <div className="align">
                 <p>My Collection    </p> 
                 <p>Created    </p> 
-                <p>Favorited   </p> 
-                <p>Hidden    </p> 
+                <Link to="/profileSettings"><img className="imgicon" src="https://img.icons8.com/ios-filled/50/000000/settings.png"/>{' '}</Link>
+                
                
                 </div>
             </div>
-            <br /><br /><br /><br /><br /><br />
-            <div className="text-center">
+           
+
+                {<AllNFT />}
+
             
-                {<AllNFT/>}
-            
-            </div>
-            <br /><br /><br /><br /><br /><br />
+            <br /><br /><br />
 
 
             <br />
