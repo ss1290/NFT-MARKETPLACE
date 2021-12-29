@@ -1,13 +1,11 @@
 import React from "react";
-import "./Card.css";
+import "../styles/card.css";
 import { Card } from "react-bootstrap";
 
 const reactCard= ({cardInfo}) => {
   
   const renderCard = cardInfo.map((card, index) => {
     return (
-       
-         
       <Card style={{ width: "1rem" }} key={index} className="box">
         <Card.Img variant="top" src="holder.js/50px180" src={card.image} />
         <Card.Body>

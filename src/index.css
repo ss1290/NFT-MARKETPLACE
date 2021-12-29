@@ -1,6 +1,7 @@
 body {
   max-height: 900px;
   margin: 0;
+  font-size: 30px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -21,16 +22,10 @@ p{
   margin: 16px;
 }
 .button{
-  color:rgb(69, 57, 248);
   margin:10px 10px;
   font-size: 20px;
   padding:4px 50px;
-  border: 1px solid rgb(69, 57, 248);
   border-radius: 10px;
-}
-.button:hover{
-  background-color:rgb(69, 57, 248);
-  color: white;
 }
 .home-token{
   border-radius: 10px;

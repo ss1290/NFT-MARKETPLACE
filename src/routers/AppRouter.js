@@ -1,14 +1,15 @@
 import React from 'react';
 import {BrowserRouter,Routes,Route} from 'react-router-dom';
-import Home from "../components/Home";
-import Buynft from "../components/Buynft"
-import AllNFT from "../components/AllNFT";
-import MyNFT from "../components/MyNFT";
-import Create from "../components/Create";
-import MyProfile from "../components/MyProfile";
-import NotFoundPage from "../components/NotFoundPage";
+import Home from "../routes/Home";
+import Buynft from "../routes/Buynft"
+import AllNFT from "../routes/AllNFT";
+import MyNFT from "../routes/MyNFT";
+import Connect from "../routes/Connect";
+import MyProfile from "../routes/MyProfile";
+import NotFoundPage from "../routes/NotFoundPage";
 import Header from '../components/Header';
-import NFT from "../components/NFT";
+import NFT from "../routes/NFT";
+import Create from "../routes/Create";
 
 const AppRouter = ()=>(
     <BrowserRouter>
@@ -19,7 +20,9 @@ const AppRouter = ()=>(
                 <Route path="/buynft" element={<Buynft />} />
                 <Route path="/AllNFT" element={<AllNFT />} />
                 <Route path="/MyNFT" element={<MyNFT />} />
-                <Route path="/create" element={<Create />} />
+                <Route path="/Buynft" element={<Buynft/>}/>
+                <Route path="/create" element={<Create />}/>
+                <Route path="/connect" element={<Connect />} />
                 <Route path="/NFT/:NFTname" element={<NFT />}/>
                 <Route path="/profile" element={<MyProfile />} />
                 <Route path="*" element={<NotFoundPage />} />

@@ -16,7 +16,11 @@ const Home = () => {
         </Col>
         <Col>
         <Link to="/Buynft">
+<<<<<<< HEAD:src/components/Home.js
         <button onclick="show()">
+=======
+        <button>
+>>>>>>> sachin_frontend:src/routes/Home.js
           <img  className="home-token" src='/img/home-token.jpg' height={200} width={200} />
           </button>
           </Link>
