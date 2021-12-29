@@ -27,7 +27,7 @@ db.connect((err)=>{
 // })
 
 
-let sql3 = 'CREATE TABLE Token(tokenId int, tokenName VARCHAR(255), tokenURI VARCHAR(255),tokenCreator VARCHAR(255),currentOwner VARCHAR(255),previousOwner VARCHAR(255),transactionHistory VARCHAR(255),tokenDescription VARCHAR(255), tokenPrice int,forSale BOOLEAN, PRIMARY KEY (tokenId),CONSTRAINT fk_userToken FOREIGN KEY (currentOwner) REFERENCES User(walletAddress))'; 
+let sql3 = 'CREATE TABLE Token(tokenId int, tokenName VARCHAR(255), tokenURI VARCHAR(255),tokenCreator VARCHAR(255),currentOwner VARCHAR(255),previousOwner VARCHAR(255),transactionHistory VARCHAR(255),tokenDescription VARCHAR(255), tokenPrice int,forSale BOOLEAN, PRIMARY KEY (tokenId)) '; 
     db.query(sql3, (err,result)=>{
         if(err) throw err;
         console.log(result);
