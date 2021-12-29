@@ -10,7 +10,11 @@ import NotFoundPage from "../routes/NotFoundPage";
 import Header from '../components/Header';
 import NFT from "../routes/NFT";
 import Profilesettings from "../components/profileSettings";
+
 import Create from "../routes/Create";
+
+
+
 
 const AppRouter = ()=>(
     <BrowserRouter>
@@ -26,8 +30,9 @@ const AppRouter = ()=>(
                 <Route path="/connect" element={<Connect />} />
                 <Route path="/NFT/:NFTname" element={<NFT />}/>
                 <Route path="/profile" element={<MyProfile />} />
-                <Route path="/profileSettings" element={<Profilesettings />} />
+                <Route path="/profile-settings" element={<Profilesettings />} />
                 <Route path="*" element={<NotFoundPage />} />
+                
             </Routes>
         </div>
     </BrowserRouter>
