@@ -36744,8 +36744,18 @@
 <<<<<<< HEAD
   "updatedAt": "2021-12-28T13:40:24.493Z",
 =======
+<<<<<<< HEAD
   "updatedAt": "2021-12-28T19:01:34.207Z",
 >>>>>>> shashankBackend
+=======
+  "schemaVersion": "3.4.4",
+<<<<<<< HEAD
+  "updatedAt": "2021-12-23T14:20:35.475Z",
+>>>>>>> 3798e889d5062dc4fe8331d1bac8f2e46c17d3d7
+=======
+  "updatedAt": "2021-12-24T11:24:38.931Z",
+>>>>>>> d97696965cd6d3253a95091d3df52fe641efed17
+>>>>>>> main
   "devdoc": {
     "details": "Implementation of https://eips.ethereum.org/EIPS/eip-721[ERC721] Non-Fungible Token Standard, including the Metadata extension, but not including the Enumerable extension, which is available separately as {ERC721Enumerable}.",
     "kind": "dev",

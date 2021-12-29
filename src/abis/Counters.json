@@ -1674,8 +1674,18 @@
 <<<<<<< HEAD
   "updatedAt": "2021-12-28T13:40:24.597Z",
 =======
+<<<<<<< HEAD
   "updatedAt": "2021-12-28T19:01:34.351Z",
 >>>>>>> shashankBackend
+=======
+  "schemaVersion": "3.4.4",
+<<<<<<< HEAD
+  "updatedAt": "2021-12-23T14:20:35.619Z",
+>>>>>>> 3798e889d5062dc4fe8331d1bac8f2e46c17d3d7
+=======
+  "updatedAt": "2021-12-24T11:24:39.215Z",
+>>>>>>> d97696965cd6d3253a95091d3df52fe641efed17
+>>>>>>> main
   "devdoc": {
     "author": "Matt Condon (@shrugs)",
     "details": "Provides counters that can only be incremented, decremented or reset. This can be used e.g. to track the number of elements in a mapping, issuing ERC721 ids, or counting request ids. Include with `using Counters for Counters.Counter;`",
