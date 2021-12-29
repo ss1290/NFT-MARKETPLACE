@@ -2,8 +2,6 @@ const express = require('express');
 const Web3 = require('web3');
 const myContract = require('../src/abis/OpenMarket.json')
 const mysql = require('mysql');
-const tokenList = require('../fetchedData/mint.json');
-const transfer = require('../fetchedData/transfer.json');
 //Create connection
 const db = mysql.createConnection({ 
     host     : 'localhost',
@@ -20,13 +18,13 @@ db.connect((err)=>{
 
 const app = express();
 
-const web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+// const web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
 
 
 
-const deployedNetwork = myContract.networks["5777"];
-const contract = new web3.eth.Contract(myContract.abi,deployedNetwork.address);
-console.log(contract);
+// const deployedNetwork = myContract.networks["5777"];
+// const contract = new web3.eth.Contract(myContract.abi,deployedNetwork.address);
+// console.log(contract);
 
 app.get('/web3Exists',async(req,res)=>{
     if(web3){
@@ -41,43 +39,71 @@ app.get('/contract',async(req,res)=>{
         console.log(contract);
     }
 })
-app.get('/createdb',(req,res)=>{
-    let sql = 'CREATE DATABASE MYNFT'
-    db.query(sql, (err,result)=>{
+
+app.get('/createUser',(req,res) =>{
+    let user ={walletAddress:'897e8Be7FBd291A389a13cC799c85503Af033dA7',name:'Ronit',bio:'good guy',email:'ronit.rawat@gmail.com',myNFT:''}
+    let sql = 'INSERT INTO User SET ?';
+     let query = db.query(sql, user,(err,result)=>{
         if(err) throw err;
         console.log(result);
-        res.send('Database created...');
-    });
+        res.send('user added');
+    })
 })
-app.get('/createtokenstable',(req,res)=>{
-    let sql = 'CREATE TABLE Token(tokenId int AUTO_INCREMENT, tokenName VARCHAR(255), tokenURI VARCHAR(255),tokenCreator VARCHAR(255),currentOwner VARCHAR(255),previousOwner VARCHAR(255), PRIMARY KEY (tokenId))'; 
-    db.query(sql, (err,result)=>{
-        if(err) throw err;
-        console.log(result);
-        res.send('Token table created');
-    });
-})
-app.get('/addtoken',(req,res) =>{
-    let token = tokenList[0];
+
+app.get('/mintToken',async(req,res) =>{
     let sql = 'INSERT INTO Token SET ?';
+   
+    let token = {tokenId:'1',tokenName:'K1',tokenURI:'https://gateway.pinata.cloud/ipfs/QmUet32WRZkLk5NSyrMMaoywRoFN7uJJtscW6hoY19JwZ6?preview=1',tokenCreator:'897e8Be7FBd291A389a13cC799c85503Af033dA7',currentOwner:'897e8Be7FBd291A389a13cC799c85503Af033dA7',previousOwner:'0000000000000000000000000000000000000000',transactionHistory:[1,2,3],tokenDescription:'xyz',tokenPrice:12,forSale:false}
+    token.transactionHistory = String(token.transactionHistory);
+    let data = `SELECT * FROM user WHERE walletAddress ="${token.currentOwner}"`;
+    // let query1 = await await db.query(data,(err,result)=>{
+    //     if(err) throw err;
+    //     console.log(result);
+    // });
+    // let sql1 = `UPDATE User SET myNFT = myNFT+String(${token.tokenId})' WHERE walletAddress =${token.currentOwner}`;
+    // let query2 = db.query(sql1,(err,result)=>{
+    //     if(err) throw err;
+    //     console.log(result);
+    // });
     let query = db.query(sql, token,(err,result)=>{
         if(err) throw err;
         console.log(result);
-        res.send('token minted');
     });
+    res.send('tokenMinted');
 });
 
 
-app.get('/transfer',async(req,res) =>{
-    const addresses = await web3.eth.getAccounts();
-    console.log(updateList);
-    let sql = `UPDATE Token SET previousOwner = '${transfer.transferFrom}', currentOwner = '${transfer.transferTo}' WHERE tokenId = ${transfer.tokenId}`;
+app.get('/approve', (req,res)=>{
+
+    let sql = `UPDATE token  SET checkApproval = 'DeFB6894C9730177Dc4c91d9b118eb139C7278fD' WHERE checkApproval IS NULL`;
+    let query = db.query(sql,(err,result)=>{
+             if(err) throw err;
+             res.send('Address approved');
+        });
+})
+
+app.get('/tokenForSale', (req,res) =>{
+    let sql = `UPDATE token  SET forSale = true WHERE forSale IS false`;
     let query = db.query(sql,(err,result)=>{
         if(err) throw err;
-        console.log(result);
-        res.send('token transfered');
-    });
+        res.send('Successfully set to sale');
+   });
 })
+// UPDATE studentdetails
+//SET contactnumber = 9098979690
+//WHERE contactnumber IS NULL;
+
+
+// app.get('/transfer',async(req,res) =>{
+//     const addresses = await web3.eth.getAccounts();
+//     console.log(updateList);
+//     let sql = `UPDATE Token SET previousOwner = '${transfer.transferFrom}', currentOwner = '${transfer.transferTo}' WHERE tokenId = ${transfer.tokenId}`;
+//     let query = db.query(sql,(err,result)=>{
+//         if(err) throw err;
+//         console.log(result);
+//         res.send('token transfered');
+//     });
+// })
 
 app.listen('3000',()=>{
     console.log('server started on port 3000');
