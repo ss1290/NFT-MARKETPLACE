@@ -1,9 +1,6 @@
 import React from 'react';
 import './profile.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-
-
 const Profilesettings = () => (
     <div>
        <div class="container rounded bg-white mt-5">
@@ -36,7 +33,7 @@ const Profilesettings = () => (
                     <div class="col-md-6"><input type="text" class="form-control" placeholder="yoursite.io" /></div>
                     <div class="col-md-6"><input type="text" class="form-control"  placeholder="Email"/></div>
                 </div>
-                <div class=" row mt-5 text-center"><button  type="button" class="btn btn-primary "><h4>Save profile</h4></button></div>
+                <div class=" row mt-5 text-center"><button type="button" class="btn btn-primary "><h4>Save profile</h4></button></div>
                 
             </div>
         </div>
