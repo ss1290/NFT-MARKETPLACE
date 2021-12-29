@@ -120,4 +120,4 @@ const WalletCard = () => {
 	);
 }
 
-export default WalletCard;
+export default WalletCard ;
