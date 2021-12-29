@@ -41,7 +41,7 @@ app.get('/contract',async(req,res)=>{
 })
 
 app.get('/createUser',(req,res) =>{
-    let user ={walletAddress:'0x897e8Be7FBd291A389a13cC799c85503Af033dA7',name:'Ronit',bio:'good guy',email:'ronit.rawat@gmail.com',myNFT:''}
+    let user ={walletAddress:'897e8Be7FBd291A389a13cC799c85503Af033dA7',name:'Ronit',bio:'good guy',email:'ronit.rawat@gmail.com',myNFT:''}
     let sql = 'INSERT INTO User SET ?';
      let query = db.query(sql, user,(err,result)=>{
         if(err) throw err;
@@ -50,25 +50,25 @@ app.get('/createUser',(req,res) =>{
     })
 })
 
-app.get('/mintToken',(req,res) =>{
+app.get('/mintToken',async(req,res) =>{
     let sql = 'INSERT INTO Token SET ?';
-    let token = {tokenId:'1',tokenName:'K1',tokenURI:'https://gateway.pinata.cloud/ipfs/QmUet32WRZkLk5NSyrMMaoywRoFN7uJJtscW6hoY19JwZ6?preview=1',tokenCreator:'0x897e8Be7FBd291A389a13cC799c85503Af033dA7',currentOwner:'0x897e8Be7FBd291A389a13cC799c85503Af033dA7',previousOwner:'0x0000000000000000000000000000000000000000',transactionHistory:[1,2,3],tokenDescription:'xyz',tokenPrice:12,forSale:false}
+    let token = {tokenId:'1',tokenName:'K1',tokenURI:'https://gateway.pinata.cloud/ipfs/QmUet32WRZkLk5NSyrMMaoywRoFN7uJJtscW6hoY19JwZ6?preview=1',tokenCreator:'897e8Be7FBd291A389a13cC799c85503Af033dA7',currentOwner:'897e8Be7FBd291A389a13cC799c85503Af033dA7',previousOwner:'0000000000000000000000000000000000000000',transactionHistory:[1,2,3],tokenDescription:'xyz',tokenPrice:12,forSale:false}
     token.transactionHistory = String(token.transactionHistory);
-    let data = `SELECT * FROM User WHERE walletAddress = ${token.currentOwner}`;
-    let query1 = db.query(data,(err,result)=>{
+    let data = `SELECT * FROM user WHERE walletAddress ="${token.currentOwner}"`;
+    // let query1 = await await db.query(data,(err,result)=>{
+    //     if(err) throw err;
+    //     console.log(result);
+    // });
+    // let sql1 = `UPDATE User SET myNFT = myNFT+String(${token.tokenId})' WHERE walletAddress =${token.currentOwner}`;
+    // let query2 = db.query(sql1,(err,result)=>{
+    //     if(err) throw err;
+    //     console.log(result);
+    // });
+    let query = db.query(sql, token,(err,result)=>{
         if(err) throw err;
         console.log(result);
     });
-    // let sql1 = `UPDATE User SET myNFT = 'myNFT.concat(${token.tokenId})' WHERE walletAddress =${token.currentOwner}`;
-    // let query1 = db.query(sql1,(err,result)=>{
-    //     if(err) throw err;
-    //     console.log(result);
-    // });
-    // let query = db.query(sql, token,(err,result)=>{
-    //     if(err) throw err;
-    //     console.log(result);
-    // });
-    res.send('token minted');
+    res.send('tokenMinted');
 });
 
 
