@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import './profile.css';
+import '../components/profile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AllNFT from './AllNFT';
 const MyProfile = () => (
@@ -11,7 +11,7 @@ const MyProfile = () => (
         <h1>Profile</h1>
         <div className="align-end">
         
-        <Link to="/profile-settings"><img className="imgicon" src="https://img.icons8.com/ios-filled/50/000000/settings.png"/>{' '}</Link>
+        <Link to="/profileSettings"><img className="imgicon" src="https://img.icons8.com/ios-filled/50/000000/settings.png"/>{' '}</Link>
         
        
         </div>
