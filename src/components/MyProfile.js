@@ -39,7 +39,7 @@ const MyProfile = () => (
                 <p>Created    </p> 
                 <p>Favorited   </p> 
                 <p>Hidden    </p> 
-                <p>Acitvity</p>
+               
                 </div>
             </div>
             <br /><br /><br /><br /><br /><br />
