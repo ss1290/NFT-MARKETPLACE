@@ -9,17 +9,11 @@ const MyProfile = () => (
 
         <div className="aligncenter">
         <h1>Profile</h1>
-        
-        
-       
-        
-       
-        
         </div>
         <br />
 
         
-            <br /><br /><br />
+            <br /><br />
             <div className="d-flex justify-content-center">
                 <div className="card-body little-profile text-center">
                     <div className="pro-img"><img src="https://i.imgur.com/RqGUtoW.png" alt="user" /></div>
@@ -38,6 +32,7 @@ const MyProfile = () => (
                 <div className="align">
                 <p>My Collection    </p> 
                 <p>Created    </p> 
+                <p>Histroy  </p>
                 <Link to="/profileSettings"><img className="imgicon" src="https://img.icons8.com/ios-filled/50/000000/settings.png"/>{' '}</Link>
                 
                
