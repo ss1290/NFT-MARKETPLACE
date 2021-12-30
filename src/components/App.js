@@ -4,8 +4,6 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import KryptoBird from '../abis/OpenMarket.json'
 
 
-import './App.css';
-
 class App extends Component {
 
     
