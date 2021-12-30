@@ -1,6 +1,6 @@
 import React from "react";
 import '../styles/create.css';
-import { Form, Button} from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { create } from 'ipfs-http-client'
 import { useState } from "react";
 import axios from "axios";
@@ -11,19 +11,19 @@ const client = create('https://ipfs.infura.io:5001/api/v0')
 
 const Create = () => {
     const [fileUrl, setFileUrl] = useState();
-    const fileHandler = async(e) => {
+    const fileHandler = async (e) => {
         const file = e.target.files[0];
         try {
             const added = await client.add(file)
             const url = `https://ipfs.infura.io/ipfs/${added.path}`
-            console.log("CID: ",added.path)
+            console.log("CID: ", added.path)
             setFileUrl(url)
-          } catch (error) {
+        } catch (error) {
             console.log('Error uploading file: ', error)
-          } 
+        }
     }
-    const uploadHandler = async(e) => {
-    
+    const uploadHandler = async (e) => {
+
         e.preventDefault();
         let data = {};
         data['itemName'] = e.target.item.value.trim();
@@ -31,24 +31,24 @@ const Create = () => {
         data["url"] = fileUrl;
         console.log(data);
 
-axios('/mintToken',{
-    method: 'POST',
-    body: data,
-    headers: {
+        axios('/mintToken', {
+            method: 'POST',
+            body: data,
+            headers: {
 
-     'Content-Type': 'application/json'
-   }
-  })
-    .then(function(response) {
-        return response.json()
-      }).then(function(body) {
-        console.log(body);
-      });
-  
-      }
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                return response.json()
+            }).then(function (body) {
+                console.log(body);
+            });
+
+    }
     return (
         <div className="create-page">
-        <h1>Create new Item</h1>
+            <h1>Create new Item</h1>
             <Form className="create-page-form" onSubmit={uploadHandler}>
                 <Form.Group className="mb-3" >
                     <Form.Label>Image, Video, Audio, or 3D Model<span style={{ color: 'red' }} >*</span></Form.Label>
@@ -73,7 +73,7 @@ axios('/mintToken',{
                     <Form.Label>External link</Form.Label>
                     <Form.Control type="text" placeholder="Password" />
                 </Form.Group>
-                <hr/>
+                <hr />
                 <Button variant="primary" type="submit">
                     Create
                 </Button>
