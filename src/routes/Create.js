@@ -5,11 +5,18 @@ import { create } from 'ipfs-http-client'
 import { useState } from "react";
 import axios from "axios";
 // import '../../data/controller/index';
+import {} from '../components/LoadBlockchain';
 
 
 const client = create('https://ipfs.infura.io:5001/api/v0')
 
+
+
+
 const Create = () => {
+
+
+    
     const [fileUrl, setFileUrl] = useState();
     const fileHandler = async(e) => {
         const file = e.target.files[0];

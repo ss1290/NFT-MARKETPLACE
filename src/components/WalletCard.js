@@ -86,6 +86,7 @@ const WalletCard = () => {
 		setDefaultAccount(newAccount);
 		localStorage.setItem('Account' , newAccount);
 		getAccountBalance(newAccount.toString());
+		Navigate('/');
 	}
 
 	const getAccountBalance = (account) => {

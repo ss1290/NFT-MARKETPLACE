@@ -121,7 +121,7 @@ function App() {
       {/* <button onClick={OwnerOf} className='cta-button mint-nft-button'>
         owner NFT
       </button> */}
-          {currentAccount}
+          
         {currentAccount ? mintNftButton() : connectWalletButton()}
       </div>
     </div>
