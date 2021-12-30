@@ -86,8 +86,15 @@ app.get('/transfer',async(req,res) =>{
     });
 })
 
-app.get('')
-
+app.get('/search/:name',(req,res)=>{
+    let sql = `SELECT name FROM User WHERE name = "${req.params.name}"`;
+    let query = db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send('data fetched successfully');
+    });
+})
+   
 
 
 app.listen('3000',()=>{
