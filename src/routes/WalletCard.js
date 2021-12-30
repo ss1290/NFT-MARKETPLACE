@@ -50,16 +50,12 @@ const WalletCard = () => {
 			setDefaultAccount(account);
 			setUserBalance(balance);
 		}
-		
-
 	},[]);
 
 	useEffect(()=>{
 		localStorage.setItem('Account' , defaultAccount);
 		localStorage.setItem('Balance' , userBalance);
-		
-
-	});
+	},[defaultAccount,userBalance]);
 
 	// const x =localStorage.getItem('Account');
 	
@@ -76,7 +72,7 @@ const WalletCard = () => {
 	const accountChangedHandler = (newAccount) => {
 		setUserBalance('');
 		setDefaultAccount(newAccount);
-		getAccountBalance(newAccount.toString());
+		setUserBalance('');
 	}
 
 	const getAccountBalance = (account) => {

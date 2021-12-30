@@ -62,8 +62,6 @@ return (
    </div>
    </div>
 )
-  
-    
 };
 
 export default AllNFT ;

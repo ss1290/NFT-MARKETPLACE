@@ -99,7 +99,9 @@ li {
   justify-content: start;
   align-items: center;
 }
-
+.logo a:hover{
+  text-decoration: none;
+}
 .menu-link {
   grid-column: 4/4;
 }
