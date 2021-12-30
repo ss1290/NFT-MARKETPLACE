@@ -10,7 +10,7 @@ const Login = ()=>{
 
     handleClick = () => {
         
-        fetch(`${process.env.REACT_APP_BACKEND_URL}/users?publicAddress=${publicAddress}`)
+        fetch(`url/users?publicAddress=${publicAddress}`)
           .then(response => response.json())
         
           .then(
@@ -24,21 +24,22 @@ const Login = ()=>{
       };
 
 
-            handleSignup = publicAddress =>
-            fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
+            handleSignup = publicAddress =>{
+            fetch(`url/users`, {
                 body: JSON.stringify({ publicAddress }),
                 headers: {
                 'Content-Type': 'application/json'
                 },
                 method: 'POST'
             }).then(response => response.json());
+          }
 
 
     
       handleSignMessage = ({ publicAddress, nonce }) => {
         return new Promise((resolve, reject) =>
           web3.personal.sign(
-            web3.fromUtf8(`I am signing my one-time nonce: ${nonce}`),
+            web3.fromUtf8(`I am signing nonce: ${nonce}`),
             publicAddress,
             (err, signature) => {
               if (err) return reject(err);
@@ -50,7 +51,7 @@ const Login = ()=>{
 
     
       handleAuthenticate = ({ publicAddress, signature }) =>
-        fetch(`${process.env.REACT_APP_BACKEND_URL}/auth`, {
+        fetch(`url/auth`, {
           body: JSON.stringify({ publicAddress, signature }),
           headers: {
             'Content-Type': 'application/json'
@@ -58,12 +59,11 @@ const Login = ()=>{
           method: 'POST'
         }).then(response => response.json());
 
-
         return (
             <div>
                
                 <button className="Login-button Login-mm" onClick={handleClick}>
-                    {loading ? 'Loading...' : 'Login with MetaMask'}
+                   click me
                 </button>
                
             </div>

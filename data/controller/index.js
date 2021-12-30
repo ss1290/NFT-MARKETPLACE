@@ -1,6 +1,6 @@
 const express = require('express');
 const Web3 = require('web3');
-const myContract = require('../src/abis/OpenMarket.json')
+const myContract = require('../../src/abis/OpenMarket.json')
 const mysql = require('mysql');
 //Create connection
 const db = mysql.createConnection({ 
@@ -50,7 +50,8 @@ app.get('/createUser',(req,res) =>{
     })
 })
 
-app.get('/mintToken',async(req,res) =>{
+app.post('/mintToken',async(req,res) =>{
+    console.log(req.body);
     let sql = 'INSERT INTO Token SET ?';
     let token = {tokenId:'1',tokenName:'K1',tokenURI:'https://gateway.pinata.cloud/ipfs/QmUet32WRZkLk5NSyrMMaoywRoFN7uJJtscW6hoY19JwZ6?preview=1',tokenCreator:'897e8Be7FBd291A389a13cC799c85503Af033dA7',currentOwner:'897e8Be7FBd291A389a13cC799c85503Af033dA7',previousOwner:'0000000000000000000000000000000000000000',transactionHistory:[1,2,3],tokenDescription:'xyz',tokenPrice:12,forSale:false}
     token.transactionHistory = String(token.transactionHistory);
