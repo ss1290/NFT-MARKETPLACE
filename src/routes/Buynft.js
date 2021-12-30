@@ -13,8 +13,8 @@ import "../styles/buynft.css";
 
 const Buynft = ()=> {
     return (
-        <div className="home-page" responsive>
-    <Container responsive>
+        <div className="home-page" >
+    <Container >
     <Row>
       <Col>
       <div className='title'>
@@ -22,6 +22,7 @@ const Buynft = ()=> {
         <p>owned by:  <Card.Link style={{textDecoration:'none'}} href="#">ABC</Card.Link></p>
       </div>
       </Col>
+      <Col>
       <div className='title'>
       <Card className='cards'  style={{ width: '45rem' }}>
   <Card.Header as="h4" ><BsClock style={{color: 'black'}}/>Sale ends June 26, 2022 at 7:30pm IST </Card.Header>
@@ -36,6 +37,7 @@ const Buynft = ()=> {
   </Card.Body>
 </Card>
         </div>
+        </Col>
 
 
         <div className='col1'>
@@ -46,9 +48,9 @@ const Buynft = ()=> {
         </button>
         </Link>
 
-        <Card className='card2' style={{ width: '40rem' }} responsive>
+        <Card className='card2' style={{ width: '40rem' }} >
  
-  <Card.Body responsive>
+  <Card.Body >
     <Card.Title as="h2"><CgDetailsMore style={{color: 'black'}} />Description</Card.Title>
  
   </Card.Body>
