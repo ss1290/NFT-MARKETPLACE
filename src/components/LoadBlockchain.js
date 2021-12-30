@@ -118,9 +118,9 @@ function App() {
       <h1>Scrappy Squirrels Tutorial</h1>
       <div>
 
-      <button onClick={OwnerOf} className='cta-button mint-nft-button'>
+      {/* <button onClick={OwnerOf} className='cta-button mint-nft-button'>
         owner NFT
-      </button>
+      </button> */}
           {currentAccount}
         {currentAccount ? mintNftButton() : connectWalletButton()}
       </div>

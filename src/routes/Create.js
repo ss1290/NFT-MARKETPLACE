@@ -3,6 +3,9 @@ import '../styles/create.css';
 import { Form, Button} from "react-bootstrap";
 import { create } from 'ipfs-http-client'
 import { useState } from "react";
+import axios from "axios";
+// import '../../data/controller/index';
+
 
 const client = create('https://ipfs.infura.io:5001/api/v0')
 
@@ -27,6 +30,21 @@ const Create = () => {
         data["description"] = e.target.description.value;
         data["url"] = fileUrl;
         console.log(data);
+
+axios('/mintToken',{
+    method: 'POST',
+    body: data,
+    headers: {
+
+     'Content-Type': 'application/json'
+   }
+  })
+    .then(function(response) {
+        return response.json()
+      }).then(function(body) {
+        console.log(body);
+      });
+  
       }
     return (
         <div className="create-page">
