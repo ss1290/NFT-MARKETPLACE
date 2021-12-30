@@ -1,25 +1,19 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import './profile.css';
+import '../components/profile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AllNFT from './AllNFT';
 const MyProfile = () => (
     <div>
         
 
-        <div className="align">
+        <div className="aligncenter">
         <h1>Profile</h1>
-        <div className="align-end">
-        
-        <Link to="/profile-settings"><img className="imgicon" src="https://img.icons8.com/ios-filled/50/000000/settings.png"/>{' '}</Link>
-        
-       
-        </div>
         </div>
         <br />
 
         
-            <br /><br /><br />
+            <br /><br />
             <div className="d-flex justify-content-center">
                 <div className="card-body little-profile text-center">
                     <div className="pro-img"><img src="https://i.imgur.com/RqGUtoW.png" alt="user" /></div>
@@ -38,18 +32,18 @@ const MyProfile = () => (
                 <div className="align">
                 <p>My Collection    </p> 
                 <p>Created    </p> 
-                <p>Favorited   </p> 
-                <p>Hidden    </p> 
+                <p>Histroy  </p>
+                <Link to="/profileSettings"><img className="imgicon" src="https://img.icons8.com/ios-filled/50/000000/settings.png"/>{' '}</Link>
+                
                
                 </div>
             </div>
-            <br /><br /><br /><br /><br /><br />
-            <div className="text-center">
+           
+
+                {<AllNFT />}
+
             
-                {<AllNFT/>}
-            
-            </div>
-            <br /><br /><br /><br /><br /><br />
+            <br /><br /><br />
 
 
             <br />

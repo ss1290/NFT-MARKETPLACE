@@ -1,8 +1,8 @@
-
 import React, {useState} from 'react'
 import {ethers} from 'ethers'
 import '../styles/WalletCard.css'
 import { useEffect } from 'react'
+import { useNavigate } from "react-router-dom"
 
 const WalletCard = () => {
 
@@ -10,10 +10,14 @@ const WalletCard = () => {
 	const [defaultAccount, setDefaultAccount] = useState(null);
 	const [userBalance, setUserBalance] = useState(null);
 	const [connButtonText, setConnButtonText] = useState('Connect Wallet');
+	let Navigate = useNavigate();
+
+	console.log("hello");
 
 	const connectWalletHandler = () => {
 		if (window.ethereum && window.ethereum.isMetaMask) {
 			console.log('MetaMask Here!');
+
 
 			window.ethereum.request({ method: 'eth_requestAccounts'})
 			.then(result => {
@@ -42,20 +46,30 @@ const WalletCard = () => {
 	}
 	
 
-
 	useEffect(()=>{
 		const account =localStorage.getItem('Account');
 		const balance = localStorage.getItem('Balance')
 		if(account && balance){
 			setDefaultAccount(account);
 			setUserBalance(balance);
-		}
-	},[]);
+			Navigate('/');
+		
 
-	useEffect(()=>{
-		localStorage.setItem('Account' , defaultAccount);
-		localStorage.setItem('Balance' , userBalance);
-	},[defaultAccount,userBalance]);
+			
+		}
+		
+
+	},[]);
+	
+
+
+
+	// useEffect(()=>{
+	// 	localStorage.setItem('Account' , defaultAccount);
+	// 	localStorage.setItem('Balance' , userBalance);
+		
+
+	// });
 
 	// const x =localStorage.getItem('Account');
 	
@@ -63,22 +77,22 @@ const WalletCard = () => {
 	// 	if(localStorage){
 	// 	const x = localStorage.getItem('Account');
 	// 	setDefaultAccount(x);
-	// 	}
-
-
+	// 
 	// },[]);
 
 	// update account, will cause component re-render
 	const accountChangedHandler = (newAccount) => {
 		setUserBalance('');
 		setDefaultAccount(newAccount);
-		setUserBalance('');
+		localStorage.setItem('Account' , newAccount);
+		getAccountBalance(newAccount.toString());
 	}
 
 	const getAccountBalance = (account) => {
 		window.ethereum.request({method: 'eth_getBalance', params: [account, 'latest']})
 		.then(balance => {
 			setUserBalance(ethers.utils.formatEther(balance));
+			localStorage.setItem('Balance' , ethers.utils.formatEther(balance));
 		})
 		.catch(error => {
 			setErrorMessage(error.message);
