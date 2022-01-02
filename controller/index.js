@@ -74,6 +74,15 @@ app.get('/getToken/:address',async(req,res) =>{
     });
 })
 
+app.get('/getAllToken',async(req,res) =>{
+    let sql = `SELECT * FROM Token `
+    db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+})
+
 
 // app.get('/transfer',async(req,res) =>{
 //     const addresses = await web3.eth.getAccounts();

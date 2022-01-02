@@ -1,64 +1,69 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Button, Container, Row, Col } from "react-bootstrap";
+import { checkWalletIsConnected, connectWalletHandler } from "../components/LoadBlockchain"
 import axios from "axios";
 import AllNFT from './AllNFT';
-const MyNFT = () =>{
-    let [currentAccount,setCurrentAccount] = useState("0xcbF8aC44Fbb55587aC86bc25cccBfb8030987e96");
-    const getUserNFT = async()=>{
-        let account = currentAccount.slice(2,) 
-        await axios.get(`http://localhost:5000/getToken/${account}`).then((response)=>{
-            console.log(response);
-        })
+import "../styles/myNft.css"
+const MyNFT = () => {
+    let [currentAccount, setCurrentAccount] = useState(null);
+    let [userNft, setUserNft] = useState(null);
+    const connectWalletButton = () => {
+        const connectWallet = async () => {
+            let account = await connectWalletHandler();
+            setCurrentAccount(account)
+        }
+        return (
+            <div>
+                <button onClick={connectWallet} className='connect-wallet-button'>
+                    {currentAccount ? currentAccount : 'Connect Wallet'}
+                </button>
+                <p>Connect your wallet first</p>
+            </div>
+        )
     }
-    useEffect(()=>{
-        getUserNFT();
-    })
+    const getUserNFT = () => {
+        if (currentAccount) {
+            let account = currentAccount.slice(2,)
+            axios.get(`http://localhost:5000/getToken/${account}`).then((response) => {
+                setUserNft(response.data);
+            })
+        }
+
+    }
+    const showUserNFT = () => (
+        <div>
+            <h1>My collection</h1>
+            {userNft && <div>
+                <Container >
+                    <Row>
+                        {userNft.map((nft) =>(
+                            <Card className="nft-card" key={nft.tokenId} style={{ width: '30rem' }}>
+                                <Card.Img variant="top" src={nft.url} />
+                                <Card.Body className="card-body">
+                                    <Card.Title><p>{nft.itemName}</p></Card.Title>
+                                    <Button variant="primary">Description</Button>
+                                </Card.Body>
+                            </Card>
+                        ))}
+                    </Row>
+                </Container>
+
+            </div>}
+
+        </div>
+    )
+    useEffect(() => {
+        const loader = async () => {
+            const account = await checkWalletIsConnected();
+            setCurrentAccount(account);
+            getUserNFT();
+        }
+        return loader()
+    }, [currentAccount])
+
     return (
         <div>
-            <h1>Your collection</h1>
-            <Container>
-                <Row>
-                    <Col>
-                        <Card style={{ width: '18rem' }}>
-                            <Card.Img variant="top" src="holder.js/100px180" />
-                            <Card.Body>
-                                <Card.Title>Card Title</Card.Title>
-                                <Card.Text>
-                                    Some quick example text to build on the card title and make up the bulk of
-                                    the card's content.
-                                </Card.Text>
-                                <Button variant="primary">Go somewhere</Button>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    <Col>
-                        <Card style={{ width: '18rem' }}>
-                            <Card.Img variant="top" src="holder.js/100px180" />
-                            <Card.Body>
-                                <Card.Title>Card Title</Card.Title>
-                                <Card.Text>
-                                    Some quick example text to build on the card title and make up the bulk of
-                                    the card's content.
-                                </Card.Text>
-                                <Button variant="primary">Go somewhere</Button>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    <Col>
-                        <Card style={{ width: '18rem' }}>
-                            <Card.Img variant="top" src="holder.js/100px180" />
-                            <Card.Body>
-                                <Card.Title>Card Title</Card.Title>
-                                <Card.Text>
-                                    Some quick example 
-                                </Card.Text>
-                                <Button variant="primary">Go somewhere</Button>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row>
-            </Container>
-    
+            {currentAccount ? showUserNFT() : connectWalletButton()}
         </div>
     );
 }
