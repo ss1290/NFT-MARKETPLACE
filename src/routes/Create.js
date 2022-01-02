@@ -1,19 +1,21 @@
 import React from "react";
 import '../styles/create.css';
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Modal,Spinner } from "react-bootstrap";
 import { create } from 'ipfs-http-client'
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"
 import axios from "axios";
-import { ethers } from "ethers";
-import { address, abi } from "../config"
+import {Link} from "react-router-dom"
 import { checkWalletIsConnected, connectWalletHandler, mintNftHandler } from "../components/LoadBlockchain"
 
 const client = create('https://ipfs.infura.io:5001/api/v0')
 
 const Create = () => {
+    const [tokenMinted,setTokenMinted] = useState(false);
+    const [show, setShow] = useState(false);
     let [currentAccount, setCurrentAccount] = useState(null);
     const [fileUrl, setFileUrl] = useState();
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     const fileHandler = async (e) => {
         const file = e.target.files[0];
         try {
@@ -27,45 +29,42 @@ const Create = () => {
     }
     const uploadHandler = async (e) => {
         e.preventDefault();
-        await mintNftHandler();
+        
+        let txn = await mintNftHandler();
         let data = {};
         data['itemName'] = e.target.item.value.trim();
         data["description"] = e.target.description.value;
         data["url"] = fileUrl;
+        data["tokenCreator"] = txn.to;
+        data["currentOwner"] = txn.to;
+        data["previousOwner"] = "0x0000000000000000000000000000000000000000";
+        data["forSale"] = false;
 
-        axios('/mintToken', {
-            method: 'POST',
-            body: data,
-            headers: {
-
-                'Content-Type': 'application/json'
-            }
+        axios.post('http://localhost:5000/mintToken', data).then((response) => {
+            setTokenMinted(true)
         })
-            .then(function (response) {
-                return response.json()
-            }).then(function (body) {
-                console.log(body);
-            });
-
     }
-    const navigate = useNavigate();
     const connectWalletButton = () => {
+        const connectWallet = async () => {
+            let account = await connectWalletHandler();
+            setCurrentAccount(account)
+        }
         return (
             <div>
-                <button onClick={connectWalletHandler} className='cta-button connect-wallet-button'>
-                    Connect Wallet
+                <button onClick={connectWallet} className='connect-wallet-button'>
+                    {currentAccount ? currentAccount : 'Connect Wallet'}
                 </button>
             </div>
         )
     }
     const createNft = () => {
         return (
-            <div className="create-page">
+            <div >
                 <h1>Create new Item</h1>
                 <Form className="create-page-form" onSubmit={uploadHandler}>
                     <Form.Group className="mb-3" >
                         <Form.Label>Image, Video, Audio, or 3D Model<span style={{ color: 'red' }} >*</span></Form.Label>
-                        <Form.Control type="file" placeholder="Password"  onChange={fileHandler}/>
+                        <Form.Control type="file" placeholder="File" onChange={fileHandler} />
                     </Form.Group>
                     <Form.Text className="text-muted">
                         <span style={{ color: 'red' }} >*</span>Required fields
@@ -82,7 +81,7 @@ const Create = () => {
                         </Form.Text>
                     </Form.Group>
                     <hr />
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type="submit" onClick={handleShow}>
                         Create
                     </Button>
                 </Form>
@@ -94,8 +93,23 @@ const Create = () => {
         setCurrentAccount(account);
     }, [])
     return (
-        <div>
-            {currentAccount ? createNft() : connectWalletButton()}
+        <div className="create-page">
+            <div className="create-page-connect">
+                {connectWalletButton()}
+            </div>
+            <Modal show={show} >
+                <Modal.Header>
+                    <Modal.Title>{tokenMinted ==true?"Token minted succesfully":"Minting token"}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="spinner">
+                    {tokenMinted == true?<div>
+                    <Link to="/MyNFT"><Button variant="success" onClick={handleClose}>Success</Button></Link>
+                    </div>:<Spinner animation="grow" variant="primary" />}
+                </Modal.Body>
+            </Modal>
+            <div className="create-page-document">
+                {currentAccount ? createNft() : <h3>Connect your wallet first</h3>}
+            </div>
         </div>
     )
 }
