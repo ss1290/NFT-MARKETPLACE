@@ -45,7 +45,7 @@ app.get('/contract',async(req,res)=>{
 })
 
 app.get('/createUser',(req,res) =>{
-    let user ={walletAddress:'897e8Be7FBd291A389a13cC799c85503Af033dA7',name:'Ronit',bio:'good guy',email:'ronit.rawat@gmail.com',myNFT:''}
+    let user ={walletAddress:'897e8Be7FBd291A389a13cC799c85503Af033dA7',name:'Ronit',bio:'good guy',email:'ronit.rawat@gmail.com'}
     let sql = 'INSERT INTO User SET ?';
      let query = db.query(sql, user,(err,result)=>{
         if(err) throw err;
@@ -62,8 +62,26 @@ app.post('/mintToken',async(req,res) =>{
         console.log(result);
         res.send('token minted');
     });
-    
 });
+
+app.get('/getToken/:address',async(req,res) =>{
+    let sql = `SELECT * FROM Token HAVING currentOwner='${req.params.address}'`
+    console.log(req.params.address)
+    db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+})
+
+app.get('/getAllToken',async(req,res) =>{
+    let sql = `SELECT * FROM Token `
+    db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+})
 
 
 // app.get('/transfer',async(req,res) =>{

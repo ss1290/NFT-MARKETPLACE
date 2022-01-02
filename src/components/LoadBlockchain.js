@@ -78,8 +78,6 @@ export const mintNftHandler = async () => {
       console.log("Initialize payment");
       let nftTxn = await nftContract.mint();
 
-
-
       console.log("Mining... please wait");
       await nftTxn.wait();
 
