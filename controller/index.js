@@ -62,8 +62,17 @@ app.post('/mintToken',async(req,res) =>{
         console.log(result);
         res.send('token minted');
     });
-    
 });
+
+app.get('/getToken/:address',async(req,res) =>{
+    let address = req.params.address
+    let sql = `select * from Token WHERE currentOwner=${address}`
+    db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+})
 
 
 // app.get('/transfer',async(req,res) =>{
