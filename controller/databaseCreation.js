@@ -2,8 +2,8 @@ const mysql = require('mysql');
 //Create connection
 const db = mysql.createConnection({ 
     host     : 'localhost',
-    user     : 'root',
-    database: 'MYNFT'  
+    user     : 'root', 
+    database : 'MYNFT'
 });
 //connect
 db.connect((err)=>{
@@ -20,7 +20,7 @@ db.connect((err)=>{
 //     console.log(result);
 // })
 
-// let sql2 = 'CREATE TABLE User(walletAddress VARCHAR(255), name VARCHAR(255),bio VARCHAR(255),email VARCHAR(255),myNFT VARCHAR(255), PRIMARY KEY (walletAddress))';
+// let sql2 = 'CREATE TABLE User(walletAddress VARCHAR(255), name VARCHAR(255),bio VARCHAR(255),email VARCHAR(255), PRIMARY KEY (walletAddress))';
 // db.query(sql2, (err,result)=>{
 //     if(err) throw err;
 //     console.log(result);
