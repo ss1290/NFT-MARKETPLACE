@@ -3,7 +3,7 @@ import { Card, Button, Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import AllNFT from './AllNFT';
 const MyNFT = () =>{
-    let [currentAccount,setCurrentAccount] = useState("0xdECa075822F3965A8724B71625843C20698863A6");
+    let [currentAccount,setCurrentAccount] = useState("0xcbF8aC44Fbb55587aC86bc25cccBfb8030987e96");
     const getUserNFT = async()=>{
         let account = currentAccount.slice(2,) 
         await axios.get(`http://localhost:5000/getToken/${account}`).then((response)=>{

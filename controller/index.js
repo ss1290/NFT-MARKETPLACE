@@ -65,8 +65,8 @@ app.post('/mintToken',async(req,res) =>{
 });
 
 app.get('/getToken/:address',async(req,res) =>{
-    let address = req.params.address
-    let sql = `select * from Token WHERE currentOwner=${address}`
+    let sql = `SELECT * FROM Token HAVING currentOwner='${req.params.address}'`
+    console.log(req.params.address)
     db.query(sql,(err,result)=>{
         if(err) throw err;
         console.log(result);
