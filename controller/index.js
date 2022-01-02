@@ -55,18 +55,14 @@ app.get('/createUser',(req,res) =>{
 })
 app.post('/mintToken',async(req,res) =>{
     let sql = 'INSERT INTO Token SET ?';
-    let token = req.body;
+    let token = req.body
     console.log(req.body)
     let query = db.query(sql, token,(err,result)=>{
         if(err) throw err;
         console.log(result);
+        res.send('token minted');
     });
-    // let sql1 = `UPDATE User SET myNFT = concat(myNFT,${req.body.tokenId},",") WHERE walletAddress ='${req.body.currentOwner}'`;
-    // let query2 = db.query(sql1,(err,result)=>{
-    //     if(err) throw err;
-    //     console.log(result);
-    // });
-    res.send('token minted');
+    
 });
 
 
