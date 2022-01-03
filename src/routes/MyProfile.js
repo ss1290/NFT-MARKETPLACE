@@ -9,6 +9,7 @@ import { checkWalletIsConnected, connectWalletHandler } from "../components/Load
 const MyProfile = () => {
     let [currentAccount, setCurrentAccount] = useState(null);
     let [userNft, setUserNft] = useState(null);
+    let [userData, setUserData] = useState(null);
     const connectWalletButton = () => {
         const connectWallet = async () => {
             let account = await connectWalletHandler();
@@ -34,17 +35,16 @@ const MyProfile = () => {
 
     }
 
-
     const getUserData = () => {
         if (currentAccount) {
             let account = currentAccount.slice(2,)
             axios.get(`http://localhost:5000/getUser/${account}`).then((response) => {
-                let Data = response.data;
-                this.setstate({Data})
+                setUserData(response.data);
             })
         }
 
     }
+
     const showProfile = () => (
         <div>
             <div className="aligncenter">
@@ -55,9 +55,9 @@ const MyProfile = () => {
             <div className="d-flex justify-content-center">
                 <div className="card-body little-profile text-center">
                     <div className="pro-img"><img src="https://i.imgur.com/RqGUtoW.png" alt="user" /></div>
-                    <h3 >{this.state.Data.name}</h3>
+                    <h3 >{userData.name}</h3>
                     <h3 className="m-b-0 font-light">{currentAccount}</h3>
-                    <h3 className="m-b-0 font-light">{this.state.Data.email}</h3>
+                    <h3 className="m-b-0 font-light">{userData.email}</h3>
                 </div>
             </div>
             <div className="box">
