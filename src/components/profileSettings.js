@@ -53,6 +53,16 @@ const Profilesettings = () => {
         }
 
     }
+    const getUserData = () => {
+        if (currentAccount) {
+            let account = currentAccount.slice(2,)
+            axios.get(`http://localhost:5000/getUser/${account}`).then((response) => {
+                let Data = response.data;
+                this.setstate({Data})
+            })
+        }
+
+    }
 const showProfilesettings = () => (
 
     <div>
