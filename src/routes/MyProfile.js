@@ -24,7 +24,15 @@ const MyProfile = () => {
         )
     }
     
+    const getUserNFT = () => {
+        if (currentAccount) {
+            let account = currentAccount.slice(2,)
+            axios.get(`http://localhost:5000/getToken/${account}`).then((response) => {
+                setUserNft(response.data);
+            })
+        }
 
+    }
 
 
     const getUserData = () => {
@@ -90,6 +98,7 @@ const MyProfile = () => {
         const loader = async () => {
             const account = await checkWalletIsConnected();
             setCurrentAccount(account);
+            getUserNFT();
             getUserData();
         }
         return loader()
