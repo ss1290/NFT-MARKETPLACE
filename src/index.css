@@ -25,6 +25,7 @@ p{
   margin:10px 10px;
   font-size: 20px;
   padding:4px 50px;
+  border-width: 2px;
   border-radius: 10px;
 }
 .home-token{

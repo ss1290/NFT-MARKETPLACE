@@ -1,69 +1,39 @@
-import React from "react";
-import {Link} from 'react-router-dom';
-import Card from '../components/card'
+import React, {useState,useEffect } from "react";
+import axios from "axios";
+import {Card,Button,Container,Row} from "react-bootstrap";
+import { Link } from 'react-router-dom';
+// import Card from '../components/card'
 
-const AllNFT = ()=>{
-   const cardInfo = [
-    
-      {
-        image:
-          "/img/k1.png",
-        title: "Steph Curry",
-        text: "he good",
-      },
-      {
-        image:
-        "/img/k2.png",
-        title: "Michael Jordan",
-        text: "he is very close to goat",
-      },
-      {
-        image: "/img/k3.png",
-        title: "Lebron James",
-        text: "THE GOAT",
-      },
-      {
-        image:
-        "/img/k4.png",
-        title: "Alex Caruso",
-        text: "THE TRUE GOAT",
-      },
-      {
-        image:
-        "/img/k5.png",
-        title: "Steph Curry",
-        text: "he good",
-      },
-      {
-        image:
-          "https://i.pinimg.com/originals/03/ce/01/03ce015ea85dc84a17fb4c24a96cd87e.jpg",
-        title: "Michael Jordan",
-        text: "he is very close to goat",
-      },
-      {
-        image: "https://i.insider.com/50f967f56bb3f7830a000019",
-        title: "Lebron James",
-        text: "THE GOAT",
-      },
-      {
-        image:
-          "https://cdn.vox-cdn.com/thumbor/M1qLla2h-V_2yV_Z4nF_NHH_tjA=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/18286450/usa_today_12495932.jpg",
-        title: "Alex Caruso",
-        text: "THE TRUE GOAT",
-      },
-      
-    ];
-  
-
-return (
-<div className="d-flex justify-content-around">
-<div className="text-center">
-   <Card  cardInfo ={cardInfo}/>
-   </div>
-   </div>
-)
-  
-    
+const AllNFT = () => {
+  let [allNft,setAllNft] = useState();
+  const getAllNft = () => {
+    axios.get(`http://localhost:5000/getAllToken`).then((response) => {
+      setAllNft(response.data)
+    })
+  }
+  useEffect(()=>{
+    getAllNft();
+  })
+  return (
+    <div>
+      <h1 >All NFT</h1>
+      {allNft && <div>
+        <Container >
+          <Row>
+            {allNft.map((nft) => (
+              <Card className="nft-card" key={nft.tokenId} style={{ width: '30rem' }}>
+                <Card.Img variant="top" src={nft.url} />
+                <Card.Body className="card-body">
+                  <Card.Title><p>{nft.itemName}</p></Card.Title>
+                  <Button variant="primary">Description</Button>
+                </Card.Body>
+              </Card>
+            ))}
+          </Row>
+        </Container>
+      </div>}
+    </div>
+  )
 };
 
-export default AllNFT ;
+export default AllNFT;

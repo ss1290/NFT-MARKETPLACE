@@ -15,10 +15,10 @@ const Navbar = () => {
               <span>M</span>arket
             </h1>
           </Link>
-          
+        
         </div>
 
-        <div className="Search">
+       <div className="Search">
           <form role="search" id="form">
             <input type="search" id="query" name="q" placeholder="Search items,collections,accounts" aria-label="Search through site content" />
             <button>
@@ -42,9 +42,8 @@ const Navbar = () => {
             </li>
             
             <li>
-              <NavLink to="/profile" className={({ isActive }) => (isActive ? 'active' : 'inactive')}>Profile&nbsp;</NavLink>
+              <NavLink to="/profile" className={({ isActive }) => (isActive ? 'active' : 'inactive')}>Profile</NavLink>
             </li>
-            
           </ul>
         </div>
       </nav>

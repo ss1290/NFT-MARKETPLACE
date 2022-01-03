@@ -4,7 +4,6 @@ import Home from "../routes/Home";
 import Buynft from "../routes/Buynft"
 import AllNFT from "../routes/AllNFT";
 import MyNFT from "../routes/MyNFT";
-import Connect from "../routes/Connect";
 import MyProfile from "../routes/MyProfile";
 import NotFoundPage from "../routes/NotFoundPage";
 import Header from '../components/Header';
@@ -26,7 +25,6 @@ const AppRouter = ()=>(
                 <Route path="/MyNFT" element={<MyNFT />} />
                 <Route path="/Buynft" element={<Buynft/>}/>
                 <Route path="/create" element={<Create />}/>
-                <Route path="/connect" element={<Connect />} />
                 <Route path="/NFT/:NFTname" element={<NFT />}/>
                 <Route path="/profile" element={<MyProfile />} />
                 <Route path="/profileSettings" element={<profileSettings />} />
