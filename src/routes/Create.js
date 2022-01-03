@@ -36,7 +36,7 @@ const Create = () => {
         const jsonData = JSON.stringify(data);
         const added = await client.add(jsonData);
         console.log(`https://ipfs.infura.io/ipfs/${added.path}`)
-        // let txn = await mintNftHandler(added.path,"https://ipfs.infura.io/ipfs/");
+         let txn = await mintNftHandler(added.path,"https://ipfs.infura.io/ipfs/");
         
         
         // data["tokenCreator"] = txn.to.slice(2,);
