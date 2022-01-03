@@ -49,8 +49,6 @@ export const buyNftHandler = async(tokenId) => {
       console.log("Initialize payment");
       let nftTxn = await nftContract.buyNFT(tokenId);
 
-
-
       console.log("Mining... please wait");
       await nftTxn.wait();
 
@@ -64,19 +62,20 @@ export const buyNftHandler = async(tokenId) => {
   }
 }
 
-export const mintNftHandler = async () => {
+export const mintNftHandler = async (tokenURI,baseURI) => {
   try {
     const { ethereum } = window;
 
     if (ethereum) {
       const provider = new ethers.providers.Web3Provider(ethereum);
       console.log(provider);
+      console.log(baseURI,tokenURI);
 
       const signer = provider.getSigner();
       const nftContract = new ethers.Contract(address, abi, signer);
 
       console.log("Initialize payment");
-      let nftTxn = await nftContract.mint();
+      let nftTxn = await nftContract.mint(tokenURI,baseURI);
 
       console.log("Mining... please wait");
       await nftTxn.wait();

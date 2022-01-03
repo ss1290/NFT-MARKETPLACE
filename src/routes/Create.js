@@ -5,7 +5,13 @@ import { create } from 'ipfs-http-client'
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {Link} from "react-router-dom"
+import FormData from "form-data";
 import { checkWalletIsConnected, connectWalletHandler, mintNftHandler } from "../components/LoadBlockchain"
+
+const pinataApiKey = "4d37623cdbbfb91c7f0d";
+const pinataSecretApiKey = "5043ec80f9de04cb311185b7026c84769225d2896e3a45e097a1c020d2f07251";
+const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
+const jsonUrl = 'https://api.pinata.cloud/pinning/pinJSONToIPFS'
 
 const client = create('https://ipfs.infura.io:5001/api/v0')
 
@@ -13,32 +19,55 @@ const Create = () => {
     const [tokenMinted,setTokenMinted] = useState(false);
     const [show, setShow] = useState(false);
     let [currentAccount, setCurrentAccount] = useState(null);
-    const [fileUrl, setFileUrl] = useState();
+    let [fileUrl, setFileUrl] = useState();
+    const [jsonCid,setJsonCid] = useState(null);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const fileHandler = async (e) => {
         const file = e.target.files[0];
+        let data = new FormData();
+        data.append('file',file)
         try {
-            const added = await client.add(file)
-            const url = `https://ipfs.infura.io/ipfs/${added.path}`
-            console.log("CID: ", added.path)
-            setFileUrl(url)
+            axios.post(url,data,{
+                headers:{
+                    maxBodyLength: 'Infinity',
+                    pinata_api_key: pinataApiKey,
+                    pinata_secret_api_key: pinataSecretApiKey
+                }
+            }).then((response)=>{
+                console.log("image uploaded")
+                let imageUrl = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`
+                setFileUrl(imageUrl)
+            })
         } catch (error) {
+            console.log('Error uploading file: ', error)
+        }
+    }
+    const jsonHandler = async(data)=>{
+        console.log(data)
+        const jsonData = JSON.stringify(data);
+        const success = (response)=> setJsonCid(response.data.IpfsHash)
+        try{
+            await axios.post(jsonUrl,jsonData,{
+                headers: {
+                    pinata_api_key: pinataApiKey,
+                    pinata_secret_api_key: pinataSecretApiKey
+                }
+            }).then(success)
+        }catch(error){
             console.log('Error uploading file: ', error)
         }
     }
     const uploadHandler = async (e) => {
         e.preventDefault();
         let data = {};
+        console.log("imageurl",fileUrl)
         data['itemName'] = e.target.item.value.trim();
         data["description"] = e.target.description.value;
         data["url"] = fileUrl;
-        const jsonData = JSON.stringify(data);
-        const added = await client.add(jsonData);
-        console.log(`https://ipfs.infura.io/ipfs/${added.path}`)
-        // let txn = await mintNftHandler(added.path,"https://ipfs.infura.io/ipfs/");
-        
-        
+        await jsonHandler(data);
+        console.log("json hash",jsonCid)
+        // let txn = await mintNftHandler(fileUrl,"https://gateway.pinata.cloud/ipfs/");
         // data["tokenCreator"] = txn.to.slice(2,);
         // data["currentOwner"] = txn.from.slice(2,);
         // data["previousOwner"] = "0000000000000000000000000000000000000000";
