@@ -47,12 +47,12 @@ export const buyNftHandler = (tokenId) => {
       const nftContract = new ethers.Contract(address, abi, signer);
 
       console.log("Initialize payment");
-      let nftTxn = await nftContract.buyNFT(tokenId);
+      let nftTxn =  nftContract.buyNFT(tokenId);
 
 
 
       console.log("Mining... please wait");
-      await nftTxn.wait();
+       nftTxn.wait();
 
       console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
     }else{
