@@ -38,7 +38,7 @@ export const connectWalletHandler = async () => {
   }
 }
 
-export const buyNftHandler = (tokenId) => {
+export const buyNftHandler = async(tokenId) => {
   try{
     const {ethereum} = window;
     if(ethereum){
@@ -55,6 +55,7 @@ export const buyNftHandler = (tokenId) => {
        nftTxn.wait();
 
       console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
+      
     }else{
       console.log("Ethereum object does not exist");
     }
@@ -77,13 +78,11 @@ export const mintNftHandler = async () => {
       console.log("Initialize payment");
       let nftTxn = await nftContract.mint();
 
-
-
       console.log("Mining... please wait");
       await nftTxn.wait();
 
-      console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
-
+      console.log(`Mined`);
+      return nftTxn;
     } else {
       console.log("Ethereum object does not exist");
     }
