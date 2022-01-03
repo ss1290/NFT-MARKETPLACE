@@ -17,9 +17,9 @@ const sendData = async (e) => {
     data['twitter'] = e.target.twi.value;
     data['website'] = e.target.web.value;
     data['walletAddress'] = e.target.walletAddress.value.slice(2)
-    //axios.post('http://localhost:5000/createUser', data).then((response) => {
-    //         alert("Profile Saved")
-    // })
+    axios.post('http://localhost:5000/createUser', data).then((response) => {
+             alert("Profile Saved")
+     })
     console.log(data)
 }
 
