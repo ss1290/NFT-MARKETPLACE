@@ -4,16 +4,27 @@ import {Card,Button,Container,Row} from "react-bootstrap";
 import { Link } from 'react-router-dom';
 // import Card from '../components/card'
 
-const AllNFT = () => {
+const AllNFT = ({history}) => {
+  console.log(history)
   let [allNft,setAllNft] = useState();
   const getAllNft = () => {
-    axios.get(`http://localhost:5000/getAllToken`).then((response) => {
+    const params = new URLSearchParams(window.location.search);
+    const searchData = params.get('search')
+    if(searchData ){
+    
+      axios.get(`http://localhost:5000/tokenSearch?search=${searchData}`).then((response) => {
       setAllNft(response.data)
     })
+    }else{
+      axios.get(`http://localhost:5000/getAllToken`).then((response) => {
+      setAllNft(response.data)
+    })
+    }
+    
   }
   useEffect(()=>{
     getAllNft();
-  })
+  },[])
   return (
     <div>
       <h1 >All NFT</h1>

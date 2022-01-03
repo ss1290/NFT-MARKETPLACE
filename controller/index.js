@@ -75,11 +75,21 @@ app.get('/getToken/:address',async(req,res) =>{
 })
 
 app.get('/getAllToken',async(req,res) =>{
+    
     let sql = `SELECT * FROM Token `
     db.query(sql,(err,result)=>{
         if(err) throw err;
         console.log(result);
         res.send(result);
+    });
+})
+
+app.get('/tokenSearch/:name',async(req,res)=>{
+    let sql = `SELECT * FROM token WHERE itemName ="${req.params.name}" `;
+    let query = db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send('data fetched successfully');
     });
 })
 
