@@ -95,6 +95,15 @@ app.get('/getAllToken',async(req,res) =>{
 //     });
 // })
 
+
+app.get('/tokenForSale',async (req,res) =>{
+    let sql = `UPDATE token  SET forSale = true WHERE tokenId = 1`;
+    let query = db.query(sql,(err,result)=>{
+        if(err) throw err;
+        res.send('Successfully set to sale');
+   });
+})
+
 app.listen('5000',()=>{
     console.log('server started on port 5000');
 })
