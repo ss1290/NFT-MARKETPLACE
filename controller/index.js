@@ -43,8 +43,8 @@ app.get('/contract',async(req,res)=>{
     }
 })
 
-app.get('/createUser',(req,res) =>{
-    let user ={walletAddress:'897e8Be7FBd291A389a13cC799c85503Af033dA7',name:'Ronit',bio:'good guy',email:'ronit.rawat@gmail.com'}
+app.post('/createUser',(req,res) =>{
+    let user =req.body
     let sql = 'INSERT INTO User SET ?';
      let query = db.query(sql, user,(err,result)=>{
         if(err) throw err;
@@ -55,7 +55,6 @@ app.get('/createUser',(req,res) =>{
 app.post('/mintToken',async(req,res) =>{
     let sql = 'INSERT INTO Token SET ?';
     let token = req.body
-    console.log(req.body)
     let query = db.query(sql, token,(err,result)=>{
         if(err) throw err;
         console.log(result);
