@@ -84,12 +84,18 @@ app.get('/getAllToken',async(req,res) =>{
     });
 })
 
-app.get('/tokenSearch/:name',async(req,res)=>{
-    let sql = `SELECT * FROM token WHERE itemName ="${req.params.name}" `;
-    let query = db.query(sql,(err,result)=>{
+//search nft by name 
+
+app.get('/tokenSearch',async(req,res)=>{
+    const result = req.query.search;
+    console.log(result, "----")
+//     SELECT * FROM Customers
+// WHERE Country='Germany' AND City='Berlin'
+    let sql = `SELECT * FROM Token WHERE itemName LIKE '${result}%' OR tokenId ='${result}'`;
+    db.query(sql,(err,result)=>{
         if(err) throw err;
         console.log(result);
-        res.send('data fetched successfully');
+        res.send(result);
     });
 })
 

@@ -11,6 +11,7 @@ const AllNFT = ({history}) => {
     const params = new URLSearchParams(window.location.search);
     const searchData = params.get('search')
     if(searchData ){
+      console.log("hello")
     
       axios.get(`http://localhost:5000/tokenSearch?search=${searchData}`).then((response) => {
       setAllNft(response.data)
