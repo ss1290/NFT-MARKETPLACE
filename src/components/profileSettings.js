@@ -1,12 +1,44 @@
-import React from 'react';
+import React,{useEffect , useState} from 'react'
 import './profile.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-const Profilesettings = () => (
+import axios from "axios";
+
+
+import { checkWalletIsConnected, connectWalletHandler } from "./LoadBlockchain";
+
+const profileSettings = () => {
+    let [currentAccount, setCurrentAccount] = useState(null);
+    let [userNft, setUserNft] = useState(null);
+    const connectWalletButton = () => {
+        const connectWallet = async () => {
+            let account = await connectWalletHandler();
+            setCurrentAccount(account)
+        }
+        return (
+            <div>
+                <button onClick={connectWallet} className='connect-wallet-button'>
+                    {currentAccount ? currentAccount : 'Connect Wallet'}
+                </button>
+                <p>Connect your wallet first</p>
+            </div>
+        )
+    }
+    const getUserNFT = () => {
+        if (currentAccount) {
+            let account = currentAccount.slice(2,)
+            axios.get(`http://localhost:5000/getToken/${account}`).then((response) => {
+                setUserNft(response.data);
+            })
+        }
+
+    }
+
+const showProfileSettings = () => (
     <div>
        <div class="container rounded bg-white mt-5">
     <div class="row">
         <div class="col-md-4 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" src="https://i.imgur.com/RqGUtoW.png" width="150"/><span class="font-weight-bold"><h2>Un-named</h2></span><span class="text-black-50"><h2>Address</h2></span><span></span></div>
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" src="https://i.imgur.com/RqGUtoW.png" width="150"/><span class="font-weight-bold"><h2>Un-named</h2></span><span class="text-black-50"><h2>{currentAccount}</h2></span><span></span></div>
         </div>
         <div class="col-md-8">
             <div class="p-3 py-5">
@@ -40,6 +72,21 @@ const Profilesettings = () => (
     </div>
 </div> 
         </div>
-)
-        
-export default Profilesettings;
+)   
+useEffect(() => {
+    const loader = async () => {
+        const account = await checkWalletIsConnected();
+        setCurrentAccount(account);
+        getUserNFT();
+    }
+    return loader()
+}, [currentAccount])
+return (
+    <div>
+        {currentAccount ? showProfileSettings() : connectWalletButton()}
+
+    </div>
+);
+       
+}
+export default profileSettings;

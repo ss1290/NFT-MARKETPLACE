@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import '../components/profile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+<<<<<<< Updated upstream
 import AllNFT from './AllNFT';
 const MyProfile = () => (
     <div>
@@ -25,6 +26,40 @@ const MyProfile = () => (
                 <h3 className="m-b-0 font-light">Joined in_/_/_/</h3>
 
 
+=======
+
+import { checkWalletIsConnected, connectWalletHandler } from "../components/LoadBlockchain"
+const MyProfile = () => {
+    let [currentAccount, setCurrentAccount] = useState(null);
+    let [userNft, setUserNft] = useState(null);
+    const connectWalletButton = () => {
+        const connectWallet = async () => {
+            let account = await connectWalletHandler();
+            setCurrentAccount(account)
+        }
+        return (
+            <div>
+                <button onClick={connectWallet} className='connect-wallet-button'>
+                    {currentAccount ? currentAccount : 'Connect Wallet'}
+                </button>
+                <p>Connect your wallet first</p>
+            </div>
+        )
+    }
+    const getUserNFT = () => {
+        if (currentAccount) {
+            let account = currentAccount.slice(2,)
+            axios.get(`http://localhost:5000/getToken/${account}`).then((response) => {
+                setUserNft(response.data);
+            })
+        }
+
+    }
+    const showProfile = () => (
+        <div>
+            <div className="aligncenter">
+                <h1>Profile</h1>
+>>>>>>> Stashed changes
             </div>
         </div>
         <div className="box">
