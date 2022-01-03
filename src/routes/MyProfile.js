@@ -23,11 +23,16 @@ const MyProfile = () => {
             </div>
         )
     }
-    const getUserNFT = () => {
+    
+
+
+
+    const getUserData = () => {
         if (currentAccount) {
             let account = currentAccount.slice(2,)
-            axios.get(`http://localhost:5000/getToken/${account}`).then((response) => {
-                setUserNft(response.data);
+            axios.get(`http://localhost:5000/getUser/${account}`).then((response) => {
+                let Data = response.data;
+                this.setstate({Data})
             })
         }
 
@@ -42,9 +47,9 @@ const MyProfile = () => {
             <div className="d-flex justify-content-center">
                 <div className="card-body little-profile text-center">
                     <div className="pro-img"><img src="https://i.imgur.com/RqGUtoW.png" alt="user" /></div>
-                    <h3 >Un-named</h3>
+                    <h3 >{this.state.Data.name}</h3>
                     <h3 className="m-b-0 font-light">{currentAccount}</h3>
-                    <h3 className="m-b-0 font-light">Joined in_/_/_/</h3>
+                    <h3 className="m-b-0 font-light">{this.state.Data.email}</h3>
                 </div>
             </div>
             <div className="box">
@@ -85,7 +90,7 @@ const MyProfile = () => {
         const loader = async () => {
             const account = await checkWalletIsConnected();
             setCurrentAccount(account);
-            getUserNFT();
+            getUserData();
         }
         return loader()
     }, [currentAccount])

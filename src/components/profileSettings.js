@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Button } from "react-bootstrap";
-import './profile.css'
+import './profile.css';
 import axios from "axios";
 import { checkWalletIsConnected, connectWalletHandler } from "./LoadBlockchain"
 
@@ -18,9 +18,11 @@ const sendData = async (e) => {
     data['website'] = e.target.web.value;
     data['walletAddress'] = e.target.walletAddress.value.slice(2)
     axios.post('http://localhost:5000/createUser', data).then((response) => {
-             alert("Profile Saved")
+        alert("Profile saved")
+            
      })
-    console.log(data)
+     console.log(data)
+     
 }
 
 
@@ -94,11 +96,11 @@ const showProfilesettings = () => (
                 <br/>
                
 
-                <div className='aligncenter'>
-                <Button variant="primary" type="submit">
-                        Create
-                    </Button>
-                    </div>
+                
+               <Button variant="primary" type="submit" >
+                        Save Profile
+                </Button>
+                    
             </Form>
         </div>
 
