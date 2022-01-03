@@ -2,7 +2,7 @@ const express = require('express');
 const Web3 = require('web3');
 const myContract = require('../src/abis/OpenMarket.json')
 const mysql = require('mysql');
-var cors = require('cors')
+
 //Create connection
 const db = mysql.createConnection({ 
     host     : 'localhost',
@@ -20,7 +20,6 @@ db.connect((err)=>{
 const app = express();
 
 app.use(express.json())
-app.use(cors())
 
 const web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
 
