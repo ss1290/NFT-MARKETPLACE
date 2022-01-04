@@ -66,7 +66,7 @@ const Create = () => {
                 }
             }).then(async(response) => {
                 setJsonCid(response.data.IpfsHash)
-                let txn = await mintToken(response.data.IpfsHash, "https://ipfs.infura.io/ipfs/");
+                let txn = await mintToken(response.data.IpfsHash, "https://gateway.pinata.cloud/ipfs/");
                 data["tokenCreator"] = txn.to.slice(2,);
                 data["currentOwner"] = txn.from.slice(2,);
                 data["previousOwner"] = "0000000000000000000000000000000000000000";
