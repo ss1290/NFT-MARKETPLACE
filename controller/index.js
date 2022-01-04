@@ -2,7 +2,7 @@ const express = require('express');
 const Web3 = require('web3');
 const myContract = require('../src/abis/OpenMarket.json')
 const mysql = require('mysql');
-var cors = require('cors')
+
 //Create connection
 const db = mysql.createConnection({ 
     host     : 'localhost',
@@ -20,7 +20,6 @@ db.connect((err)=>{
 const app = express();
 
 app.use(express.json())
-app.use(cors())
 
 const web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
 
@@ -44,8 +43,8 @@ app.get('/contract',async(req,res)=>{
     }
 })
 
-app.get('/createUser',(req,res) =>{
-    let user ={walletAddress:'897e8Be7FBd291A389a13cC799c85503Af033dA7',name:'Ronit',bio:'good guy',email:'ronit.rawat@gmail.com'}
+app.post('/createUser',(req,res) =>{
+    let user =req.body
     let sql = 'INSERT INTO User SET ?';
      let query = db.query(sql, user,(err,result)=>{
         if(err) throw err;
@@ -56,7 +55,6 @@ app.get('/createUser',(req,res) =>{
 app.post('/mintToken',async(req,res) =>{
     let sql = 'INSERT INTO Token SET ?';
     let token = req.body
-    console.log(req.body)
     let query = db.query(sql, token,(err,result)=>{
         if(err) throw err;
         console.log(result);
@@ -96,13 +94,22 @@ app.get('/getAllToken',async(req,res) =>{
 // })
 
 
-app.get('/tokenForSale',async (req,res) =>{
-    let sql = `UPDATE token  SET forSale = true WHERE tokenId = 1`;
+app.get('/setTokenForSale/:tokenId',async (req,res) =>{
+    let sql = `UPDATE Token  SET forSale = true WHERE tokenId =${req.params.tokenId}`;
     let query = db.query(sql,(err,result)=>{
         if(err) throw err;
         res.send('Successfully set to sale');
    });
 })
+
+app.get('/removeTokenFromSale/:tokenId',async (req,res) =>{
+    let sql = `UPDATE Token  SET forSale = true WHERE tokenId =${req.params.tokenId}`;
+    let query = db.query(sql,(err,result)=>{
+        if(err) throw err;
+        res.send('Remove Token from Sale');
+   });
+})
+
 
 app.listen('5000',()=>{
     console.log('server started on port 5000');
