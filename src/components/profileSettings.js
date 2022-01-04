@@ -20,7 +20,6 @@ const sendData = async (e) => {
     axios.post('http://localhost:5000/createUser', data).then((response) => {
         alert("Profile saved")
     })
-    console.log(data)
 
 }
 
@@ -44,22 +43,13 @@ const Profilesettings = () => {
         )
     }
 
-    const getUserNFT = () => {
-        if (currentAccount) {
-            let account = currentAccount.slice(2,)
-            axios.get(`http://localhost:5000/getToken/${account}`).then((response) => {
-                console.log(response.data)
-                setUserNft(response.data);
-            })
-        }
-    }
-
     const getUserData = () => {
         if (currentAccount) {
             let account = currentAccount.slice(2,)
             axios.get(`http://localhost:5000/getUser/${account}`).then((response) => {
-                console.log(response.data)
-                setUserData(response.data);
+                if(response.data.length > 0){
+                    setUserData(response.data);
+                }
             })
         }
     }
@@ -69,7 +59,7 @@ const Profilesettings = () => {
         <div>
 
 
-            <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" src="https://i.imgur.com/RqGUtoW.png" width="150" /><span className="font-weight-bold"><h2>{userData[0].name}</h2></span><span className="text-black-50"><h2>{currentAccount}</h2></span><span></span></div>
+            <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" src="https://i.imgur.com/RqGUtoW.png" width="150" /><span className="font-weight-bold"><h2>{userData ? userData[0].name:"Unnamed"}</h2></span><span className="text-black-50"><h2>{currentAccount}</h2></span><span></span></div>
 
 
             <h3 className="text-center">Edit Profile</h3>
@@ -118,7 +108,6 @@ const Profilesettings = () => {
         const loader = async () => {
             const account = await checkWalletIsConnected();
             setCurrentAccount(account);
-            getUserNFT();
             getUserData();
 
         }
@@ -126,7 +115,6 @@ const Profilesettings = () => {
     }, [currentAccount])
     return (
         <div>
-        {console.log("data",userData)}
             {currentAccount ? showProfilesettings() : connectWalletButton()}
 
         </div>

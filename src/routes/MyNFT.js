@@ -25,6 +25,17 @@ const MyNFT = () => {
     const getUserNFT = () => {
         if (currentAccount) {
             let account = currentAccount.slice(2,)
+
+            const params = new URLSearchParams(window.location.search);
+            const searchData = params.get('search')
+            if(searchData ){
+              console.log("hello")
+            
+              axios.get(`http://localhost:5000/getToken/${account}?search=${searchData}`).then((response) => {
+                setUserNft(response.data)
+            })
+            }
+            // let account = currentAccount.slice(2,)
             axios.get(`http://localhost:5000/getToken/${account}`).then((response) => {
                 setUserNft(response.data);
             })

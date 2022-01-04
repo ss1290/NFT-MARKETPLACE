@@ -15,6 +15,9 @@ const jsonUrl = 'https://api.pinata.cloud/pinning/pinJSONToIPFS'
 
 const client = create('https://ipfs.infura.io:5001/api/v0')
 
+
+
+
 const Create = () => {
     const [tokenMinted, setTokenMinted] = useState(false);
     const [show, setShow] = useState(false);
@@ -63,7 +66,7 @@ const Create = () => {
                 }
             }).then(async(response) => {
                 setJsonCid(response.data.IpfsHash)
-                let txn = await mintToken(response.data.IpfsHash, "https://ipfs.infura.io/ipfs/");
+                let txn = await mintToken(response.data.IpfsHash, "https://gateway.pinata.cloud/ipfs/");
                 data["tokenCreator"] = txn.to.slice(2,);
                 data["currentOwner"] = txn.from.slice(2,);
                 data["previousOwner"] = "0000000000000000000000000000000000000000";

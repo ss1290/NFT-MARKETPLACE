@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, } from 'react';
 import contract from '../abis/OpenMarket.json';
 import {useNavigate} from "react-router-dom"
-import { ethers } from 'ethers';
+import { ethers} from 'ethers';
 import {address,abi} from "../config"; 
-import BigNumber from "bignumber.js"
+import {BigNumber} from "bignumber.js";
 
 export const checkWalletIsConnected = async () => {
   const { ethereum } = window;
@@ -48,10 +48,10 @@ export const buyNftHandler = async(tokenId) => {
       const nftContract = new ethers.Contract(address, abi, signer);
 
       console.log("Initialize payment");
-      let nftTxn = await nftContract.buyNFT(tokenId);
+      let nftTxn =  nftContract.buyNFT(tokenId);
 
       console.log("Mining... please wait");
-      await nftTxn.wait();
+       nftTxn.wait();
 
       console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
       
@@ -71,10 +71,10 @@ export const tokenUriHandler = async (tokenId) => {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
       const nftContract = new ethers.Contract(address, abi, signer);
-      let x = new BigNumber(23);
-      let y = x.toNumber()
-      console.log(x,y)
-      let nftTxn = await nftContract.balanceOf("0xdECa075822F3965A8724B71625843C20698863A6");
+      let id = (10).toString(16);
+      console.log(id);
+      // let nftTxn = await nftContract.tokenURI();
+      // console.log(nftTxn)
       
     } else {
       console.log("Ethereum object does not exist");
