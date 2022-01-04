@@ -88,6 +88,29 @@ export const tokenUriHandler = async (tokenId) => {
   }
 }
 
+export const sellTokenHandler = async (tokenId,price) => {
+  try {
+    const { ethereum } = window;
+
+    if (ethereum) {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+      const nftContract = new ethers.Contract(address, abi, signer);
+      let id = "0x"+(tokenId).toString(16);
+      let value = "0x"+(price).toString(16);
+      let nftTxn = await nftContract.setTokenForSale(id,value);
+      await nftTxn.wait();
+      console.log(`token set for sale`);
+      return nftTxn; 
+    } else {
+      console.log("Ethereum object does not exist");
+    }
+
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export const mintNftHandler = async (tokenURI,baseURI) => {
   try {
     const { ethereum } = window;

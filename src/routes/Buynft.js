@@ -11,7 +11,7 @@ import { BsClock } from 'react-icons/bs';
 import { CgDetailsMore } from 'react-icons/cg';
 import "../styles/buynft.css";
 import axios from "axios";
-import { tokenUriHandler } from "../components/LoadBlockchain";
+import { tokenUriHandler, sellTokenHandler } from "../components/LoadBlockchain";
 
 
 import { useParams } from "react-router-dom";
@@ -37,6 +37,14 @@ const Buynft = () => {
 
     })
   }
+  const sellNft = async (e) => {
+    e.preventDefault()
+    let price = e.target.price.value;
+    let txn = await sellTokenHandler(params.nftId, price);
+    axios.patch(`http://localhost:5000/tokenForSale/${params.nftId}/${price}`).then((response) => {
+      console.log(response);
+    })
+  }
   const saleCard = () => (
     <Card className='cards' style={{ width: '45rem' }}>
       <Card.Header as="h4" ><BsClock style={{ color: 'black' }} />Sale ends June 26, 2022 at 7:30pm IST </Card.Header>
@@ -59,11 +67,6 @@ const Buynft = () => {
         <Card.Text as="h1" ><SiEthereum style={{ color: 'black' }} />0</Card.Text>
 
         <div className='btn1'>
-          <form>
-            <input type="text" placeholder='set price' />
-            <Button variant="primary" size="lg" style={{ width: "117px", height: "30px", borderRadius: "12px" }}>
-              <AiOutlineWallet />Sell</Button>
-          </form>
 
         </div>
       </Card.Body>
@@ -74,6 +77,10 @@ const Buynft = () => {
   }, [])
   return (
     <div className="home-page" >
+      <form onSubmit={sellNft}>
+        <input type="number" name="price" placeholder='Set price' />
+        <button>Sell</button>
+      </form>
       <Container >
         <Row>
           <Col>
@@ -85,20 +92,10 @@ const Buynft = () => {
           <Col>
             <div className='title'>
               {setSaleCard()}
-              <Form>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Email address</Form.Label>
-                  <Form.Control type="text" placeholder="set price" />
-                </Form.Group>s
-                <Button variant="primary" type="submit">
-                  Submit
-                </Button>
-              </Form>
+
 
             </div>
           </Col>
-
-
           <div className='col1'>
             <Col >
               <Link to="/Buynft">
@@ -174,8 +171,6 @@ const Buynft = () => {
               </Card>
             </Col>
           </div>
-
-
         </Row>
       </Container>
     </div>

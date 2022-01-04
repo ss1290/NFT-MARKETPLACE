@@ -106,8 +106,8 @@ app.get('/getAllToken',async(req,res) =>{
 //     });
 // }).
 
-app.get('/tokenForSale/:tokenId', (req,res) =>{
-    let sql = `UPDATE Token  SET forSale = true WHERE tokenId = ${req.params.tokenId}`;
+app.patch('/tokenForSale/:tokenId/:price', (req,res) =>{
+    let sql = `UPDATE Token  SET forSale = true ,tokenPrice ='${req.params.price}' WHERE tokenId = ${req.params.tokenId}`;
     let query = db.query(sql,(err,result)=>{
         if(err) throw err;
         res.send('Successfully set to sale');
@@ -115,7 +115,7 @@ app.get('/tokenForSale/:tokenId', (req,res) =>{
 })
 
 
-app.get('/removeTokenFromSale/:tokenId', (req,res) =>{
+app.patch('/removeTokenFromSale/:tokenId', (req,res) =>{
     let sql = `UPDATE Token  SET forSale = false WHERE tokenId = ${req.params.tokenId}`;
     let query = db.query(sql,(err,result)=>{
         if(err) throw err;
