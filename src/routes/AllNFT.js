@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 // import Card from '../components/card'
 
 const AllNFT = ({history}) => {
-  console.log(history)
+  
   let [allNft,setAllNft] = useState();
   const getAllNft = () => {
     const params = new URLSearchParams(window.location.search);

@@ -17,7 +17,7 @@ const Navbar = () => {
           </Link>
         
         </div>
-    
+    {}
        <div className="Search">
           <form role="search" id="form">
             <input type="search"id="query" name="search" placeholder="Search items,collections,accounts"  aria-label="Search through site content" />

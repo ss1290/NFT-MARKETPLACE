@@ -32,7 +32,6 @@
     "react-router": "^6.1.1",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
-    "truffle": "^5.4.26",
     "web-vitals": "^2.1.2",
     "web3": "^1.6.1"
   },

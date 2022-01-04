@@ -32,20 +32,24 @@ const Create = () => {
     }
     const uploadHandler = async (e) => {
         e.preventDefault();
-        
-        let txn = await mintNftHandler();
         let data = {};
         data['itemName'] = e.target.item.value.trim();
         data["description"] = e.target.description.value;
         data["url"] = fileUrl;
-        data["tokenCreator"] = txn.to.slice(2,);
-        data["currentOwner"] = txn.from.slice(2,);
-        data["previousOwner"] = "0000000000000000000000000000000000000000";
-        data["forSale"] = false;
-        console.log(data)
-        axios.post('http://localhost:5000/mintToken', data).then((response) => {
-        setTokenMinted(true)
-        })
+        const jsonData = JSON.stringify(data);
+        const added = await client.add(jsonData);
+        console.log(`https://ipfs.infura.io/ipfs/${added.path}`)
+         let txn = await mintNftHandler(added.path,"https://ipfs.infura.io/ipfs/");
+        
+        
+        // data["tokenCreator"] = txn.to.slice(2,);
+        // data["currentOwner"] = txn.from.slice(2,);
+        // data["previousOwner"] = "0000000000000000000000000000000000000000";
+        // data["forSale"] = false;
+        // console.log(data)
+        // axios.post('http://localhost:5000/mintToken', data).then((response) => {
+        // setTokenMinted(true)
+        // })
     }
     const connectWalletButton = () => {
         const connectWallet = async () => {

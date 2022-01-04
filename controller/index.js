@@ -2,7 +2,8 @@ const express = require('express');
 const Web3 = require('web3');
 const myContract = require('../src/abis/OpenMarket.json')
 const mysql = require('mysql');
-var cors = require('cors')
+const cors = require('cors')
+
 //Create connection
 const db = mysql.createConnection({ 
     host     : 'localhost',
@@ -19,8 +20,8 @@ db.connect((err)=>{
 
 const app = express();
 
-app.use(express.json())
-app.use(cors())
+app.use(express.json());
+app.use(cors());
 
 const web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
 
@@ -44,9 +45,10 @@ app.get('/contract',async(req,res)=>{
     }
 })
 
-app.get('/createUser',(req,res) =>{
-    let user ={walletAddress:'897e8Be7FBd291A389a13cC799c85503Af033dA7',name:'Ronit',bio:'good guy',email:'ronit.rawat@gmail.com'}
+app.post('/createUser',(req,res) =>{
+    let user =req.body
     let sql = 'INSERT INTO User SET ?';
+     console.log(req.body);
      let query = db.query(sql, user,(err,result)=>{
         if(err) throw err;
         console.log(result);
@@ -56,13 +58,21 @@ app.get('/createUser',(req,res) =>{
 app.post('/mintToken',async(req,res) =>{
     let sql = 'INSERT INTO Token SET ?';
     let token = req.body
-    console.log(req.body)
     let query = db.query(sql, token,(err,result)=>{
         if(err) throw err;
         console.log(result);
         res.send('token minted');
     });
 });
+
+app.get('/getUser/:address', async(req,res)=>{
+    let sql = `SELECT * FROM User HAVING walletAddress = ${req.params.address}`
+     db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+})
 
 app.get('/getToken/:address',async(req,res) =>{
     let sql = `SELECT * FROM Token HAVING currentOwner='${req.params.address}'`
