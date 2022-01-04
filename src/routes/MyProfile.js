@@ -57,9 +57,15 @@ const MyProfile = () => {
             <div className="d-flex justify-content-center">
                 <div className="card-body little-profile text-center">
                     <div className="pro-img"><img src="https://i.imgur.com/RqGUtoW.png" alt="user" /></div>
+<<<<<<< HEAD
                     <h3> {userData[0].name}</h3>
                     <h3 className="m-b-0 font-light">{currentAccount}</h3>
                     <h3 className="m-b-0 font-light">{userData[0].email}</h3>
+=======
+                    <h3 >{userData.name}</h3>
+                    <h3 className="m-b-0 font-light">{currentAccount}</h3>
+                    <h3 className="m-b-0 font-light">{userData.email}</h3>
+>>>>>>> 2022330f9f9e56614bfd15ac7d8856ce10903988
                 </div>
             </div>
             <div className="box">
