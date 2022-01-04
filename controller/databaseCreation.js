@@ -20,31 +20,15 @@ db.connect((err)=>{
 //     console.log(result);
 // })
 
-<<<<<<< HEAD
-let sql2 = 'CREATE TABLE User(walletAddress VARCHAR(255), name VARCHAR(255),bio VARCHAR(255),email VARCHAR(255), PRIMARY KEY (walletAddress))';
-db.query(sql2, (err,result)=>{
-    if(err) throw err;
-    console.log(result);
-})
-=======
 // let sql2 = 'CREATE TABLE User(walletAddress VARCHAR(255), name VARCHAR(255),bio VARCHAR(255),email VARCHAR(255), PRIMARY KEY (walletAddress))';
 // db.query(sql2, (err,result)=>{
 //     if(err) throw err;
 //     console.log(result);
 // })
->>>>>>> f8d8a8830a76c78b1bdacf686d1bb6e3bf606898
 
 
-<<<<<<< HEAD
-let sql3 = 'CREATE TABLE Token(tokenId int AUTO_INCREMENT, itemName VARCHAR(255), url VARCHAR(255),tokenCreator VARCHAR(255),currentOwner VARCHAR(255),previousOwner VARCHAR(255),transactionHistory VARCHAR(255),description VARCHAR(255), tokenPrice int,forSale BOOLEAN, PRIMARY KEY (tokenId)) '; 
-    db.query(sql3, (err,result)=>{
-        if(err) throw err;
-        console.log(result);
-})
-=======
 // let sql3 = 'CREATE TABLE Token(tokenId int AUTO_INCREMENT, itemName VARCHAR(255), url VARCHAR(255),tokenCreator VARCHAR(255),currentOwner VARCHAR(255),previousOwner VARCHAR(255),transactionHistory VARCHAR(255),description VARCHAR(255), tokenPrice int,forSale BOOLEAN, PRIMARY KEY (tokenId)) '; 
 //     db.query(sql3, (err,result)=>{
 //         if(err) throw err;
 //         console.log(result);
 // })
->>>>>>> c90c81e2609a9dc2f7ab5d4ecc0fbf787bf70d32
