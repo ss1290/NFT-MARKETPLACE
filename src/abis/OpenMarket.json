@@ -31097,12 +31097,21 @@
         }
       },
       "links": {},
+<<<<<<< HEAD
       "address": "0x61194652B57970F24C984495204376B3E5A52685",
       "transactionHash": "0x5260026936010753d09b49c9440bb22272f4ea8753113e2d2bd7a593dbfb6bee"
     }
   },
   "schemaVersion": "3.4.4",
   "updatedAt": "2022-01-03T15:59:20.747Z",
+=======
+      "address": "0xb44a368f86E42c1a59ECCe2593aA4C5D3111a812",
+      "transactionHash": "0x5847bceedea88cba8c11dbaff5616cfdb6f1c8090f27d7475f26c17e388e183d"
+    }
+  },
+  "schemaVersion": "3.4.4",
+  "updatedAt": "2022-01-03T11:48:05.530Z",
+>>>>>>> d4b1197d55b6a8b611b62c39f0688429c1b22863
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
