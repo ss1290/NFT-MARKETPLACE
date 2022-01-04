@@ -101,15 +101,15 @@ const Profilesettings = () => {
                     </Form.Group>
 
                     <Form.Group className="mb-3" >
-                        <Form.Label>Instagram Link<span style={{ color: 'red' }} >*</span></Form.Label>
+                        <Form.Label>Instagram Link</Form.Label>
                         <Form.Control type="text" name="ins" placeholder="Instagram handle" required />
                     </Form.Group>
                     <Form.Group className="mb-3" >
-                        <Form.Label>Twitter Link<span style={{ color: 'red' }} >*</span></Form.Label>
+                        <Form.Label>Twitter Link</Form.Label>
                         <Form.Control type="text" name="twi" placeholder="Twitter handle" required />
                     </Form.Group>
                     <Form.Group className="mb-3" >
-                        <Form.Label>Your Website<span style={{ color: 'red' }} >*</span></Form.Label>
+                        <Form.Label>Your Website</Form.Label>
                         <Form.Control type="text" name="web" placeholder="yourweb.io" required />
                     </Form.Group>
                     <input name="walletAddress" type="hidden" value={currentAccount} />
