@@ -9,6 +9,7 @@ import { checkWalletIsConnected, connectWalletHandler } from "../components/Load
 const MyProfile = () => {
     let [currentAccount, setCurrentAccount] = useState(null);
     let [userNft, setUserNft] = useState(null);
+    let [userData, setUserData] = useState(null);
     const connectWalletButton = () => {
         const connectWallet = async () => {
             let account = await connectWalletHandler();
@@ -23,15 +24,29 @@ const MyProfile = () => {
             </div>
         )
     }
+    
     const getUserNFT = () => {
         if (currentAccount) {
             let account = currentAccount.slice(2,)
             axios.get(`http://localhost:5000/getToken/${account}`).then((response) => {
                 setUserNft(response.data);
+            }).catch((e)=>{
+                console.log(e)
             })
         }
 
     }
+
+    const getUserData = () => {
+        if (currentAccount) {
+            let account = currentAccount.slice(2,)
+            axios.get(`http://localhost:5000/getUser/${account}`).then((response) => {
+                setUserData(response.data);
+            })
+        }
+
+    }
+
     const showProfile = () => (
         <div>
             <div className="aligncenter">
@@ -42,9 +57,9 @@ const MyProfile = () => {
             <div className="d-flex justify-content-center">
                 <div className="card-body little-profile text-center">
                     <div className="pro-img"><img src="https://i.imgur.com/RqGUtoW.png" alt="user" /></div>
-                    <h3 >Un-named</h3>
+                    <h3> {userData ? userData[0].name:"Unnamed"}</h3>
                     <h3 className="m-b-0 font-light">{currentAccount}</h3>
-                    <h3 className="m-b-0 font-light">Joined in_/_/_/</h3>
+                    <h3 className="m-b-0 font-light">{userData ? userData[0].email : "Email"}</h3>
                 </div>
             </div>
             <div className="box">
@@ -86,6 +101,7 @@ const MyProfile = () => {
             const account = await checkWalletIsConnected();
             setCurrentAccount(account);
             getUserNFT();
+            getUserData();
         }
         return loader()
     }, [currentAccount])

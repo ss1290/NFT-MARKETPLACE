@@ -2,6 +2,7 @@ const express = require('express');
 const Web3 = require('web3');
 const myContract = require('../src/abis/OpenMarket.json')
 const mysql = require('mysql');
+const cors = require('cors')
 
 //Create connection
 const db = mysql.createConnection({ 
@@ -19,7 +20,8 @@ db.connect((err)=>{
 
 const app = express();
 
-app.use(express.json())
+app.use(express.json());
+app.use(cors());
 
 const web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
 
@@ -46,6 +48,7 @@ app.get('/contract',async(req,res)=>{
 app.post('/createUser',(req,res) =>{
     let user =req.body
     let sql = 'INSERT INTO User SET ?';
+     console.log(req.body);
      let query = db.query(sql, user,(err,result)=>{
         if(err) throw err;
         console.log(result);
@@ -62,6 +65,15 @@ app.post('/mintToken',async(req,res) =>{
     });
 });
 
+app.get('/getUser/:address', async(req,res)=>{
+    let sql = `SELECT * FROM User HAVING walletAddress = '${req.params.address}'`
+     db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+})
+
 app.get('/getToken/:address',async(req,res) =>{
     let sql = `SELECT * FROM Token HAVING currentOwner='${req.params.address}'`
     console.log(req.params.address)
@@ -73,7 +85,23 @@ app.get('/getToken/:address',async(req,res) =>{
 })
 
 app.get('/getAllToken',async(req,res) =>{
+    
     let sql = `SELECT * FROM Token `
+    db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+})
+
+//search nft by name 
+
+app.get('/tokenSearch',async(req,res)=>{
+    const result = req.query.search;
+    console.log(result, "----")
+//     SELECT * FROM Customers
+// WHERE Country='Germany' AND City='Berlin'
+    let sql = `SELECT * FROM Token WHERE itemName LIKE '${result}%' OR tokenId ='${result}'`;
     db.query(sql,(err,result)=>{
         if(err) throw err;
         console.log(result);
