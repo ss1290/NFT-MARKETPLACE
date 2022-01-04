@@ -8,6 +8,7 @@
     "@fortawesome/react-fontawesome": "^0.1.16",
     "@material-ui/icons": "^4.11.2",
     "@material/card": "^13.0.0",
+    "@metamask/detect-provider": "^1.2.0",
     "@mui/material": "^5.2.4",
     "@mui/styles": "^5.2.3",
     "@openzeppelin/contracts": "^4.4.1",
