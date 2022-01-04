@@ -17,7 +17,6 @@ const AppRouter = ()=>(
             <Header />
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/test" element={<App />} />
                 <Route path="/buynft" element={<Buynft />} />
                 <Route path="/AllNFT" element={<AllNFT />} />
                 <Route path="/MyNFT" element={<MyNFT />} />

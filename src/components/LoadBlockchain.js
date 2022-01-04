@@ -71,10 +71,13 @@ export const tokenUriHandler = async (tokenId) => {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
       const nftContract = new ethers.Contract(address, abi, signer);
-      let id = (10).toString(16);
+      let id = "0x"+(tokenId).toString(16);
+
       console.log(id);
-      // let nftTxn = await nftContract.tokenURI();
-      // console.log(nftTxn)
+      let uri = await nftContract.tokenURI("0x01");
+      console.log("uri",uri)
+      let owner = await nftContract.ownerOf(id);
+      return {address,uri,owner};
       
     } else {
       console.log("Ethereum object does not exist");
@@ -93,6 +96,7 @@ export const mintNftHandler = async (tokenURI,baseURI) => {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
       const nftContract = new ethers.Contract(address, abi, signer);
+      console.log(nftContract)
 
       console.log("Initialize payment");
       let nftTxn = await nftContract.mint(tokenURI,baseURI);
