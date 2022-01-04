@@ -19,17 +19,15 @@ const sendData = async (e) => {
     data['walletAddress'] = e.target.walletAddress.value.slice(2)
     axios.post('http://localhost:5000/createUser', data).then((response) => {
         alert("Profile saved")
-            
-     })
-     console.log(data)
-     
-}
+    })
 
+}
 
 
 const Profilesettings = () => {
     let [currentAccount, setCurrentAccount] = useState(null);
     let [userNft, setUserNft] = useState(null);
+    let [userData,setUserData] = useState();
     const connectWalletButton = () => {
         const connectWallet = async () => {
             let account = await connectWalletHandler();
@@ -44,87 +42,93 @@ const Profilesettings = () => {
             </div>
         )
     }
+
     const getUserNFT = () => {
         if (currentAccount) {
             let account = currentAccount.slice(2,)
             axios.get(`http://localhost:5000/getToken/${account}`).then((response) => {
+                console.log(response.data)
                 setUserNft(response.data);
             })
         }
-
     }
 
-const showProfilesettings = () => (
+    const getUserData = () => {
+        if (currentAccount) {
+            let account = currentAccount.slice(2,)
+            axios.get(`http://localhost:5000/getUser/${account}`).then((response) => {
+                console.log(response.data)
+                setUserData(response.data);
+            })
+        }
+    }
 
-    <div>
+    const showProfilesettings = () => (
+
+        <div>
 
 
-        <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" src="https://i.imgur.com/RqGUtoW.png" width="150" /><span class="font-weight-bold"><h2>Un-named</h2></span><span class="text-black-50"><h2>{currentAccount}</h2></span><span></span></div>
+            <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" src="https://i.imgur.com/RqGUtoW.png" width="150" /><span className="font-weight-bold"><h2>{userData ? userData[0].name:"Unnamed"}</h2></span><span className="text-black-50"><h2>{currentAccount}</h2></span><span></span></div>
 
 
-        <h3 class="text-center">Edit Profile</h3>
+            <h3 className="text-center">Edit Profile</h3>
 
-        <div className='aligncenter'>
-            <Form className="create-page-form" onSubmit={sendData}>
-                <Form.Group className="mb-3" >
-                    <Form.Label>Name<span style={{ color: 'red' }} >*</span></Form.Label>
-                    <Form.Control type="text" name="name" placeholder="User name" required />
-                </Form.Group>
-
-                <Form.Group className="mb-3" >
-                    <Form.Label>Email<span style={{ color: 'red' }} >*</span></Form.Label>
-                    <Form.Control type="text" name="email" placeholder="Email " required />
-                </Form.Group>
-
-                <Form.Group className="mb-3" >
-                    <Form.Label>Bio<span style={{ color: 'red' }} >*</span></Form.Label>
-                    <Form.Control type="text" name="bio" placeholder="Bio" required />
-                </Form.Group>
-                    
+            <div className='aligncenter'>
+                <Form className="create-page-form" onSubmit={sendData}>
                     <Form.Group className="mb-3" >
-                    <Form.Label>Instagram Link<span style={{ color: 'red' }} >*</span></Form.Label>
-                    <Form.Control type="text" name="ins" placeholder="Instagram handle" required />
-                </Form.Group>
-                <Form.Group className="mb-3" >
-                    <Form.Label>Twitter Link<span style={{ color: 'red' }} >*</span></Form.Label>
-                    <Form.Control type="text" name="twi" placeholder="Twitter handle" required />
-                </Form.Group>
-                <Form.Group className="mb-3" >
-                    <Form.Label>Your Website<span style={{ color: 'red' }} >*</span></Form.Label>
-                    <Form.Control type="text" name="web" placeholder="yourweb.io" required />
-                </Form.Group>
-                 <input name="walletAddress" type="hidden" value={currentAccount}/>
-                <br/>
-               
+                        <Form.Label>Name<span style={{ color: 'red' }} >*</span></Form.Label>
+                        <Form.Control type="text" name="name" placeholder="User name" required />
+                    </Form.Group>
 
-                
-               <Button variant="primary" type="submit" >
+                    <Form.Group className="mb-3" >
+                        <Form.Label>Email<span style={{ color: 'red' }} >*</span></Form.Label>
+                        <Form.Control type="text" name="email" placeholder="Email " required />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" >
+                        <Form.Label>Bio<span style={{ color: 'red' }} >*</span></Form.Label>
+                        <Form.Control type="text" name="bio" placeholder="Bio" required />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" >
+                        <Form.Label>Instagram Link<span style={{ color: 'red' }} >*</span></Form.Label>
+                        <Form.Control type="text" name="ins" placeholder="Instagram handle" required />
+                    </Form.Group>
+                    <Form.Group className="mb-3" >
+                        <Form.Label>Twitter Link<span style={{ color: 'red' }} >*</span></Form.Label>
+                        <Form.Control type="text" name="twi" placeholder="Twitter handle" required />
+                    </Form.Group>
+                    <Form.Group className="mb-3" >
+                        <Form.Label>Your Website<span style={{ color: 'red' }} >*</span></Form.Label>
+                        <Form.Control type="text" name="web" placeholder="yourweb.io" required />
+                    </Form.Group>
+                    <input name="walletAddress" type="hidden" value={currentAccount} />
+                    <br />
+
+                    <Button variant="primary" type="submit" >
                         Save Profile
-                </Button>
-                    
-            </Form>
+                    </Button>
+
+                </Form>
+            </div>
         </div>
+    )
+    useEffect(() => {
+        const loader = async () => {
+            const account = await checkWalletIsConnected();
+            setCurrentAccount(account);
+            getUserNFT();
+            getUserData();
 
-    </div>
+        }
+        return loader()
+    }, [currentAccount])
+    return (
+        <div>
+            {currentAccount ? showProfilesettings() : connectWalletButton()}
 
-
-
-
-)
-useEffect(() => {
-    const loader = async () => {
-        const account = await checkWalletIsConnected();
-        setCurrentAccount(account);
-        getUserNFT();
-    }
-    return loader()
-}, [currentAccount])
-return (
-    <div>
-        {currentAccount ? showProfilesettings() : connectWalletButton()}
-
-    </div>
-);
+        </div>
+    );
 }
 
 
