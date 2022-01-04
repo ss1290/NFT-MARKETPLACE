@@ -20,6 +20,7 @@ const sendData = async (e) => {
     axios.post('http://localhost:5000/createUser', data).then((response) => {
         alert("Profile saved")
     })
+    console.log(data)
 
 }
 
@@ -43,7 +44,15 @@ const Profilesettings = () => {
         )
     }
 
-   
+    const getUserNFT = () => {
+        if (currentAccount) {
+            let account = currentAccount.slice(2,)
+            axios.get(`http://localhost:5000/getToken/${account}`).then((response) => {
+                console.log(response.data)
+                setUserNft(response.data);
+            })
+        }
+    }
 
     const getUserData = () => {
         if (currentAccount) {
@@ -109,7 +118,7 @@ const Profilesettings = () => {
         const loader = async () => {
             const account = await checkWalletIsConnected();
             setCurrentAccount(account);
-           
+            getUserNFT();
             getUserData();
 
         }
@@ -117,6 +126,7 @@ const Profilesettings = () => {
     }, [currentAccount])
     return (
         <div>
+        {console.log("data",userData)}
             {currentAccount ? showProfilesettings() : connectWalletButton()}
 
         </div>
