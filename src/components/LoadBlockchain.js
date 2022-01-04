@@ -74,7 +74,7 @@ export const tokenUriHandler = async (tokenId) => {
       let id = "0x"+(tokenId).toString(16);
 
       console.log(id);
-      let uri = await nftContract.tokenURI("0x01");
+      let uri = await nftContract.tokenURI(id);
       console.log("uri",uri)
       let owner = await nftContract.ownerOf(id);
       return {address,uri,owner};
