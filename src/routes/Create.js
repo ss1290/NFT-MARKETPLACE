@@ -1,48 +1,92 @@
 import React from "react";
 import '../styles/create.css';
-import { Form, Button, Modal,Spinner } from "react-bootstrap";
+import { Form, Button, Modal, Spinner } from "react-bootstrap";
 import { create } from 'ipfs-http-client'
 import { useEffect, useState } from "react";
 import axios from "axios";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
+import FormData from "form-data";
 import { checkWalletIsConnected, connectWalletHandler, mintNftHandler } from "../components/LoadBlockchain"
+
+const pinataApiKey = "4d37623cdbbfb91c7f0d";
+const pinataSecretApiKey = "5043ec80f9de04cb311185b7026c84769225d2896e3a45e097a1c020d2f07251";
+const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
+const jsonUrl = 'https://api.pinata.cloud/pinning/pinJSONToIPFS'
 
 const client = create('https://ipfs.infura.io:5001/api/v0')
 
+
+
+
 const Create = () => {
-    const [tokenMinted,setTokenMinted] = useState(false);
+    const [tokenMinted, setTokenMinted] = useState(false);
     const [show, setShow] = useState(false);
     let [currentAccount, setCurrentAccount] = useState(null);
-    const [fileUrl, setFileUrl] = useState();
+    let [fileUrl, setFileUrl] = useState();
+    let [jsonCid, setJsonCid] = useState("");
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+
     const fileHandler = async (e) => {
         const file = e.target.files[0];
+        let data = new FormData();
+        data.append('file', file)
         try {
-            const added = await client.add(file)
-            const url = `https://ipfs.infura.io/ipfs/${added.path}`
-            console.log("CID: ", added.path)
-            setFileUrl(url)
+            axios.post(url, data, {
+                headers: {
+                    maxBodyLength: 'Infinity',
+                    pinata_api_key: pinataApiKey,
+                    pinata_secret_api_key: pinataSecretApiKey
+                }
+            }).then((response) => {
+                console.log("image uploaded")
+                let imageUrl = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`
+                setFileUrl(imageUrl)
+            })
         } catch (error) {
             console.log('Error uploading file: ', error)
         }
     }
+
+
+    const mintToken = async(hash,base)=>{
+        let txn = await mintNftHandler(hash, base);
+        return txn
+    }
+
+
+    const jsonHandler = (data) => {
+        const jsonData = JSON.stringify(data);
+        try {
+            axios.post(jsonUrl, jsonData, {
+                headers: {
+                    pinata_api_key: pinataApiKey,
+                    pinata_secret_api_key: pinataSecretApiKey
+                }
+            }).then(async(response) => {
+                setJsonCid(response.data.IpfsHash)
+                let txn = await mintToken(response.data.IpfsHash, "https://gateway.pinata.cloud/ipfs/");
+                data["tokenCreator"] = txn.to.slice(2,);
+                data["currentOwner"] = txn.from.slice(2,);
+                data["previousOwner"] = "0000000000000000000000000000000000000000";
+                data["forSale"] = false;
+                axios.post('http://localhost:5000/mintToken', data).then((response) => {
+                })
+                setTokenMinted(true);
+            })
+        } catch (error) {
+            console.log('Error uploading file: ', error)
+        }
+    }
+
     const uploadHandler = async (e) => {
         e.preventDefault();
-        
-        let txn = await mintNftHandler();
         let data = {};
         data['itemName'] = e.target.item.value.trim();
         data["description"] = e.target.description.value;
         data["url"] = fileUrl;
-        data["tokenCreator"] = txn.to.slice(2,);
-        data["currentOwner"] = txn.from.slice(2,);
-        data["previousOwner"] = "0000000000000000000000000000000000000000";
-        data["forSale"] = false;
-        console.log(data)
-        axios.post('http://localhost:5000/mintToken', data).then((response) => {
-        setTokenMinted(true)
-        })
+        await jsonHandler(data);
     }
     const connectWalletButton = () => {
         const connectWallet = async () => {
@@ -91,7 +135,7 @@ const Create = () => {
     useEffect(async () => {
         const account = await checkWalletIsConnected();
         setCurrentAccount(account);
-    }, [])
+    }, [jsonCid])
     return (
         <div className="create-page">
             <div className="create-page-connect">
@@ -99,12 +143,12 @@ const Create = () => {
             </div>
             <Modal show={show} >
                 <Modal.Header>
-                    <Modal.Title>{tokenMinted ==true?"Token minted succesfully":"Minting token"}</Modal.Title>
+                    <Modal.Title>{tokenMinted == true ? "Token minted succesfully" : "Minting token"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="spinner">
-                    {tokenMinted == true?<div>
-                    <Link to="/MyNFT"><Button variant="success" onClick={handleClose}>Success</Button></Link>
-                    </div>:<Spinner animation="grow" variant="primary" />}
+                    {tokenMinted == true ? <div>
+                        <Link to="/MyNFT"><Button variant="success" onClick={handleClose}>Success</Button></Link>
+                    </div> : <Spinner animation="grow" variant="primary" />}
                 </Modal.Body>
             </Modal>
             <div className="create-page-document">

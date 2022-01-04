@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, } from 'react';
 import contract from '../abis/OpenMarket.json';
 import {useNavigate} from "react-router-dom"
-import { ethers } from 'ethers';
+import { ethers} from 'ethers';
 import {address,abi} from "../config"; 
+import {BigNumber} from "bignumber.js";
 
 export const checkWalletIsConnected = async () => {
   const { ethereum } = window;
@@ -47,12 +48,10 @@ export const buyNftHandler = async(tokenId) => {
       const nftContract = new ethers.Contract(address, abi, signer);
 
       console.log("Initialize payment");
-      let nftTxn = await nftContract.buyNFT(tokenId);
-
-
+      let nftTxn =  nftContract.buyNFT(tokenId);
 
       console.log("Mining... please wait");
-      await nftTxn.wait();
+       nftTxn.wait();
 
       console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
       
@@ -64,19 +63,39 @@ export const buyNftHandler = async(tokenId) => {
   }
 }
 
-export const mintNftHandler = async () => {
+export const tokenUriHandler = async (tokenId) => {
   try {
     const { ethereum } = window;
 
     if (ethereum) {
       const provider = new ethers.providers.Web3Provider(ethereum);
-      console.log(provider);
+      const signer = provider.getSigner();
+      const nftContract = new ethers.Contract(address, abi, signer);
+      let id = (10).toString(16);
+      console.log(id);
+      // let nftTxn = await nftContract.tokenURI();
+      // console.log(nftTxn)
+      
+    } else {
+      console.log("Ethereum object does not exist");
+    }
 
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const mintNftHandler = async (tokenURI,baseURI) => {
+  try {
+    const { ethereum } = window;
+
+    if (ethereum) {
+      const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
       const nftContract = new ethers.Contract(address, abi, signer);
 
       console.log("Initialize payment");
-      let nftTxn = await nftContract.mint();
+      let nftTxn = await nftContract.mint(tokenURI,baseURI);
 
       console.log("Mining... please wait");
       await nftTxn.wait();

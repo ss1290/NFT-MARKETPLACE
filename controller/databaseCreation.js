@@ -2,8 +2,8 @@ const mysql = require('mysql');
 //Create connection
 const db = mysql.createConnection({ 
     host     : 'localhost',
-    user     : 'root', 
-    database : 'MYNFT'
+    user     : 'root',
+    database: 'MYNFT'  
 });
 //connect
 db.connect((err)=>{
@@ -13,7 +13,7 @@ db.connect((err)=>{
     console.log('MySql Connected...');
 });
 
-// Creation of Database
+// // Creation of Database
 // let sql1 = 'CREATE DATABASE MYNFT';
 // db.query(sql1, (err,result)=>{
 //     if(err) throw err;
@@ -27,8 +27,8 @@ db.connect((err)=>{
 // })
 
 
-let sql3 = 'CREATE TABLE Token(tokenId int AUTO_INCREMENT, itemName VARCHAR(255), url VARCHAR(255),tokenCreator VARCHAR(255),currentOwner VARCHAR(255),previousOwner VARCHAR(255),transactionHistory VARCHAR(255),description VARCHAR(255), tokenPrice int,forSale BOOLEAN, PRIMARY KEY (tokenId)) '; 
-    db.query(sql3, (err,result)=>{
-        if(err) throw err;
-        console.log(result);
-})
+// let sql3 = 'CREATE TABLE Token(tokenId int AUTO_INCREMENT, itemName VARCHAR(255), url VARCHAR(255),tokenCreator VARCHAR(255),currentOwner VARCHAR(255),previousOwner VARCHAR(255),transactionHistory VARCHAR(255),description VARCHAR(255), tokenPrice int,forSale BOOLEAN, PRIMARY KEY (tokenId)) '; 
+//     db.query(sql3, (err,result)=>{
+//         if(err) throw err;
+//         console.log(result);
+// })

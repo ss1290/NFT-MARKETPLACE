@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/src/abis
 /.pnp
 .pnp.js
 package-lock.json
@@ -24,3 +25,4 @@ yarn-debug.log*
 yarn-error.log*
 package-lock.json
 scripts
+*.json

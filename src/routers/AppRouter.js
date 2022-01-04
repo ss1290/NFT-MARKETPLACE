@@ -10,7 +10,6 @@ import Header from '../components/Header';
 import NFT from "../routes/NFT";
 import Profilesettings from "../components/profileSettings";
 import Create from "../routes/Create";
-import App from "../components/Blockchain";
 
 const AppRouter = ()=>(
     <BrowserRouter>
@@ -24,7 +23,7 @@ const AppRouter = ()=>(
                 <Route path="/MyNFT" element={<MyNFT />} />
                 <Route path="/Buynft" element={<Buynft/>}/>
                 <Route path="/create" element={<Create />}/>
-                <Route path="/NFT/:NFTname" element={<NFT />}/>
+                <Route path="/NFT/:nftId" element={<Buynft />}/>
                 <Route path="/profile" element={<MyProfile />} />
                 <Route path="/profileSettings" element={<Profilesettings />} />
                 <Route path="*" element={<NotFoundPage />} />
