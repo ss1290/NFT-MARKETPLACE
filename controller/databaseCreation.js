@@ -2,8 +2,8 @@ const mysql = require('mysql');
 //Create connection
 const db = mysql.createConnection({ 
     host     : 'localhost',
-    user     : 'root', 
-    database : 'MYNFT'
+    user     : 'root',
+    database: 'MYNFT'  
 });
 //connect
 db.connect((err)=>{

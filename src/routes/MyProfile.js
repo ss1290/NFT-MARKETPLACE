@@ -40,7 +40,9 @@ const MyProfile = () => {
         if (currentAccount) {
             let account = currentAccount.slice(2,)
             axios.get(`http://localhost:5000/getUser/${account}`).then((response) => {
-                setUserData(response.data);
+                if(response.data.length > 0){
+                    setUserData(response.data);
+                }
             })
         }
 
@@ -56,9 +58,9 @@ const MyProfile = () => {
             <div className="d-flex justify-content-center">
                 <div className="card-body little-profile text-center">
                     <div className="pro-img"><img src="https://i.imgur.com/RqGUtoW.png" alt="user" /></div>
-                    <h3> {userData[0].name}</h3>
+                    <h3> {userData ? userData[0].name :"Un-named"}</h3>
                     <h3 className="m-b-0 font-light">{currentAccount}</h3>
-                    <h3 className="m-b-0 font-light">{userData[0].email}</h3>
+                    <h3 className="m-b-0 font-light">{userData ? userData[0].email:"Email"}</h3>
                 </div>
             </div>
             <div className="box">

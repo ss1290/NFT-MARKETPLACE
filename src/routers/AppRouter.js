@@ -8,7 +8,7 @@ import MyProfile from "../routes/MyProfile";
 import NotFoundPage from "../routes/NotFoundPage";
 import Header from '../components/Header';
 import NFT from "../routes/NFT";
-import profileSettings from "../components/profileSettings";
+import Profilesettings from "../components/profileSettings";
 import Create from "../routes/Create";
 
 
@@ -27,7 +27,7 @@ const AppRouter = ()=>(
                 <Route path="/create" element={<Create />}/>
                 <Route path="/NFT/:nftId" element={<Buynft />}/>
                 <Route path="/profile" element={<MyProfile />} />
-                <Route path="/profileSettings" element={<profileSettings />} />
+                <Route path="/profileSettings" element={<Profilesettings />} />
                 <Route path="*" element={<NotFoundPage />} />
                 
             </Routes>
