@@ -104,7 +104,7 @@ app.get('/getAllToken',async(req,res) =>{
 //         console.log(result);
 //         res.send('token transfered');
 //     });
-// })
+// }).
 
 app.listen('5000',()=>{
     console.log('server started on port 5000');
