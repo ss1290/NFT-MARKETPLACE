@@ -106,6 +106,23 @@ app.get('/getAllToken',async(req,res) =>{
 //     });
 // }).
 
+app.get('/tokenForSale/:tokenId', (req,res) =>{
+    let sql = `UPDATE Token  SET forSale = true WHERE tokenId = ${req.params.tokenId}`;
+    let query = db.query(sql,(err,result)=>{
+        if(err) throw err;
+        res.send('Successfully set to sale');
+   });
+})
+
+
+app.get('/removeTokenFromSale/:tokenId', (req,res) =>{
+    let sql = `UPDATE Token  SET forSale = false WHERE tokenId = ${req.params.tokenId}`;
+    let query = db.query(sql,(err,result)=>{
+        if(err) throw err;
+        res.send('Successfully remove from sale');
+   });
+})
+
 app.listen('5000',()=>{
     console.log('server started on port 5000');
 })
