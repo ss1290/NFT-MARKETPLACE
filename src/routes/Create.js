@@ -15,6 +15,9 @@ const jsonUrl = 'https://api.pinata.cloud/pinning/pinJSONToIPFS'
 
 const client = create('https://ipfs.infura.io:5001/api/v0')
 
+
+
+
 const Create = () => {
     const [tokenMinted, setTokenMinted] = useState(false);
     const [show, setShow] = useState(false);
