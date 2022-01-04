@@ -65,6 +65,7 @@ app.post('/mintToken',async(req,res) =>{
     });
 });
 
+
 app.get('/getUser/:address', async(req,res)=>{
     let sql = `SELECT * FROM User HAVING walletAddress = '${req.params.address}'`
      db.query(sql,(err,result)=>{
@@ -75,17 +76,6 @@ app.get('/getUser/:address', async(req,res)=>{
 })
 
 app.get('/getToken/:address',async(req,res) =>{
-
-    const searchItem =req.query.search
-    console.log(searchItem);
-    if(searchItem){
-        let sql = `SELECT * FROM Token WHERE currentOwner='${req.params.address}' OR itemName LIKE "${searchItem}%"`
-        db.query(sql,(err,result)=>{
-            if(err) throw err;
-            console.log(result);
-            res.send(result);
-        });
-    }else{
     let sql = `SELECT * FROM Token HAVING currentOwner='${req.params.address}'`
     console.log(req.params.address)
     db.query(sql,(err,result)=>{
@@ -93,27 +83,10 @@ app.get('/getToken/:address',async(req,res) =>{
         console.log(result);
         res.send(result);
     });
-}
 })
 
 app.get('/getAllToken',async(req,res) =>{
-    
     let sql = `SELECT * FROM Token `
-    db.query(sql,(err,result)=>{
-        if(err) throw err;
-        console.log(result);
-        res.send(result);
-    });
-})
-
-//search nft by name 
-
-app.get('/tokenSearch',async(req,res)=>{
-    const result = req.query.search;
-    console.log(result, "----")
-//     SELECT * FROM Customers
-// WHERE Country='Germany' AND City='Berlin'
-    let sql = `SELECT * FROM Token WHERE itemName LIKE '${result}%' OR tokenId ='${result}'`;
     db.query(sql,(err,result)=>{
         if(err) throw err;
         console.log(result);
@@ -132,24 +105,6 @@ app.get('/tokenSearch',async(req,res)=>{
 //         res.send('token transfered');
 //     });
 // })
-
-
-app.get('/setTokenForSale/:tokenId',async (req,res) =>{
-    let sql = `UPDATE Token  SET forSale = true WHERE tokenId =${req.params.tokenId}`;
-    let query = db.query(sql,(err,result)=>{
-        if(err) throw err;
-        res.send('Successfully set to sale');
-   });
-})
-
-app.get('/removeTokenFromSale/:tokenId',async (req,res) =>{
-    let sql = `UPDATE Token  SET forSale = true WHERE tokenId =${req.params.tokenId}`;
-    let query = db.query(sql,(err,result)=>{
-        if(err) throw err;
-        res.send('Remove Token from Sale');
-   });
-})
-
 
 app.listen('5000',()=>{
     console.log('server started on port 5000');
