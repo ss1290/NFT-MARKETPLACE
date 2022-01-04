@@ -1,0 +1,107 @@
+
+import { Button, Container, Card ,Row, Col } from "react-bootstrap";
+import {Link} from "react-router-dom";
+import React, {useState,useEffect } from "react";
+import axios from "axios";
+// import {Card,Button,Container,Row} from "react-bootstrap";
+
+
+const Home = () => {
+  let [allNft,setAllNft] = useState();
+ 
+    const getAllNft = () => {
+      const params = new URLSearchParams(window.location.search);
+      const searchData = params.get('search')
+      if(searchData ){
+        console.log("hello")
+      
+        axios.get(`http://localhost:5000/tokenSearch?search=${searchData}`).then((response) => {
+        setAllNft(response.data)
+      })
+      }
+    }
+
+    const ShowNft = ()=>{
+      return(
+<div>
+          <Container >
+            <Row>
+              {allNft.map((nft) => (
+                <Card className="nft-card" key={nft.tokenId} style={{ width: '30rem' }}>
+                  <Card.Img variant="top" src={nft.url} />
+                  <Card.Body className="card-body">
+                    <Card.Title><p>{nft.itemName}</p></Card.Title>
+                    <Button variant="primary">Description</Button>
+                  </Card.Body>
+                </Card>
+              ))}
+            </Row>
+          </Container>
+        </div>
+      );
+    }
+
+
+    const ShowHomePage = ()=>{
+      return(
+      
+        <div className="home-page">
+      
+     
+      
+      <Container>
+        <Row>
+          <Col>
+            <h1>Discover, collect, and sell extraordinary NFTs </h1>
+            <p>OpenMarket is the our first and largest NFT marketplace</p>
+            <Link to="/AllNFT"><Button className="button" variant="primary">Explore</Button></Link>
+            <Link to="/create"><Button className="button" variant="outline-primary">Create</Button></Link>
+            
+          </Col>
+          <Col>
+          <Link to="/Buynft">
+          <button>
+            <img  className="home-token" src='/img/home-token.jpg' height={200} width={200} />
+            </button>
+            </Link>
+          </Col>
+        </Row>
+      </Container>
+    </div>
+      );
+    }
+
+    useEffect(()=>{
+      getAllNft();
+    },[]);
+   
+    
+  return (
+<div> {allNft ? ShowNft() : ShowHomePage()}</div>
+   
+  
+  );
+}
+
+export default Home;
+
+// if(searchData ){
+//   console.log("hello")
+
+//   axios.get(`http://localhost:5000/tokenSearch?search=${searchData}`).then((response) => {
+//   setAllNft(response.data)
+// })
+// }else if(homeQuery){
+//   axios.get(`http://localhost:5000/tokenSearch?search=${homeQuery}`).then((response) => {
+//     setAllNft(response.data)
+//   })
+ 
+// }
+// axios.get(`http://localhost:5000/getAllToken`).then((response) => {
+//   setAllNft(response.data)
+// })
+
+// }
+// useEffect(()=>{
+// getAllNft();
+// },[])
