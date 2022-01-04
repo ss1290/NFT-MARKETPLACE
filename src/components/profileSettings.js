@@ -43,22 +43,13 @@ const Profilesettings = () => {
         )
     }
 
-    const getUserNFT = () => {
-        if (currentAccount) {
-            let account = currentAccount.slice(2,)
-            axios.get(`http://localhost:5000/getToken/${account}`).then((response) => {
-                console.log(response.data)
-                setUserNft(response.data);
-            })
-        }
-    }
-
     const getUserData = () => {
         if (currentAccount) {
             let account = currentAccount.slice(2,)
             axios.get(`http://localhost:5000/getUser/${account}`).then((response) => {
-                console.log(response.data)
-                setUserData(response.data);
+                if(response.data.length > 0){
+                    setUserData(response.data);
+                }
             })
         }
     }
@@ -117,7 +108,6 @@ const Profilesettings = () => {
         const loader = async () => {
             const account = await checkWalletIsConnected();
             setCurrentAccount(account);
-            getUserNFT();
             getUserData();
 
         }
