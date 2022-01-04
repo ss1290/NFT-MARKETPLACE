@@ -25,7 +25,7 @@ const AppRouter = ()=>(
                 <Route path="/MyNFT" element={<MyNFT />} />
                 <Route path="/Buynft" element={<Buynft/>}/>
                 <Route path="/create" element={<Create />}/>
-                <Route path="/NFT/:NFTname" element={<NFT />}/>
+                <Route path="/NFT/:nftId" element={<Buynft />}/>
                 <Route path="/profile" element={<MyProfile />} />
                 <Route path="/profileSettings" element={<profileSettings />} />
                 <Route path="*" element={<NotFoundPage />} />
