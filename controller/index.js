@@ -36,7 +36,7 @@ app.get('/web3Exists',async(req,res)=>{
         console.log(web3)
         res.send('ethereum api fetched!');
     }
-})
+}) 
 
 app.get('/contract',async(req,res)=>{
     if(contract) {
@@ -82,6 +82,16 @@ app.get('/getToken/:address',async(req,res) =>{
         if(err) throw err;
         console.log(result);
         res.send(result);
+    });
+})
+
+app.patch('/updateProfile/:address',async(req,res)=>{
+    let update = req.body;
+    let sql = `UPDATE User SET ?  WHERE walletAddress='${req.params.address}'`;
+    db.query(sql,update,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send('profile updated');
     });
 })
 
