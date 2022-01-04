@@ -4,6 +4,7 @@ import { checkWalletIsConnected, connectWalletHandler } from "../components/Load
 import axios from "axios";
 import AllNFT from './AllNFT';
 import "../styles/myNft.css"
+
 const MyNFT = () => {
     let [currentAccount, setCurrentAccount] = useState(null);
     let [userNft, setUserNft] = useState(null);
@@ -36,15 +37,17 @@ const MyNFT = () => {
             {userNft && <div>
                 <Container >
                     <Row>
-                        {userNft.map((nft) =>(
+                        {userNft.map((nft) =>{
+                            let link = `/NFT/${nft.tokenId}`
+                            return(
                             <Card className="nft-card" key={nft.tokenId} style={{ width: '30rem' }}>
                                 <Card.Img variant="top" src={nft.url} />
                                 <Card.Body className="card-body">
                                     <Card.Title><p>{nft.itemName}</p></Card.Title>
-                                    <Button variant="primary">Description</Button>
+                                    <Card.Link style={{textDecoration:'none'}} href={link}><Button variant="primary">Description</Button></Card.Link>
                                 </Card.Body>
                             </Card>
-                        ))}
+                        )})}
                     </Row>
                 </Container>
 
