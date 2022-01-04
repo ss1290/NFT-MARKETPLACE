@@ -77,7 +77,11 @@ export const tokenUriHandler = async (tokenId) => {
       let uri = await nftContract.tokenURI(id);
       console.log("uri",uri)
       let owner = await nftContract.ownerOf(id);
-      return {address,uri,owner};
+      let saleStatus = await nftContract.isTokenForSale(id);
+      let tokenPrice = await nftContract.getTokenPrice(id);
+      let value = parseInt(tokenPrice._hex.slice(2,))
+      console.log("price",value)
+      return {address,uri,owner,saleStatus,value};
       
     } else {
       console.log("Ethereum object does not exist");

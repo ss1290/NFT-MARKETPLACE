@@ -96,7 +96,7 @@ app.patch('/updateProfile/:address',async(req,res)=>{
 })
 
 app.get('/getAllToken',async(req,res) =>{
-    let sql = `SELECT * FROM Token `
+    let sql = `SELECT * FROM Token WHERE forSale=true `
     db.query(sql,(err,result)=>{
         if(err) throw err;
         console.log(result);
