@@ -69,7 +69,7 @@ const Profilesettings = () => {
         <div>
 
 
-            <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" src="https://i.imgur.com/RqGUtoW.png" width="150" /><span className="font-weight-bold"><h2>{userData[0].name}</h2></span><span className="text-black-50"><h2>{currentAccount}</h2></span><span></span></div>
+            <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" src="https://i.imgur.com/RqGUtoW.png" width="150" /><span className="font-weight-bold"><h2></h2></span><span className="text-black-50"><h2>{currentAccount}</h2></span><span></span></div>
 
 
             <h3 className="text-center">Edit Profile</h3>

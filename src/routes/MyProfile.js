@@ -4,7 +4,6 @@ import {Card,Button,Container,Row} from "react-bootstrap"
 import axios from "axios";
 import '../components/profile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AllNFT from './AllNFT';
 import { checkWalletIsConnected, connectWalletHandler } from "../components/LoadBlockchain"
 const MyProfile = () => {
     let [currentAccount, setCurrentAccount] = useState(null);
