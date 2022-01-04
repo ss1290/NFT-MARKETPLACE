@@ -75,6 +75,17 @@ app.get('/getUser/:address', async(req,res)=>{
 })
 
 app.get('/getToken/:address',async(req,res) =>{
+
+    const searchItem =req.query.search
+    console.log(searchItem);
+    if(searchItem){
+        let sql = `SELECT * FROM Token WHERE currentOwner='${req.params.address}' OR itemName LIKE "${searchItem}%"`
+        db.query(sql,(err,result)=>{
+            if(err) throw err;
+            console.log(result);
+            res.send(result);
+        });
+    }else{
     let sql = `SELECT * FROM Token HAVING currentOwner='${req.params.address}'`
     console.log(req.params.address)
     db.query(sql,(err,result)=>{
@@ -82,6 +93,7 @@ app.get('/getToken/:address',async(req,res) =>{
         console.log(result);
         res.send(result);
     });
+}
 })
 
 app.get('/getAllToken',async(req,res) =>{
