@@ -3,7 +3,7 @@ const Web3 = require('web3');
 const myContract = require('../src/abis/OpenMarket.json')
 const mysql = require('mysql');
 const cors = require('cors')
- require('./databaseCreation.js')
+ 
 
 //Create connection
 const db = mysql.createConnection({ 
@@ -152,6 +152,17 @@ app.patch('/tokenForSale/:tokenId/:price', (req,res) =>{
    });
 })
 
+app.get('/tokenSearch',async(req,res)=>{
+    const result = req.query.search;
+    console.log(result, "----")
+
+    let sql = `SELECT * FROM Token WHERE itemName LIKE '${result}%' OR tokenId ='${result}'`;
+    db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+})
 
 app.patch('/removeTokenFromSale/:tokenId', (req,res) =>{
     let sql = `UPDATE Token  SET forSale = false WHERE tokenId = ${req.params.tokenId}`;
