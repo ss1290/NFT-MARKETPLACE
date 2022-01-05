@@ -3,6 +3,7 @@ const Web3 = require('web3');
 const myContract = require('../src/abis/OpenMarket.json')
 const mysql = require('mysql');
 const cors = require('cors')
+ require('./databaseCreation.js')
 
 //Create connection
 const db = mysql.createConnection({ 
@@ -75,6 +76,9 @@ app.get('/getUser/:address', async(req,res)=>{
 })
 
 app.get('/getToken/:address',async(req,res) =>{
+
+ 
+    
     let sql = `SELECT * FROM Token HAVING currentOwner='${req.params.address}'`
     console.log(req.params.address)
     db.query(sql,(err,result)=>{
@@ -82,6 +86,27 @@ app.get('/getToken/:address',async(req,res) =>{
         console.log(result);
         res.send(result);
     });
+
+})
+
+app.get('/searchMynft/:address',async(req,res)=>{
+
+    let result = req.query.search ;
+
+    if(result)
+    {
+        
+        let sql1= `SELECT * FROM Token WHERE itemName LIKE '${result}%' AND currentOwner='${req.params.address}' `
+        console.log(result)
+        db.query(sql1,(err,result)=>{
+            if(err) throw err;
+            console.log(result);
+            res.send(result);
+        });
+
+    }
+
+
 })
 
 app.get('/getAllToken',async(req,res) =>{
