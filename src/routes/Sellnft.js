@@ -33,8 +33,13 @@ const Sellnft = () => {
       data["nftOwner"] = tokenUri.owner;
       data["forSale"] = tokenUri.saleStatus;
       axios.get(`http://localhost:5000/getUser/${data.nftOwner.slice(2,)}`).then((response) => {
-        console.log(response.data[0].name)
-        data['tokenOwnerName'] = response.data[0].name;
+        console.log("User",response.data)
+        if(response.data.length > 0 ){
+          data['tokenOwnerName'] = response.data[0].name;
+        }else{
+          data['tokenOwnerName'] = "Anonymous";
+        }
+        
         setNftData(data);
         setSellStatus(data.forSale);
         setNftPrice(tokenUri.value)
