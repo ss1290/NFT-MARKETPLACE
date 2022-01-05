@@ -49,6 +49,13 @@ const Buynft = () => {
     console.log("button:")
      let id = params.nftId;
      let transaction = await buyNftHandler(id);
+     let previousOwner = nftData.nftOwner.slice(2,)
+     let currentOwner =  transaction.from.slice(2,)
+     console.log(transaction)
+
+     axios.patch(`http://localhost:5000/transfer/id/${previousOwner}/${currentOwner}`).then((res)=>{
+        alert('token Bought')
+     })
    
    }
 
@@ -68,6 +75,10 @@ const Buynft = () => {
  
   const forSaleComponent = () => (
     <div>
+    <div className='btn1'>
+          <Button onClick={buyButton} variant="primary" size="lg" style={{ width: "117px", height: "30px", borderRadius: "12px" }}>
+            <AiOutlineWallet />Buy</Button>
+        </div>
       <Container >
         <Row>
           <Col>

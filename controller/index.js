@@ -131,10 +131,9 @@ app.get('/getAllToken',async(req,res) =>{
 })
 
 
-app.patch('/transfer/:nftId',async(req,res) =>{
-    const addresses = await web3.eth.getAccounts();
-    console.log(updateList);
-    let sql = `UPDATE Token SET previousOwner = '${transfer.transferFrom}', currentOwner = '${transfer.transferTo}' WHERE tokenId = ${transfer.tokenId}`;
+app.patch('/transfer/:nftId/:preowner/:postowner',async(req,res) =>{
+   
+    let sql = `UPDATE Token SET previousOwner = '${req.params.preowner}', currentOwner = '${req.params.postowner}' WHERE tokenId = ${req.params.nftId}`;
     let query = db.query(sql,(err,result)=>{
         if(err) throw err;
         console.log(result);
