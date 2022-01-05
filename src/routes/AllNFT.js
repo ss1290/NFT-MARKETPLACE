@@ -37,7 +37,7 @@ const AllNFT = ({history}) => {
                 <Card.Img variant="top" src={nft.url} />
                 <Card.Body className="card-body">
                   <Card.Title><p>{nft.itemName}</p></Card.Title>
-                  <Button variant="primary">Description</Button>
+                  <Button variant="primary">Buy</Button>
                 </Card.Body>
               </Card>
             ))}

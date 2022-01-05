@@ -32,14 +32,15 @@ const Navbar = () => {
         }>
           <ul className="nav">
             <li>
-              <NavLink to="/AllNFT" className={({ isActive }) => (isActive ? 'active' : 'inactive')}>Explore</NavLink>
+              <NavLink to="/AllNFT" className={({ isActive }) => (isActive ? 'active' : 'inactive')}>Explore&nbsp;</NavLink>
             </li>
             <li>
-              <NavLink to="/MyNFT" className={({ isActive }) => (isActive ? 'active' : 'inactive')}>MyNFT</NavLink>
+              <NavLink to="/MyNFT" className={({ isActive }) => (isActive ? 'active' : 'inactive')}>MyNFTs&nbsp;</NavLink>
             </li>
             <li>
-              <NavLink to="/Create" className={({ isActive }) => (isActive ? 'active' : 'inactive')}>Create</NavLink>
+              <NavLink to="/Create" className={({ isActive }) => (isActive ? 'active' : 'inactive')}>Create&nbsp;</NavLink>
             </li>
+            
             <li>
               <NavLink to="/profile" className={({ isActive }) => (isActive ? 'active' : 'inactive')}>Profile</NavLink>
             </li>
