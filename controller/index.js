@@ -34,6 +34,7 @@ const contract = new web3.eth.Contract(myContract.abi,deployedNetwork.address);
 console.log(contract);
 
 
+
 app.get('/web3Exists',async(req,res)=>{
     if(web3){
         console.log(web3)
@@ -69,8 +70,8 @@ app.post('/mintToken',async(req,res) =>{
 });
 
 
-app.get('/getUser/:email', async(req,res)=>{
-    let sql = `SELECT * FROM User HAVING email = '${req.params.email}'`
+app.get('/getUser/:address', async(req,res)=>{
+    let sql = `SELECT * FROM User HAVING walletAddress = '${req.params.address}'`
      db.query(sql,(err,result)=>{
         if(err) throw err;
         console.log(result);
@@ -107,17 +108,28 @@ app.get('/getAllToken',async(req,res) =>{
     });
 })
 
+app.get('/tokenSearch',async(req,res)=>{
+    const result = req.query.search;
+    console.log(result, "----")
 
-// app.get('/transfer',async(req,res) =>{
-//     const addresses = await web3.eth.getAccounts();
-//     console.log(updateList);
-//     let sql = `UPDATE Token SET previousOwner = '${transfer.transferFrom}', currentOwner = '${transfer.transferTo}' WHERE tokenId = ${transfer.tokenId}`;
-//     let query = db.query(sql,(err,result)=>{
-//         if(err) throw err;
-//         console.log(result);
-//         res.send('token transfered');
-//     });
-// }).
+    let sql = `SELECT * FROM Token WHERE itemName LIKE '${result}%' OR tokenId ='${result}'`;
+    db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send('data fetched successfully');
+        res.send(result);
+    });
+})
+
+app.get('/transfer',async(req,res) =>{
+
+    let sql = `UPDATE Token SET previousOwner = '${req.body.transferFrom}', currentOwner = '${req.body.transferTo}' WHERE tokenId = ${transfer.tokenId}`;
+    let query = db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send('token transfered');
+    });
+})
 
 app.patch('/tokenForSale/:tokenId/:price', (req,res) =>{
     let sql = `UPDATE Token  SET forSale = true ,tokenPrice ='${req.params.price}' WHERE tokenId = ${req.params.tokenId}`;

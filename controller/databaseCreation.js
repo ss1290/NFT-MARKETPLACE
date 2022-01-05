@@ -20,7 +20,7 @@ db.connect((err)=>{
 //     console.log(result);
 // })
 
-let sql2 = 'CREATE TABLE User(walletAddress VARCHAR(255), name VARCHAR(255),bio VARCHAR(255),email VARCHAR(255),insta VARCHAR(255),twitter VARCHAR(255),website VARCHAR(255), PRIMARY KEY (email)';
+let sql2 = 'CREATE TABLE User(walletAddress VARCHAR(255), name VARCHAR(255),bio VARCHAR(255),email VARCHAR(255),insta VARCHAR(255),twitter VARCHAR(255),website VARCHAR(255), PRIMARY KEY (walletAddress))';
 db.query(sql2, (err,result)=>{
     if(err) throw err;
     console.log(result);
