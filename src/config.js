@@ -1,3 +1,5 @@
-import contract from "./abis/OpenMarket.json"
-export const address = "0x8ee7BD524576a423bbc4111f05De31399eE966d3";
+import contract from "./abis/OpenMarket.json";
+const deployedNetwork = contract.networks["5777"];
+
+export const address = deployedNetwork.address;
 export const abi = contract.abi;

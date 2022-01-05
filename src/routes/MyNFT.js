@@ -34,24 +34,28 @@ const MyNFT = () => {
               axios.get(`http://localhost:5000/searchMynft/${account}?search=${searchData}`).then((response) => {
                 setUserNft(response.data)
             })
-            }else{
-                axios.get(`http://localhost:5000/getToken/${account}`).then((response) => {
+            }
+           
+            else{
+            axios.get(`http://localhost:5000/getToken/${account}`).then((response) => {
                 setUserNft(response.data);
             })
             }
            
             
         }
+        }
 
-    }
+    
     const showUserNFT = () => (
         <div>
             <h1>My collection</h1>
+            {console.log(userNft)}
             {userNft && <div>
                 <Container >
                     <Row>
                         {userNft.map((nft) =>{
-                            let link = `/NFT/${nft.tokenId}`
+                            let link = `/Sellnft/${nft.tokenId}`
                             return(
                             <Card className="nft-card" key={nft.tokenId} style={{ width: '30rem' }}>
                                 <Card.Img variant="top" src={nft.url} />
@@ -82,6 +86,6 @@ const MyNFT = () => {
             {currentAccount ? showUserNFT() : connectWalletButton()}
         </div>
     );
-}
 
+    }
 export default MyNFT;

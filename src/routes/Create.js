@@ -67,7 +67,7 @@ const Create = () => {
             }).then(async(response) => {
                 setJsonCid(response.data.IpfsHash)
                 let txn = await mintToken(response.data.IpfsHash, "https://gateway.pinata.cloud/ipfs/");
-                data["tokenCreator"] = txn.to.slice(2,);
+                data["tokenCreator"] = txn.from.slice(2,);
                 data["currentOwner"] = txn.from.slice(2,);
                 data["previousOwner"] = "0000000000000000000000000000000000000000";
                 axios.post('http://localhost:5000/mintToken', data).then((response) => {
@@ -89,6 +89,7 @@ const Create = () => {
         data["BlockChain"] = "Ethereum";
         data["tokenCreator"] = currentAccount;
         data["forSale"] = false;
+        // data[transactionHistory] = [];
         await jsonHandler(data);
     }
     const connectWalletButton = () => {
