@@ -2,7 +2,9 @@ const express = require('express');
 const Web3 = require('web3');
 const myContract = require('../src/abis/OpenMarket.json')
 const mysql = require('mysql');
-const cors = require('cors')
+const cors = require('cors');
+
+
 
 //Create connection
 const db = mysql.createConnection({ 
@@ -30,6 +32,7 @@ const web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
 const deployedNetwork = myContract.networks["5777"];
 const contract = new web3.eth.Contract(myContract.abi,deployedNetwork.address);
 console.log(contract);
+
 
 app.get('/web3Exists',async(req,res)=>{
     if(web3){
@@ -66,8 +69,8 @@ app.post('/mintToken',async(req,res) =>{
 });
 
 
-app.get('/getUser/:address', async(req,res)=>{
-    let sql = `SELECT * FROM User HAVING walletAddress = '${req.params.address}'`
+app.get('/getUser/:email', async(req,res)=>{
+    let sql = `SELECT * FROM User HAVING email = '${req.params.email}'`
      db.query(sql,(err,result)=>{
         if(err) throw err;
         console.log(result);
