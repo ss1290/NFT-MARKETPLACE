@@ -45,6 +45,7 @@ const MyNFT = () => {
     const showUserNFT = () => (
         <div>
             <h1>My collection</h1>
+            {console.log(userNft)}
             {userNft && <div>
                 <Container >
                     <Row>

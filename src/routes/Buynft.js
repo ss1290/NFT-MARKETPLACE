@@ -47,9 +47,9 @@ const Buynft = () => {
   function buyButton(){
     axios.patch(`http://localhost:5000/transfer/${params.nftId}`).then((response) => {
         console.log(response.data[0].name)
-        setNftData(data);
-        setBuyStatus(data.Buy);
-        setNftPrice(tokenUri.value)
+        // setNftData(data);
+        // setBuyStatus(data.Buy);
+        // setNftPrice(tokenUri.value)
       })
       
   }
