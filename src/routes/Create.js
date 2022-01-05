@@ -70,7 +70,6 @@ const Create = () => {
                 data["tokenCreator"] = txn.to.slice(2,);
                 data["currentOwner"] = txn.from.slice(2,);
                 data["previousOwner"] = "0000000000000000000000000000000000000000";
-                data["forSale"] = false;
                 axios.post('http://localhost:5000/mintToken', data).then((response) => {
                 })
                 setTokenMinted(true);
@@ -86,6 +85,10 @@ const Create = () => {
         data['itemName'] = e.target.item.value.trim();
         data["description"] = e.target.description.value;
         data["url"] = fileUrl;
+        data["TokenStandard"] = "ERC-721";
+        data["BlockChain"] = "Ethereum";
+        data["tokenCreator"] = currentAccount;
+        data["forSale"] = false;
         await jsonHandler(data);
     }
     const connectWalletButton = () => {
@@ -148,7 +151,8 @@ const Create = () => {
                 <Modal.Body className="spinner">
                     {tokenMinted == true ? <div>
                         <Link to="/MyNFT"><Button variant="success" onClick={handleClose}>Success</Button></Link>
-                    </div> : <Spinner animation="grow" variant="primary" />}
+                      
+                    </div> : <Spinner animation="grow" variant="primary"   />}
                 </Modal.Body>
             </Modal>
             <div className="create-page-document">
@@ -157,6 +161,7 @@ const Create = () => {
         </div>
     )
 }
+
 
 
 export default Create;

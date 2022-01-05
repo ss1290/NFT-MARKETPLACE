@@ -4,7 +4,6 @@ import {Card,Button,Container,Row} from "react-bootstrap"
 import axios from "axios";
 import '../components/profile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AllNFT from './AllNFT';
 import { checkWalletIsConnected, connectWalletHandler } from "../components/LoadBlockchain"
 const MyProfile = () => {
     let [currentAccount, setCurrentAccount] = useState(null);
@@ -59,7 +58,7 @@ const MyProfile = () => {
             <div className="d-flex justify-content-center">
                 <div className="card-body little-profile text-center">
                     <div className="pro-img"><img src="https://i.imgur.com/RqGUtoW.png" alt="user" /></div>
-                    <h3> {userData ? userData[0].name:"Unnamed"}</h3>
+                    <h3> {userData ? userData[0].name :"Un-named"}</h3>
                     <h3 className="m-b-0 font-light">{currentAccount}</h3>
                     <h3 className="m-b-0 font-light">{userData ? userData[0].email:"Email"}</h3>
                 </div>

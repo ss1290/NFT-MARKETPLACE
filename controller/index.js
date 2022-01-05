@@ -36,7 +36,7 @@ app.get('/web3Exists',async(req,res)=>{
         console.log(web3)
         res.send('ethereum api fetched!');
     }
-})
+}) 
 
 app.get('/contract',async(req,res)=>{
     if(contract) {
@@ -65,6 +65,7 @@ app.post('/mintToken',async(req,res) =>{
     });
 });
 
+
 app.get('/getUser/:address', async(req,res)=>{
     let sql = `SELECT * FROM User HAVING walletAddress = '${req.params.address}'`
      db.query(sql,(err,result)=>{
@@ -75,17 +76,6 @@ app.get('/getUser/:address', async(req,res)=>{
 })
 
 app.get('/getToken/:address',async(req,res) =>{
-
-    const searchItem =req.query.search
-    console.log(searchItem);
-    if(searchItem){
-        let sql = `SELECT * FROM Token WHERE currentOwner='${req.params.address}' OR itemName LIKE "${searchItem}%"`
-        db.query(sql,(err,result)=>{
-            if(err) throw err;
-            console.log(result);
-            res.send(result);
-        });
-    }else{
     let sql = `SELECT * FROM Token HAVING currentOwner='${req.params.address}'`
     console.log(req.params.address)
     db.query(sql,(err,result)=>{
@@ -93,34 +83,58 @@ app.get('/getToken/:address',async(req,res) =>{
         console.log(result);
         res.send(result);
     });
-}
+})
+
+app.patch('/updateProfile/:address',async(req,res)=>{
+    let update = req.body;
+    let sql = `UPDATE User SET ?  WHERE walletAddress='${req.params.address}'`;
+    db.query(sql,update,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send('profile updated');
+    });
 })
 
 app.get('/getAllToken',async(req,res) =>{
-    
-    let sql = `SELECT * FROM Token `
+    let sql = `SELECT * FROM Token WHERE forSale=true `
     db.query(sql,(err,result)=>{
         if(err) throw err;
         console.log(result);
         res.send(result);
     });
 })
-
-//search nft by name 
 
 app.get('/tokenSearch',async(req,res)=>{
     const result = req.query.search;
     console.log(result, "----")
-//     SELECT * FROM Customers
-// WHERE Country='Germany' AND City='Berlin'
+
     let sql = `SELECT * FROM Token WHERE itemName LIKE '${result}%' OR tokenId ='${result}'`;
     db.query(sql,(err,result)=>{
         if(err) throw err;
         console.log(result);
+        res.send('data fetched successfully');
         res.send(result);
     });
 })
+app.get('/searchMynft/:address',async(req,res)=>{
 
+    let result = req.query.search ;
+
+    if(result)
+    {
+        
+        let sql1= `SELECT * FROM Token WHERE itemName LIKE '${result}%' AND currentOwner='${req.params.address}' `
+        console.log(result)
+        db.query(sql1,(err,result)=>{
+            if(err) throw err;
+            console.log(result);
+            res.send(result);
+        });
+
+    }
+
+
+})
 
 // app.get('/transfer',async(req,res) =>{
 //     const addresses = await web3.eth.getAccounts();
@@ -131,25 +145,24 @@ app.get('/tokenSearch',async(req,res)=>{
 //         console.log(result);
 //         res.send('token transfered');
 //     });
-// })
+// }).
 
-
-app.get('/setTokenForSale/:tokenId',async (req,res) =>{
-    let sql = `UPDATE Token  SET forSale = true WHERE tokenId =${req.params.tokenId}`;
+app.patch('/tokenForSale/:tokenId/:price', (req,res) =>{
+    let sql = `UPDATE Token  SET forSale = true ,tokenPrice ='${req.params.price}' WHERE tokenId = ${req.params.tokenId}`;
     let query = db.query(sql,(err,result)=>{
         if(err) throw err;
         res.send('Successfully set to sale');
    });
 })
 
-app.get('/removeTokenFromSale/:tokenId',async (req,res) =>{
-    let sql = `UPDATE Token  SET forSale = true WHERE tokenId =${req.params.tokenId}`;
+
+app.patch('/removeTokenFromSale/:tokenId', (req,res) =>{
+    let sql = `UPDATE Token  SET forSale = false WHERE tokenId = ${req.params.tokenId}`;
     let query = db.query(sql,(err,result)=>{
         if(err) throw err;
-        res.send('Remove Token from Sale');
+        res.send('Successfully remove from sale');
    });
 })
-
 
 app.listen('5000',()=>{
     console.log('server started on port 5000');

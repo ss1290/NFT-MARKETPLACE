@@ -1,9 +1,9 @@
-import { useEffect, useState, } from 'react';
+import { useEffect, useState } from 'react';
 import contract from '../abis/OpenMarket.json';
 import {useNavigate} from "react-router-dom"
-import { ethers} from 'ethers';
+import { ethers } from 'ethers';
 import {address,abi} from "../config"; 
-import {BigNumber} from "bignumber.js";
+import BigNumber from "bignumber.js"
 
 export const checkWalletIsConnected = async () => {
   const { ethereum } = window;
@@ -71,11 +71,41 @@ export const tokenUriHandler = async (tokenId) => {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
       const nftContract = new ethers.Contract(address, abi, signer);
-      let id = (10).toString(16);
+      let id = "0x"+(tokenId).toString(16);
+
       console.log(id);
-      // let nftTxn = await nftContract.tokenURI();
-      // console.log(nftTxn)
+      let uri = await nftContract.tokenURI(id);
+      console.log("uri",uri)
+      let owner = await nftContract.ownerOf(id);
+      let saleStatus = await nftContract.isTokenForSale(id);
+      let tokenPrice = await nftContract.getTokenPrice(id);
+      let value = parseInt(tokenPrice._hex.slice(2,))
+      console.log("price",value)
+      return {address,uri,owner,saleStatus,value};
       
+    } else {
+      console.log("Ethereum object does not exist");
+    }
+
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const sellTokenHandler = async (tokenId,price) => {
+  try {
+    const { ethereum } = window;
+
+    if (ethereum) {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+      const nftContract = new ethers.Contract(address, abi, signer);
+      let id = "0x"+(tokenId).toString(16);
+      let value = "0x"+(price).toString(16);
+      let nftTxn = await nftContract.setTokenForSale(id,value);
+      await nftTxn.wait();
+      console.log(`token set for sale`);
+      return nftTxn; 
     } else {
       console.log("Ethereum object does not exist");
     }
@@ -93,6 +123,7 @@ export const mintNftHandler = async (tokenURI,baseURI) => {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
       const nftContract = new ethers.Contract(address, abi, signer);
+      console.log(nftContract)
 
       console.log("Initialize payment");
       let nftTxn = await nftContract.mint(tokenURI,baseURI);
