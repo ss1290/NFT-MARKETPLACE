@@ -47,9 +47,9 @@ const Buynft = () => {
   function buyButton(){
     axios.patch(`http://localhost:5000/transfer/${params.nftId}`).then((response) => {
         console.log(response.data[0].name)
-        setNftData(data);
-        setBuyStatus(data.Buy);
-        setNftPrice(tokenUri.value)
+        // setNftData(data);
+        // setBuyStatus(data.Buy);
+        // setNftPrice(tokenUri.value)
       })
       
   }
@@ -70,17 +70,7 @@ const Buynft = () => {
       </Card.Body>
     </Card>
   )
-  const setSaleCard = () => (
-    <Card className='cards' style={{ width: '45rem' }}>
-      <Card.Header as="h3" >Sell token</Card.Header>
-      <Card.Body >
-        <Card.Title as="h4">Currently token is not for sale</Card.Title>
-        <div className='btn1'>
-
-        </div>
-      </Card.Body>
-    </Card>
-  )
+ 
   const forSaleComponent = () => (
     <div>
       <Container >
@@ -178,17 +168,13 @@ const Buynft = () => {
     </div>
   )
 
-  const sellNftButton = () => (
-    <div>
-     {forSaleComponent()}
-    </div>
-  )
+
   useEffect(() => {
     getTokenUri();
   }, [])
   return (
     <div className="home-page" >
-      {nftData ? sellNftButton() : ''}
+      {nftData ? forSaleComponent() : ''}
 
 
     </div>

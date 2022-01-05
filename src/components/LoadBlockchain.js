@@ -74,7 +74,7 @@ export const tokenUriHandler = async (tokenId) => {
       let id = "0x"+(tokenId).toString(16);
 
       console.log(id);
-      let uri = await nftContract.tokenURI(id);
+      let uri = await nftContract.tokenURI("0x1");
       console.log("uri",uri)
       let owner = await nftContract.ownerOf(id);
       let saleStatus = await nftContract.isTokenForSale(id);
