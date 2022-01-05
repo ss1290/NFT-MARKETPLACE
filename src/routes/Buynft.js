@@ -20,7 +20,7 @@ const Buynft = () => {
   let params = useParams();
   const getTokenUri = async()=>{
     let tokenUri = await tokenUriHandler();
-    console.log(tokenUri)
+    console.log(tokenUri);
   }
   useEffect(()=>{
     getTokenUri();
