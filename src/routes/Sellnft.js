@@ -53,7 +53,7 @@ const Sellnft = () => {
     let txn = await sellTokenHandler(params.nftId, price);
     axios.patch(`http://localhost:5000/tokenForSale/${params.nftId}/${price}`).then((response) => {
       console.log(response);
-      let data = nftData
+      let data = nftData;
       data['forSale'] = true;
       data['tokenPrice'] = price;
       setNftData(data)
