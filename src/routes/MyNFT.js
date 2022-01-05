@@ -31,20 +31,23 @@ const MyNFT = () => {
             if(searchData ){
               console.log("hello")
             
-              axios.get(`http://localhost:5000/getToken/${account}?search=${searchData}`).then((response) => {
+              axios.get(`http://localhost:5000/searchMynft/${account}?search=${searchData}`).then((response) => {
                 setUserNft(response.data)
             })
             }
-            // let account = currentAccount.slice(2,)
+           
+            else{
             axios.get(`http://localhost:5000/getToken/${account}`).then((response) => {
                 setUserNft(response.data);
             })
+        }
         }
 
     }
     const showUserNFT = () => (
         <div>
             <h1>My collection</h1>
+            {console.log(userNft)}
             {userNft && <div>
                 <Container >
                     <Row>
