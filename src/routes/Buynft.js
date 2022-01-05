@@ -11,7 +11,7 @@ import { BsClock } from 'react-icons/bs';
 import { CgDetailsMore } from 'react-icons/cg';
 import "../styles/buynft.css";
 import axios from "axios";
-import { tokenUriHandler, sellTokenHandler,buyNftHandler } from "../components/LoadBlockchain";
+import { tokenUriHandler, sellTokenHandler, buyNftHandler } from "../components/LoadBlockchain";
 
 
 
@@ -35,8 +35,12 @@ const Buynft = () => {
       data["nftOwner"] = tokenUri.owner;
       data["Buy"] = tokenUri.BuyStatus;
       axios.get(`http://localhost:5000/getUser/${data.nftOwner.slice(2,)}`).then((response) => {
-        console.log(response.data[0].name)
-        data['tokenOwnerName'] = response.data[0].name;
+        console.log(response.data)
+        if(response.data.length > 0 ){
+          data['tokenOwnerName'] = response.data[0].name;
+        }else{
+          data['tokenOwnerName'] = "Anonymous";
+        }
         setNftData(data);
         setBuyStatus(data.Buy);
         setNftPrice(tokenUri.value)
@@ -45,19 +49,20 @@ const Buynft = () => {
     })
   }
 
-   const buyButton = async () => {
+  const buyButton = async () => {
     console.log("button:")
-     let id = params.nftId;
-     let transaction = await buyNftHandler(id);
-     let previousOwner = nftData.nftOwner.slice(2,)
-     let currentOwner =  transaction.from.slice(2,)
-     console.log(transaction)
+    let id = params.nftId;
+    let transaction = await buyNftHandler(id);
+    console.log(transaction)
+    let previousOwner = nftData.nftOwner.slice(2,)
+    let currentOwner = transaction.from.slice(2,)
+    console.log(transaction)
 
-     axios.patch(`http://localhost:5000/transfer/id/${previousOwner}/${currentOwner}`).then((res)=>{
-        alert('token Bought')
-     })
-   
-   }
+    axios.patch(`http://localhost:5000/transfer/${id}/${previousOwner}/${currentOwner}`).then((res) => {
+      alert('token Bought')
+    })
+
+  }
 
 
 
@@ -67,18 +72,16 @@ const Buynft = () => {
       <Card.Body >
         <Card.Title as="h4">Current price</Card.Title>
         <Card.Text as="h1" ><SiEthereum style={{ color: 'black' }} />{nftPrice}</Card.Text>
-
-   
       </Card.Body>
     </Card>
   )
- 
+
   const forSaleComponent = () => (
     <div>
-    <div className='btn1'>
-          <Button onClick={buyButton} variant="primary" size="lg" style={{ width: "117px", height: "30px", borderRadius: "12px" }}>
-            <AiOutlineWallet />Buy</Button>
-        </div>
+      <div className='btn1'>
+        <Button onClick={buyButton} variant="primary" size="lg" style={{ width: "117px", height: "30px", borderRadius: "12px" }}>
+          <AiOutlineWallet />Buy</Button>
+      </div>
       <Container >
         <Row>
           <Col>
@@ -87,9 +90,9 @@ const Buynft = () => {
               <p>owned by:  <Card.Link style={{ textDecoration: 'none' }} href="#">{nftData ? nftData.tokenOwnerName : "Unknown"}</Card.Link></p>
             </div>
             <div className='btn1'>
-          <Button onClick={buyButton} variant="primary" size="lg" style={{ width: "117px", height: "30px", borderRadius: "12px" }}>
-            <AiOutlineWallet />Buy</Button>
-        </div>
+              <Button onClick={buyButton} variant="primary" size="lg" style={{ width: "117px", height: "30px", borderRadius: "12px" }}>
+                <AiOutlineWallet />Buy</Button>
+            </div>
           </Col>
           <Col>
             <div className='title'>

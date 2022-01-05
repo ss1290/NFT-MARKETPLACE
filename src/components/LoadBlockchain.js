@@ -50,12 +50,12 @@ export const buyNftHandler = async(tokenId) => {
       let id = "0x"+(tokenId).toString(16);
 
       console.log("Initialize payment");
-      let nftTxn =  nftContract.buyNFT(id);
+      let nftTxn =  await nftContract.buyNFT(id);
 
       console.log("Mining... please wait");
-       nftTxn.wait();
+      await nftTxn.wait();
 
-      console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
+      console.log("From load block",nftTxn);
       return nftTxn;
     }else{
       console.log("Ethereum object does not exist");
@@ -64,7 +64,48 @@ export const buyNftHandler = async(tokenId) => {
     
   }
 }
+export const priceChangeHandler = async(tokenId,price)=>{
+  try {
+    const { ethereum } = window;
 
+    if (ethereum) {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+      const nftContract = new ethers.Contract(address, abi, signer);
+      let id = "0x"+(tokenId).toString(16);
+      let value = "0x"+(price).toString(16);
+      console.log(id);
+      let txn = await nftContract.changeTokenPrice(id,value);
+      await txn.wait();
+      return txn;
+    } else {
+      console.log("Ethereum object does not exist");
+    }
+
+  } catch (err) {
+    console.log(err);
+  }
+}
+export const removeFromSaleHandler = async(tokenId)=>{
+  try {
+    const { ethereum } = window;
+
+    if (ethereum) {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+      const nftContract = new ethers.Contract(address, abi, signer);
+      let id = "0x"+(tokenId).toString(16);
+      let txn = await nftContract.removeTokenFromSale(id);
+      await txn.wait();
+      return txn;
+    } else {
+      console.log("Ethereum object does not exist");
+    }
+
+  } catch (err) {
+    console.log(err);
+  }
+}
 export const tokenUriHandler = async (tokenId) => {
   try {
     const { ethereum } = window;
@@ -74,9 +115,8 @@ export const tokenUriHandler = async (tokenId) => {
       const signer = provider.getSigner();
       const nftContract = new ethers.Contract(address, abi, signer);
       let id = "0x"+(tokenId).toString(16);
-
       console.log(id);
-      let uri = await nftContract.tokenURI("0x1");
+      let uri = await nftContract.tokenURI(id);
       console.log("uri",uri)
       let owner = await nftContract.ownerOf(id);
       let saleStatus = await nftContract.isTokenForSale(id);
@@ -123,6 +163,7 @@ export const mintNftHandler = async (tokenURI,baseURI) => {
 
     if (ethereum) {
       const provider = new ethers.providers.Web3Provider(ethereum);
+      console.log(provider)
       const signer = provider.getSigner();
       const nftContract = new ethers.Contract(address, abi, signer);
       console.log(nftContract)
