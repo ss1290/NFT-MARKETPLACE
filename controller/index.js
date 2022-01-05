@@ -69,7 +69,7 @@ app.post('/mintToken',async(req,res) =>{
 
 
 app.get('/getUser/:address', async(req,res)=>{
-    let sql = `SELECT * FROM User HAVING email = '${req.params.email}'`
+    let sql = `SELECT * FROM User HAVING walletAddress = '${req.params.address}'`
      db.query(sql,(err,result)=>{
         if(err) throw err;
         console.log(result);
