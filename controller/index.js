@@ -3,7 +3,7 @@ const Web3 = require('web3');
 const myContract = require('../src/abis/OpenMarket.json')
 const mysql = require('mysql');
 const cors = require('cors')
- require('./databaseCreation.js')
+ 
 
 //Create connection
 const db = mysql.createConnection({ 
