@@ -51,7 +51,7 @@ const MyNFT = () => {
                 <Container >
                     <Row>
                         {userNft.map((nft) =>{
-                            let link = `/NFT/${nft.tokenId}`
+                            let link = `/Sellnft/${nft.tokenId}`
                             return(
                             <Card className="nft-card" key={nft.tokenId} style={{ width: '30rem' }}>
                                 <Card.Img variant="top" src={nft.url} />
