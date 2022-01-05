@@ -32,15 +32,20 @@ const AllNFT = ({history}) => {
       {allNft && <div>
         <Container >
           <Row>
-            {allNft.map((nft) => (
-              <Card className="nft-card" key={nft.tokenId} style={{ width: '30rem' }}>
+            {allNft.map((nft) => {
+              let link = `/Buynft/${nft.tokenId}`
+              return(
+                <Card className="nft-card" key={nft.tokenId} style={{ width: '30rem' }}>
                 <Card.Img variant="top" src={nft.url} />
                 <Card.Body className="card-body">
                   <Card.Title><p>{nft.itemName}</p></Card.Title>
-                  <Button variant="primary">Buy</Button>
+                  <Card.Link style={{textDecoration:'none'}} href={link}>
+                  <Button  variant="primary">Buy</Button>
+                  </Card.Link>
                 </Card.Body>
               </Card>
-            ))}
+              )
+            })}
           </Row>
         </Container>
       </div>}
