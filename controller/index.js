@@ -3,7 +3,7 @@ const Web3 = require('web3');
 const myContract = require('../src/abis/OpenMarket.json')
 const mysql = require('mysql');
 const cors = require('cors')
- require('./databaseCreation.js')
+ 
 
 //Create connection
 const db = mysql.createConnection({ 
@@ -68,7 +68,7 @@ app.post('/mintToken',async(req,res) =>{
 });
 
 
-app.get('/getUser/:email', async(req,res)=>{
+app.get('/getUser/:address', async(req,res)=>{
     let sql = `SELECT * FROM User HAVING email = '${req.params.email}'`
      db.query(sql,(err,result)=>{
         if(err) throw err;
