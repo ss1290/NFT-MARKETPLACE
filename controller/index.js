@@ -105,18 +105,20 @@ app.get('/getAllToken',async(req,res) =>{
 })
 
 
-// app.get('/transfer',async(req,res) =>{
-//     const addresses = await web3.eth.getAccounts();
-//     console.log(updateList);
-//     let sql = `UPDATE Token SET previousOwner = '${transfer.transferFrom}', currentOwner = '${transfer.transferTo}' WHERE tokenId = ${transfer.tokenId}`;
-//     let query = db.query(sql,(err,result)=>{
-//         if(err) throw err;
-//         console.log(result);
-//         res.send('token transfered');
-//     });
-// }).
+app.patch('/transfer/:nftId',async(req,res) =>{
+    const addresses = await web3.eth.getAccounts();
+    console.log(updateList);
+    let sql = `UPDATE Token SET previousOwner = '${transfer.transferFrom}', currentOwner = '${transfer.transferTo}' WHERE tokenId = ${transfer.tokenId}`;
+    let query = db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send('token transfered');
+    });
+})
+
 
 app.patch('/tokenForSale/:tokenId/:price', (req,res) =>{
+    console.log(req.params)
     let sql = `UPDATE Token  SET forSale = true ,tokenPrice ='${req.params.price}' WHERE tokenId = ${req.params.tokenId}`;
     let query = db.query(sql,(err,result)=>{
         if(err) throw err;
