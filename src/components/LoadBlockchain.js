@@ -47,14 +47,16 @@ export const buyNftHandler = async(tokenId) => {
       const signer = provider.getSigner();
       const nftContract = new ethers.Contract(address, abi, signer);
 
+      let id = "0x"+(tokenId).toString(16);
+
       console.log("Initialize payment");
-      let nftTxn =  nftContract.buyNFT(tokenId);
+      let nftTxn =  nftContract.buyNFT(id);
 
       console.log("Mining... please wait");
        nftTxn.wait();
 
       console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
-      
+      return nftTxn;
     }else{
       console.log("Ethereum object does not exist");
     }

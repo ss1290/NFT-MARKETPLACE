@@ -14,6 +14,7 @@ import axios from "axios";
 import { tokenUriHandler, sellTokenHandler,buyNftHandler } from "../components/LoadBlockchain";
 
 
+
 import { useParams } from "react-router-dom";
 
 
@@ -44,15 +45,12 @@ const Buynft = () => {
     })
   }
 
-  function buyButton(){
-    axios.patch(`http://localhost:5000/transfer/${params.nftId}`).then((response) => {
-        console.log(response.data[0].name)
-        // setNftData(data);
-        // setBuyStatus(data.Buy);
-        // setNftPrice(tokenUri.value)
-      })
-      
-  }
+   const buyButton = async () => {
+    console.log("button:")
+     let id = params.nftId;
+     let transaction = await buyNftHandler(id);
+   
+   }
 
 
 
@@ -63,10 +61,7 @@ const Buynft = () => {
         <Card.Title as="h4">Current price</Card.Title>
         <Card.Text as="h1" ><SiEthereum style={{ color: 'black' }} />{nftPrice}</Card.Text>
 
-        <div className='btn1'>
-          <Button onClick={buyButton} variant="primary" size="lg" style={{ width: "117px", height: "30px", borderRadius: "12px" }}>
-            <AiOutlineWallet />Buy</Button>
-        </div>
+   
       </Card.Body>
     </Card>
   )
@@ -80,6 +75,10 @@ const Buynft = () => {
               <h1>{nftData ? nftData.itemName : "token"} </h1>
               <p>owned by:  <Card.Link style={{ textDecoration: 'none' }} href="#">{nftData ? nftData.tokenOwnerName : "Unknown"}</Card.Link></p>
             </div>
+            <div className='btn1'>
+          <Button onClick={buyButton} variant="primary" size="lg" style={{ width: "117px", height: "30px", borderRadius: "12px" }}>
+            <AiOutlineWallet />Buy</Button>
+        </div>
           </Col>
           <Col>
             <div className='title'>
