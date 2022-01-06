@@ -11,7 +11,7 @@ import { BsClock } from 'react-icons/bs';
 import { CgDetailsMore } from 'react-icons/cg';
 import "../styles/buynft.css";
 import axios from "axios";
-import { tokenUriHandler, sellTokenHandler } from "../components/LoadBlockchain";
+import { tokenUriHandler, sellTokenHandler,priceChangeHandler,removeFromSaleHandler} from "../components/LoadBlockchain";
 
 
 import { useParams } from "react-router-dom";
@@ -33,13 +33,13 @@ const Sellnft = () => {
       data["nftOwner"] = tokenUri.owner;
       data["forSale"] = tokenUri.saleStatus;
       axios.get(`http://localhost:5000/getUser/${data.nftOwner.slice(2,)}`).then((response) => {
-        console.log("User",response.data)
-        if(response.data.length > 0 ){
+        console.log("User", response.data)
+        if (response.data.length > 0) {
           data['tokenOwnerName'] = response.data[0].name;
-        }else{
+        } else {
           data['tokenOwnerName'] = "Anonymous";
         }
-        
+
         setNftData(data);
         setSellStatus(data.forSale);
         setNftPrice(tokenUri.value)
@@ -53,13 +53,32 @@ const Sellnft = () => {
     let txn = await sellTokenHandler(params.nftId, price);
     axios.patch(`http://localhost:5000/tokenForSale/${params.nftId}/${price}`).then((response) => {
       console.log(response);
-      let data = nftData
+      let data = nftData;
       data['forSale'] = true;
       data['tokenPrice'] = price;
       setNftData(data)
       setSellStatus(data.forSale);
       setNftPrice(price)
 
+    })
+  }
+  const changePrice = async(e)=>{
+    e.preventDefault();
+    let price = e.target.price.value;
+    let tokenId = params.nftId; 
+    let txn = await priceChangeHandler(tokenId,price);
+    axios.patch(`http://localhost:5000/priceChange/${price}/${tokenId}`).then((response)=>{
+      setNftPrice(price);
+      alert("priceChanged");
+    })
+
+  }
+  const removeFromSale = async()=>{
+    let id = params.nftId;
+    let txn = await removeFromSaleHandler(id);
+    axios.patch(`http://localhost:5000/removeFromSale/${id}`).then((response)=>{
+      setSellStatus(false);
+      alert("Token removed from sale")
     })
   }
   const saleCard = () => (
@@ -89,6 +108,13 @@ const Sellnft = () => {
   )
   const forSaleComponent = () => (
     <div>
+      <form className='form2' onSubmit={changePrice}>
+        <input type="number" name="price" placeholder='Set price' />
+        <Button className='btn3' variant="primary" type='submit' size="lg">Change price</Button>
+      </form>
+      <div className='btn1'>
+        <Button onClick={removeFromSale} variant="primary" size="lg" style={{ width: "117px", height: "30px", borderRadius: "12px" }}>Remove from sale</Button>
+      </div>
       <Container >
         <Row>
           <Col>
@@ -283,7 +309,7 @@ const Sellnft = () => {
   )
   const sellNftButton = () => (
     <div>
-      {nftData.forSale ? forSaleComponent() : setForSaleComponent()}
+      {sellStatus? forSaleComponent() : setForSaleComponent()}
     </div>
   )
   useEffect(() => {

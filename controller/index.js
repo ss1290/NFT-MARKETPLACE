@@ -131,10 +131,9 @@ app.get('/getAllToken',async(req,res) =>{
 })
 
 
-app.patch('/transfer/:nftId',async(req,res) =>{
-    const addresses = await web3.eth.getAccounts();
-    console.log(updateList);
-    let sql = `UPDATE Token SET previousOwner = '${transfer.transferFrom}', currentOwner = '${transfer.transferTo}' WHERE tokenId = ${transfer.tokenId}`;
+app.patch('/transfer/:nftId/:preowner/:postowner',async(req,res) =>{
+   
+    let sql = `UPDATE Token SET previousOwner = '${req.params.preowner}', currentOwner = '${req.params.postowner}',forSale=false WHERE tokenId = '${req.params.nftId}'`;
     let query = db.query(sql,(err,result)=>{
         if(err) throw err;
         console.log(result);
@@ -170,6 +169,21 @@ app.patch('/removeTokenFromSale/:tokenId', (req,res) =>{
         if(err) throw err;
         res.send('Successfully remove from sale');
    });
+})
+
+app.patch('/priceChange/:price/:tokenId',(req,res)=>{
+    let sql = `UPDATE Token SET tokenPrice='${req.params.price}' WHERE tokenId = '${req.params.tokenId}'`;
+    let query = db.query(sql,(err,result)=>{
+        if(err) throw err;
+        res.send('price changed successfully')
+    })
+})
+app.patch('/removeFromSale/:tokenId',(req,res)=>{
+    let sql = `UPDATE Token SET forSale=false, tokenPrice=0 WHERE tokenId='${req.params.tokenId}'`
+    let query = db.query(sql,(err,result)=>{
+        if(err) throw err;
+        res.send('Token removed from sale successfully');
+    })
 })
 
 app.listen('5000',()=>{

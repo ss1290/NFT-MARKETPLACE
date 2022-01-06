@@ -47,7 +47,7 @@ contract OpenMarket is Ownable, ERC721URIStorage {
     //     }
     // }
 
-    function setBaseURI(string memory _newBaseURI) internal onlyOwner {
+    function setBaseURI(string memory _newBaseURI) internal {
         baseURI = _newBaseURI;
     }
 
