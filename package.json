@@ -36,11 +36,12 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "truffle": "^5.4.26",
+    "truffle-hdwallet-provider": "^1.0.17",
     "web-vitals": "^2.1.2",
     "web3": "^1.6.1"
   },
   "scripts": {
-    "run" : "nodemon controller/index.js",
+    "run": "nodemon controller/index.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

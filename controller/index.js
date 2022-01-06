@@ -58,6 +58,7 @@ app.post('/createUser',(req,res) =>{
         res.send('user added');
     })
 })
+
 app.post('/mintToken',async(req,res) =>{
     let sql = 'INSERT INTO Token SET ?';
     let token = req.body
@@ -79,9 +80,7 @@ app.get('/getUser/:address', async(req,res)=>{
 })
 
 app.get('/getToken/:address',async(req,res) =>{
-
- 
-    
+   
     let sql = `SELECT * FROM Token HAVING currentOwner='${req.params.address}'`
     console.log(req.params.address)
     db.query(sql,(err,result)=>{
