@@ -134,11 +134,9 @@ app.get('/tokenSearch',async(req,res)=>{
     const result = req.query.search;
     console.log(result, "----")
 
-    let sql = `SELECT * FROM Token WHERE itemName LIKE '${result}%' OR tokenId ='${result}'`;
+    let sql = `SELECT * FROM Token WHERE itemName LIKE '${result}%' AND forSale=true  OR tokenId ='${result}'`;
     db.query(sql,(err,result)=>{
         if(err) throw err;
-        console.log(result);
-        res.send('data fetched successfully');
         res.send(result);
     });
 })
@@ -161,18 +159,6 @@ app.patch('/tokenForSale/:tokenId/:price', (req,res) =>{
         if(err) throw err;
         res.send('Successfully set to sale');
    });
-})
-
-app.get('/tokenSearch',async(req,res)=>{
-    const result = req.query.search;
-    console.log(result, "----")
-
-    let sql = `SELECT * FROM Token WHERE itemName LIKE '${result}%' OR tokenId ='${result}'`;
-    db.query(sql,(err,result)=>{
-        if(err) throw err;
-        console.log(result);
-        res.send(result);
-    });
 })
 
 app.patch('/removeTokenFromSale/:tokenId', (req,res) =>{
