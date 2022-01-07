@@ -76,15 +76,18 @@ const MyProfile = () => {
                     {userNft && <div>
                         <Container >
                             <Row>
-                                {userNft.map((nft) => (
-                                    <Card className="nft-card" key={nft.tokenId} style={{ width: '30rem' }}>
-                                        <Card.Img variant="top" src={nft.url} />
-                                        <Card.Body className="card-body">
-                                            <Card.Title><p>{nft.itemName}</p></Card.Title>
-                                            <Button variant="primary">Description</Button>
-                                        </Card.Body>
-                                    </Card>
-                                ))}
+                            {userNft.map((nft) => {
+                            let link = `/Sellnft/${nft.tokenId}`
+                            return (
+                                <Card className="nft-card" key={nft.tokenId} style={{ width: '30rem' }}>
+                                    <Card.Img variant="top" src={nft.url} />
+                                    <Card.Body className="card-body">
+                                        <Card.Title><p>{nft.itemName}</p></Card.Title>
+                                        <Card.Link style={{ textDecoration: 'none' }} href={link}><Button variant="primary">Description</Button></Card.Link>
+                                    </Card.Body>
+                                </Card>
+                            )
+                        })}
                             </Row>
                         </Container>
 

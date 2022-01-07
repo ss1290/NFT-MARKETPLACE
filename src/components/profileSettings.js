@@ -54,7 +54,7 @@ const Profilesettings = () => {
         }
         return (
             <div>
-                <button onClick={connectWallet} className='connect-wallet-button'>
+                 <button onClick={connectWallet} className='connect-wallet-button'>
                     {currentAccount ? currentAccount : 'Connect Wallet'}
                 </button>
                 <p>Connect your wallet first</p>

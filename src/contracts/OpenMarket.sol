@@ -89,7 +89,7 @@ contract OpenMarket is Ownable, ERC721URIStorage {
         payable(owner).transfer(msg.value);
         _transfer(owner, _msgSender(), tokenId);
         _tokenForSale[tokenId] = false; 
-        emit Transfer(owner, _msgSender(), tokenId);
+        
     }
 
     function removeTokenFromSale(uint256 tokenId) public {
@@ -107,7 +107,7 @@ contract OpenMarket is Ownable, ERC721URIStorage {
         require(_msgSender() == owner,"Only owner can gift");
         _transfer(owner, receiver, tokenId);
         _tokenForSale[tokenId] = false; 
-        emit Transfer(owner,receiver, tokenId);
+       
     }
     function isTokenForSale(uint256 tokenId) public view returns (bool) {
         return _tokenForSale[tokenId];
