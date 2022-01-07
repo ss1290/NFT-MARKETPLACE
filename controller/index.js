@@ -33,6 +33,7 @@ const contract = new web3.eth.Contract(myContract.abi,deployedNetwork.address);
 console.log(contract);
 
 
+
 app.get('/web3Exists',async(req,res)=>{
     if(web3){
         console.log(web3)
@@ -57,6 +58,7 @@ app.post('/createUser',(req,res) =>{
         res.send('user added');
     })
 })
+
 app.post('/mintToken',async(req,res) =>{
     let sql = 'INSERT INTO Token SET ?';
     let token = req.body
@@ -78,9 +80,7 @@ app.get('/getUser/:address', async(req,res)=>{
 })
 
 app.get('/getToken/:address',async(req,res) =>{
-
- 
-    
+   
     let sql = `SELECT * FROM Token HAVING currentOwner='${req.params.address}'`
     console.log(req.params.address)
     db.query(sql,(err,result)=>{
@@ -130,6 +130,17 @@ app.get('/getAllToken',async(req,res) =>{
     });
 })
 
+app.get('/tokenSearch',async(req,res)=>{
+    const result = req.query.search;
+    console.log(result, "----")
+
+    let sql = `SELECT * FROM Token WHERE itemName LIKE '${result}%' AND forSale=true  OR tokenId ='${result}'`;
+    db.query(sql,(err,result)=>{
+        if(err) throw err;
+        res.send(result);
+    });
+})
+
 
 app.patch('/transfer/:nftId/:preowner/:postowner',async(req,res) =>{
    
@@ -141,7 +152,6 @@ app.patch('/transfer/:nftId/:preowner/:postowner',async(req,res) =>{
     });
 })
 
-
 app.patch('/tokenForSale/:tokenId/:price', (req,res) =>{
     console.log(req.params)
     let sql = `UPDATE Token  SET forSale = true ,tokenPrice ='${req.params.price}' WHERE tokenId = ${req.params.tokenId}`;
@@ -149,18 +159,6 @@ app.patch('/tokenForSale/:tokenId/:price', (req,res) =>{
         if(err) throw err;
         res.send('Successfully set to sale');
    });
-})
-
-app.get('/tokenSearch',async(req,res)=>{
-    const result = req.query.search;
-    console.log(result, "----")
-
-    let sql = `SELECT * FROM Token WHERE itemName LIKE '${result}%' OR tokenId ='${result}'`;
-    db.query(sql,(err,result)=>{
-        if(err) throw err;
-        console.log(result);
-        res.send(result);
-    });
 })
 
 app.patch('/removeTokenFromSale/:tokenId', (req,res) =>{

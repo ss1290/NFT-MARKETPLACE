@@ -50,7 +50,7 @@ const Create = () => {
     }
 
 
-    const mintToken = async(hash,base)=>{
+    const mintToken = async (hash, base) => {
         let txn = await mintNftHandler(hash, base);
         return txn
     }
@@ -64,7 +64,7 @@ const Create = () => {
                     pinata_api_key: pinataApiKey,
                     pinata_secret_api_key: pinataSecretApiKey
                 }
-            }).then(async(response) => {
+            }).then(async (response) => {
                 setJsonCid(response.data.IpfsHash)
                 let txn = await mintToken(response.data.IpfsHash, "https://gateway.pinata.cloud/ipfs/");
                 data["tokenCreator"] = txn.from.slice(2,);
@@ -136,10 +136,30 @@ const Create = () => {
             </div>
         )
     }
-    useEffect(async () => {
-        const account = await checkWalletIsConnected();
-        setCurrentAccount(account);
-    }, [jsonCid])
+    const accountChanged = async () => {
+        const { ethereum } = window;
+
+        if (!ethereum) {
+            console.log("Make sure you have Metamask installed!");
+            return;
+        } else {
+            console.log("Wallet exists! We're ready to go!")
+        }
+        ethereum.on("accountsChanged", (accounts) => {
+            setCurrentAccount(accounts[0]);
+        })
+
+    }
+    useEffect(() => {
+        accountChanged();
+    })
+    useEffect(() => {
+        const loader = async () => {
+            const account = await checkWalletIsConnected();
+            setCurrentAccount(account);
+        }
+        return loader();
+    }, [,currentAccount,jsonCid])
     return (
         <div className="create-page">
             <div className="create-page-connect">
@@ -147,7 +167,7 @@ const Create = () => {
             </div>
             <Modal show={show} >
                 <Modal.Header>
-                    <Modal.Title>{tokenMinted == true ? "Token minted succesfully" : "Minting token"}</Modal.Title>
+                    <Modal.Title>{tokenMinted == true ? "Processing request" : "Request processed"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="spinner">
                     {tokenMinted == true ? <div>

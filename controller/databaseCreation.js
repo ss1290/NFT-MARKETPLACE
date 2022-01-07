@@ -13,7 +13,7 @@ db.connect((err)=>{
     console.log('MySql Connected...');
 });
 
-// // Creation of Database
+// Creation of Database
 // let sql1 = 'CREATE DATABASE MYNFT';
 // db.query(sql1, (err,result)=>{
 //     if(err) throw err;
