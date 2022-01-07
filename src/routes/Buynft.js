@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Container, Row, Col, Card, ListGroup, Accordion, Table, Form } from "react-bootstrap";
+import { Button, Container, Row, Col, Card, ListGroup, Accordion, Table, Form,Modal,Spinner } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Link } from "react-router-dom";
 import { SiEthereum } from 'react-icons/si';
@@ -21,24 +21,24 @@ import { useParams } from "react-router-dom";
 
 const Buynft = () => {
   const [nftData, setNftData] = useState();
+  const [requestProcessed,setRequestProcessed] = useState();
+  const [show, setShow] = useState(false);
   const [BuyStatus, setBuyStatus] = useState();
   const [nftPrice, setNftPrice] = useState();
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   let params = useParams();
   const getTokenUri = async () => {
-    console.log(params.nftId)
     let tokenUri = await tokenUriHandler(params.nftId);
-    console.log(tokenUri)
     axios.get(tokenUri.uri).then((response) => {
-      console.log(response.data)
       const data = JSON.parse(Object.keys(response.data))
       data["contractAddress"] = tokenUri.address;
       data["nftOwner"] = tokenUri.owner;
       data["Buy"] = tokenUri.BuyStatus;
       axios.get(`http://localhost:5000/getUser/${data.nftOwner.slice(2,)}`).then((response) => {
-        console.log(response.data)
-        if(response.data.length > 0 ){
+        if (response.data.length > 0) {
           data['tokenOwnerName'] = response.data[0].name;
-        }else{
+        } else {
           data['tokenOwnerName'] = "Anonymous";
         }
         setNftData(data);
@@ -50,20 +50,17 @@ const Buynft = () => {
   }
 
   const buyButton = async () => {
-    console.log("button:")
     let id = params.nftId;
-    let transaction = await buyNftHandler(id);
-    console.log(transaction)
+    handleShow();
+    setRequestProcessed(false);
+    let transaction = await buyNftHandler(id,nftPrice);
     let previousOwner = nftData.nftOwner.slice(2,)
     let currentOwner = transaction.from.slice(2,)
-    console.log(transaction)
-
     axios.patch(`http://localhost:5000/transfer/${id}/${previousOwner}/${currentOwner}`).then((res) => {
-      alert('token Bought')
+      setRequestProcessed(true)
     })
 
   }
-
 
 
   const BuyCard = () => (
@@ -187,6 +184,16 @@ const Buynft = () => {
   }, [])
   return (
     <div className="home-page" >
+      <Modal show={show} >
+        <Modal.Header>
+          <Modal.Title>{requestProcessed == true ? "Request Processed" : "Processing request"}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="spinner">
+          {requestProcessed == true ? <div>
+          <Link to="/MyNFT"><Button variant="success" onClick={handleClose}>Success</Button></Link>
+          </div> : <Spinner animation="grow" variant="primary" />}
+        </Modal.Body>
+      </Modal>
       {nftData ? forSaleComponent() : ''}
 
 
