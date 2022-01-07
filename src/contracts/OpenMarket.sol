@@ -85,7 +85,6 @@ contract OpenMarket is Ownable, ERC721URIStorage {
         require(_msgSender() != owner, "Cannot buy owned NFT");
         _transfer(owner, _msgSender(), tokenId);
         _tokenForSale[tokenId] = false;
-        emit Transfer(owner, _msgSender(), tokenId);
     }
 
     function removeTokenFromSale(uint256 tokenId) public {
