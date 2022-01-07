@@ -24,13 +24,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
 
 
 
-const deployedNetwork = myContract.networks["5777"];
-const contract = new web3.eth.Contract(myContract.abi,deployedNetwork.address);
-console.log(contract);
+
 
 
 app.get('/web3Exists',async(req,res)=>{
@@ -142,25 +139,25 @@ app.get('/tokenSearch',async(req,res)=>{
         res.send(result);
     });
 })
-app.get('/searchMynft/:address',async(req,res)=>{
+// app.get('/searchMynft/:address',async(req,res)=>{
 
-    let result = req.query.search ;
+//     let result = req.query.search ;
 
-    if(result)
-    {
+//     if(result)
+//     {
         
-        let sql1= `SELECT * FROM Token WHERE itemName LIKE '${result}%' AND currentOwner='${req.params.address}' `
-        console.log(result)
-        db.query(sql1,(err,result)=>{
-            if(err) throw err;
-            console.log(result);
-            res.send(result);
-        });
+//         let sql1= `SELECT * FROM Token WHERE itemName LIKE '${result}%' AND currentOwner='${req.params.address}' `
+//         console.log(result)
+//         db.query(sql1,(err,result)=>{
+//             if(err) throw err;
+//             console.log(result);
+//             res.send(result);
+//         });
 
-    }
+//     }
 
 
-})
+// })
 
 app.patch('/transfer/:nftId',async(req,res) =>{
     const addresses = await web3.eth.getAccounts();

@@ -25,7 +25,7 @@ const Sellnft = () => {
   const getTokenUri = async () => {
     console.log(params.nftId)
     let tokenUri = await tokenUriHandler(params.nftId);
-    console.log(tokenUri)
+    console.log(tokenUri ,"-----")
     axios.get(tokenUri.uri).then((response) => {
       console.log(response.data)
       const data = JSON.parse(Object.keys(response.data))
