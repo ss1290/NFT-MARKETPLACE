@@ -91,6 +91,18 @@ app.get('/getToken/:address',async(req,res) =>{
 
 })
 
+app.get('/getCreatedToken/:address',async(req,res) =>{
+   
+    let sql = `SELECT * FROM Token WHERE currentOwner='${req.params.address}' AND tokenCreator='${req.params.address}'`
+    console.log(req.params.address)
+    db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+
+})
+
 app.get('/searchMynft/:address',async(req,res)=>{
 
     let result = req.query.search ;

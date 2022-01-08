@@ -9,6 +9,7 @@ const MyProfile = () => {
     let [currentAccount, setCurrentAccount] = useState(null);
     let [userNft, setUserNft] = useState(null);
     let [userData, setUserData] = useState(null);
+  
     const connectWalletButton = () => {
         const connectWallet = async () => {
             let account = await connectWalletHandler();
@@ -36,6 +37,18 @@ const MyProfile = () => {
 
     }
 
+    const getCreatedNFT = () => {
+        if (currentAccount) {
+            let account = currentAccount.slice(2,)
+            axios.get(`http://localhost:5000/getCreatedToken/${account}`).then((response) => {
+                setUserNft(response.data);
+            }).catch((e) => {
+                console.log(e)
+            })
+        }
+
+    }
+
     const getUserData = () => {
         if (currentAccount) {
             let account = currentAccount.slice(2,)
@@ -43,13 +56,17 @@ const MyProfile = () => {
                 if (response.data.length > 0) {
                     setUserData(response.data);
                 }
+            }).catch((e) => {
+                console.log(e)
             })
         }
 
     }
 
     const showProfile = () => (
+        
         <div>
+
             <div className="aligncenter">
                 <h1>Profile</h1>
             </div>
@@ -66,9 +83,15 @@ const MyProfile = () => {
             <div className="box">
                 <div className="smallbox">
                     <div className="align">
-                        <p>My Collection    </p>
-                        <p>Created    </p>
-                        <p>Histroy  </p>
+                    <Button  onClick={getUserNFT} variant="primary" type="submit" >
+                    My NFTs 
+                    </Button> 
+                    <Button  onClick={getCreatedNFT}variant="primary" type="submit" >
+                     Created
+                    </Button>  
+                    <Button   variant="primary" type="submit" >
+                      Activity
+                    </Button>
                         <Link to="/profileSettings"><img className="imgicon" src="https://img.icons8.com/ios-filled/50/000000/settings.png" />{' '}</Link>
                     </div>
                 </div>
@@ -112,17 +135,24 @@ const MyProfile = () => {
         ethereum.on("accountsChanged", (accounts) => {
             setCurrentAccount(accounts[0]);
         })
-
+        
     }
     useEffect(() => {
         accountChanged();
+       
+        
+        
     })
     useEffect(() => {
         const loader = async () => {
             const account = await checkWalletIsConnected();
             setCurrentAccount(account);
+            
             getUserNFT();
             getUserData();
+           
+            
+            
         }
         return loader()
     }, [currentAccount])

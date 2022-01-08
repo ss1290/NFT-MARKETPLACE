@@ -87,30 +87,30 @@ const Profilesettings = () => {
                 <Form className="create-page-form" onSubmit={ userData ? updateData : sendData}>
                     <Form.Group className="mb-3" >
                         <Form.Label>Name<span style={{ color: 'red' }} >*</span></Form.Label>
-                        <Form.Control type="text" name="name" placeholder="User name" required />
+                        <Form.Control type="text" name="name" placeholder={userData ? userData[0].name:"User name"} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" >
                         <Form.Label>Email<span style={{ color: 'red' }} >*</span></Form.Label>
-                        <Form.Control type="text" name="email" placeholder="Email " required />
+                        <Form.Control type="text" name="email" placeholder={userData ? userData[0].email:"User Email"} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" >
                         <Form.Label>Bio<span style={{ color: 'red' }} >*</span></Form.Label>
-                        <Form.Control type="text" name="bio" placeholder="Bio" required />
+                        <Form.Control type="text" name="bio" placeholder={userData ? userData[0].bio:"Bio"}/>
                     </Form.Group>
 
                     <Form.Group className="mb-3" >
-                        <Form.Label>Instagram Link<span style={{ color: 'red' }} >*</span></Form.Label>
-                        <Form.Control type="text" name="ins" placeholder="Instagram handle" required />
+                        <Form.Label>Instagram Link</Form.Label>
+                        <Form.Control type="text" name="ins" placeholder={userData ? userData[0].insta:"Insta Handle"} />
                     </Form.Group>
                     <Form.Group className="mb-3" >
-                        <Form.Label>Twitter Link<span style={{ color: 'red' }} >*</span></Form.Label>
-                        <Form.Control type="text" name="twi" placeholder="Twitter handle" required />
+                        <Form.Label>Twitter Link</Form.Label>
+                        <Form.Control type="text" name="twi" placeholder={userData ? userData[0].twitter:"Twitter Handle"} />
                     </Form.Group>
                     <Form.Group className="mb-3" >
-                        <Form.Label>Your Website<span style={{ color: 'red' }} >*</span></Form.Label>
-                        <Form.Control type="text" name="web" placeholder="yourweb.io" required />
+                        <Form.Label>Your Website</Form.Label>
+                        <Form.Control type="text" name="web" placeholder={userData ? userData[0].website:"Website Link"} />
                     </Form.Group>
                     <input name="walletAddress" type="hidden" value={currentAccount} />
                     <br />
@@ -123,11 +123,33 @@ const Profilesettings = () => {
             </div>
         </div>
     )
+
+
+    const accountChanged = async () => {
+        const { ethereum } = window;
+
+        if (!ethereum) {
+            console.log("Make sure you have Metamask installed!");
+            return;
+        } else {
+            console.log("Wallet exists! We're ready to go!")
+        }
+        ethereum.on("accountsChanged", (accounts) => {
+            setCurrentAccount(accounts[0]);
+        })
+
+    }
+    useEffect(() => {
+        accountChanged();
+        
+    })
     useEffect(() => {
         const loader = async () => {
             const account = await checkWalletIsConnected();
             setCurrentAccount(account);
+            showProfilesettings();
             getUserData();
+           
 
         }
         return loader()
