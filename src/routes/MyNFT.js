@@ -28,43 +28,40 @@ const MyNFT = () => {
 
             const params = new URLSearchParams(window.location.search);
             const searchData = params.get('search')
-            if(searchData ){
-              console.log("hello")
-            
-              axios.get(`http://localhost:5000/searchMynft/${account}?search=${searchData}`).then((response) => {
-                setUserNft(response.data)
-            })
+            if (searchData) {
+                axios.get(`http://localhost:5000/searchMynft/${account}?search=${searchData}`).then((response) => {
+                    setUserNft(response.data)
+                })
             }
-           
-            else{
-            axios.get(`http://localhost:5000/getToken/${account}`).then((response) => {
-                setUserNft(response.data);
-            })
+
+            else {
+                axios.get(`http://localhost:5000/getToken/${account}`).then((response) => {
+                    setUserNft(response.data);
+                })
             }
-           
-            
         }
-        }
+    }
+    
 
     
     const showUserNFT = () => (
         <div>
             <h1>My collection</h1>
-            {console.log(userNft)}
             {userNft && <div>
                 <Container >
                     <Row>
-                        {userNft.map((nft) =>{
+                        {userNft.map((nft) => {
                             let link = `/Sellnft/${nft.tokenId}`
-                            return(
-                            <Card className="nft-card" key={nft.tokenId} style={{ width: '30rem' }}>
-                                <Card.Img variant="top" src={nft.url} />
-                                <Card.Body className="card-body">
-                                    <Card.Title><p>{nft.itemName}</p></Card.Title>
-                                    <Card.Link style={{textDecoration:'none'}} href={link}><Button variant="primary">Description</Button></Card.Link>
-                                </Card.Body>
-                            </Card>
-                        )})}
+                            return (
+                                <Card className="nft-card" key={nft.tokenId} style={{ width: '30rem' }}>
+                                    <Card.Img variant="top" src={nft.url} />
+                                    <Card.Body className="card-body">
+                                        <Card.Title><p>{nft.itemName}</p></Card.Title>
+                                        <Card.Link style={{ textDecoration: 'none' }} href={link}><Button variant="primary">Description</Button></Card.Link>
+                                    </Card.Body>
+                                </Card>
+                            )
+                        })}
                     </Row>
                 </Container>
 
@@ -72,6 +69,23 @@ const MyNFT = () => {
 
         </div>
     )
+    const accountChanged = async () => {
+        const { ethereum } = window;
+
+        if (!ethereum) {
+            console.log("Make sure you have Metamask installed!");
+            return;
+        } else {
+            console.log("Wallet exists! We're ready to go!")
+        }
+        ethereum.on("accountsChanged", (accounts) => {
+            setCurrentAccount(accounts[0]);
+        })
+
+    }
+    useEffect(() => {
+        accountChanged();
+    })
     useEffect(() => {
         const loader = async () => {
             const account = await checkWalletIsConnected();
@@ -87,5 +101,7 @@ const MyNFT = () => {
         </div>
     );
 
-    }
+    
+}
+
 export default MyNFT;

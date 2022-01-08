@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Container, Row, Col, Card, ListGroup, Accordion, Table, Form } from "react-bootstrap";
+import { Button, Container, Row, Col, Card, ListGroup, Accordion, Table, Form,Modal,Spinner } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Link } from "react-router-dom";
 import { SiEthereum } from 'react-icons/si';
@@ -11,7 +11,7 @@ import { BsClock } from 'react-icons/bs';
 import { CgDetailsMore } from 'react-icons/cg';
 import "../styles/buynft.css";
 import axios from "axios";
-import { tokenUriHandler, sellTokenHandler } from "../components/LoadBlockchain";
+import { tokenUriHandler, sellTokenHandler, priceChangeHandler, removeFromSaleHandler, checkWalletIsConnected,transferTokenHandler } from "../components/LoadBlockchain";
 
 
 import { useParams } from "react-router-dom";
@@ -19,27 +19,30 @@ import { useParams } from "react-router-dom";
 
 const Sellnft = () => {
   const [nftData, setNftData] = useState();
+  const [requestProcessed,setRequestProcessed] = useState();
+  const [show, setShow] = useState(false);
   const [sellStatus, setSellStatus] = useState();
   const [nftPrice, setNftPrice] = useState();
+  const [nftOwner, setNftOwner] = useState();
+  const [currentAccount, setCurrentAccount] = useState();
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   let params = useParams();
   const getTokenUri = async () => {
-    console.log(params.nftId)
     let tokenUri = await tokenUriHandler(params.nftId);
-    console.log(tokenUri ,"-----")
     axios.get(tokenUri.uri).then((response) => {
-      console.log(response.data)
       const data = JSON.parse(Object.keys(response.data))
       data["contractAddress"] = tokenUri.address;
       data["nftOwner"] = tokenUri.owner;
+      setNftOwner(data.nftOwner.toLowerCase())
       data["forSale"] = tokenUri.saleStatus;
       axios.get(`http://localhost:5000/getUser/${data.nftOwner.slice(2,)}`).then((response) => {
-        console.log("User",response.data)
-        if(response.data.length > 0 ){
+        if (response.data.length > 0) {
           data['tokenOwnerName'] = response.data[0].name;
-        }else{
+        } else {
           data['tokenOwnerName'] = "Anonymous";
         }
-        
+
         setNftData(data);
         setSellStatus(data.forSale);
         setNftPrice(tokenUri.value)
@@ -50,17 +53,54 @@ const Sellnft = () => {
   const sellNft = async (e) => {
     e.preventDefault()
     let price = e.target.price.value;
+    setRequestProcessed(false)
     let txn = await sellTokenHandler(params.nftId, price);
     axios.patch(`http://localhost:5000/tokenForSale/${params.nftId}/${price}`).then((response) => {
-      console.log(response);
-      let data = nftData
+      let data = nftData;
       data['forSale'] = true;
       data['tokenPrice'] = price;
       setNftData(data)
       setSellStatus(data.forSale);
       setNftPrice(price)
+      setRequestProcessed(true)
 
     })
+  }
+  const changePrice = async (e) => {
+    e.preventDefault();
+    let price = e.target.price.value;
+    let tokenId = params.nftId;
+    setRequestProcessed(false);
+    let txn = await priceChangeHandler(tokenId, price);
+    axios.patch(`http://localhost:5000/priceChange/${price}/${tokenId}`).then((response) => {
+      setNftPrice(price);
+      setRequestProcessed(true);
+    })
+
+  }
+  const removeFromSale = async () => {
+    let id = params.nftId;
+    handleShow();
+    setRequestProcessed(false);
+    let txn = await removeFromSaleHandler(id);
+    axios.patch(`http://localhost:5000/removeFromSale/${id}`).then((response) => {
+      setSellStatus(false);
+      setRequestProcessed(true);
+    })
+  }
+  const transferToken = async(e)=>{
+    e.preventDefault();
+    let receiverAddress = e.target.address.value;
+    let id = params.nftId;
+    setRequestProcessed(false);
+    let txn = await transferTokenHandler(receiverAddress,id);
+    let previousOwner = currentAccount.slice(2,)
+    let currentOwner = receiverAddress.slice(2,)
+    axios.patch(`http://localhost:5000/transfer/${id}/${previousOwner}/${currentOwner}`).then((response)=>{
+      setRequestProcessed(true);
+      setNftOwner(receiverAddress);
+    })
+
   }
   const saleCard = () => (
     <Card className='cards' style={{ width: '45rem' }}>
@@ -89,6 +129,17 @@ const Sellnft = () => {
   )
   const forSaleComponent = () => (
     <div>
+      <form className='form2' onSubmit={changePrice}>
+        <input type="number" name="price" placeholder='Set price' />
+        <Button onClick={handleShow} className='btn3' variant="primary" type='submit' size="lg">Change price</Button>
+      </form>
+      <div className='btn1'>
+        <Button onClick={removeFromSale} variant="primary" size="lg" style={{ width: "117px", height: "30px", borderRadius: "12px" }}>Remove from sale</Button>
+      </div>
+      <form className='form2' onSubmit={transferToken}>
+        <input type="text" name="address" placeholder='address' />
+        <Button onClick={handleShow} className='btn3' variant="primary" type='submit' size="lg">Gift token</Button>
+      </form>
       <Container >
         <Row>
           <Col>
@@ -187,7 +238,11 @@ const Sellnft = () => {
     <div className="home-page" >
       <form className='form2' onSubmit={sellNft}>
         <input type="number" name="price" placeholder='Set price' />
-        <Button className='btn3' variant="primary" type='submit' size="lg">SELL</Button>
+        <Button className='btn3' variant="primary" type='submit' size="lg" onClick={handleShow}>SELL</Button>
+      </form>
+      <form className='form2' onSubmit={transferToken}>
+        <input type="text" name="address" placeholder='address' />
+        <Button onClick={handleShow} className='btn3' variant="primary" type='submit' size="lg">Gift token</Button>
       </form>
       <Container >
         <Row>
@@ -281,20 +336,72 @@ const Sellnft = () => {
       </Container>
     </div>
   )
+  const renderComponent = () => (
+    <div>
+      {currentAccount !== nftOwner ? authentication() : <div className="home-page" >
+        {nftData ? sellNftButton() : ''}
+      </div>}
+    </div>
+
+  )
   const sellNftButton = () => (
     <div>
-      {nftData.forSale ? forSaleComponent() : setForSaleComponent()}
+      <Modal show={show} >
+        <Modal.Header>
+          <Modal.Title>{requestProcessed == true ? "Request Processed" : "Processing request"}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="spinner">
+          {requestProcessed == true ? <div>
+          <Button variant="success" onClick={handleClose}>Success</Button>
+          </div> : <Spinner animation="grow" variant="primary" />}
+        </Modal.Body>
+      </Modal>
+      {sellStatus ? forSaleComponent() : setForSaleComponent()}
     </div>
   )
-  useEffect(() => {
-    getTokenUri();
-  }, [])
-  return (
-    <div className="home-page" >
-      {nftData ? sellNftButton() : ''}
-
-
+  const authentication = () => (
+    <div>
+      {/* {currentAccount}
+      <br/>
+      {nftOwner} */}
+      <h1>Not your token</h1>
+      <Link to="/MyNFT"><Button variant='primary' className='connect-wallet-button' >Your nft</Button></Link>
     </div>
+
+  )
+  const accountChanged = async () => {
+    const { ethereum } = window;
+
+    if (!ethereum) {
+      console.log("Make sure you have Metamask installed!");
+      return;
+    } else {
+      console.log("Wallet exists! We're ready to go!")
+    }
+    ethereum.on("accountsChanged", (accounts) => {
+      setCurrentAccount(accounts[0]);
+    })
+
+  }
+  // useEffect(() => {
+  //   accountChanged();
+  // })
+  useEffect(() => {
+    const loader = async () => {
+      const account = await checkWalletIsConnected();
+      setCurrentAccount(account);
+      if (account) {
+        getTokenUri();
+      }
+    }
+    accountChanged();
+    return loader();
+  }, [currentAccount, nftOwner])
+  return (
+    <div>
+      {currentAccount ? renderComponent() : authentication()}
+    </div>
+
   )
 };
 

@@ -47,7 +47,7 @@ contract OpenMarket is Ownable, ERC721URIStorage {
     //     }
     // }
 
-    function setBaseURI(string memory _newBaseURI) internal onlyOwner {
+    function setBaseURI(string memory _newBaseURI) internal {
         baseURI = _newBaseURI;
     }
 
@@ -78,13 +78,17 @@ contract OpenMarket is Ownable, ERC721URIStorage {
         _tokenPrice[tokenId] = price;
     }
 
-    function buyNFT(uint256 tokenId) public {
+    function buyNFT(uint256 tokenId) public payable {
         require(_tokenForSale[tokenId], "Token is currently not for sale!");
         address owner = ownerOf(tokenId);
         require(_msgSender() != address(0), "Buyer address cannot be zero");
         require(_msgSender() != owner, "Cannot buy owned NFT");
+        uint256 userBalance = msg.sender.balance/10**18;
+        uint256 tokenPrice = getTokenPrice(tokenId);
+        require(userBalance > tokenPrice,"You dont have enough cash");
+        payable(owner).transfer(msg.value);
         _transfer(owner, _msgSender(), tokenId);
-        _tokenForSale[tokenId] = false;
+        _tokenForSale[tokenId] = false; 
         emit Transfer(owner, _msgSender(), tokenId);
     }
 
@@ -97,7 +101,14 @@ contract OpenMarket is Ownable, ERC721URIStorage {
         );
         _tokenForSale[tokenId] = false;
     }
-
+    function giftToken(address receiver,uint256 tokenId) public  {
+        address owner = ownerOf(tokenId);
+        require(_exists(tokenId),"request for non existent token");
+        require(_msgSender() == owner,"Only owner can gift");
+        _transfer(owner, receiver, tokenId);
+        _tokenForSale[tokenId] = false; 
+        emit Transfer(owner,receiver, tokenId);
+    }
     function isTokenForSale(uint256 tokenId) public view returns (bool) {
         return _tokenForSale[tokenId];
     }
