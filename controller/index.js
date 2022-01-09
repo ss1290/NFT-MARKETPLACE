@@ -2,8 +2,9 @@ const express = require('express');
 const Web3 = require('web3');
 const myContract = require('../src/abis/OpenMarket.json')
 const mysql = require('mysql');
-const tokenList = require('../fetchedData/mint.json');
-const transfer = require('../fetchedData/transfer.json');
+const cors = require('cors')
+ 
+
 //Create connection
 const db = mysql.createConnection({ 
     host     : 'localhost',
@@ -20,20 +21,22 @@ db.connect((err)=>{
 
 const app = express();
 
-const web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+app.use(express.json());
+app.use(cors());
 
 
 
-const deployedNetwork = myContract.networks["5777"];
-const contract = new web3.eth.Contract(myContract.abi,deployedNetwork.address);
-console.log(contract);
+
+
+
+
 
 app.get('/web3Exists',async(req,res)=>{
     if(web3){
         console.log(web3)
         res.send('ethereum api fetched!');
     }
-})
+}) 
 
 app.get('/contract',async(req,res)=>{
     if(contract) {
@@ -41,25 +44,21 @@ app.get('/contract',async(req,res)=>{
         console.log(contract);
     }
 })
-app.get('/createdb',(req,res)=>{
-    let sql = 'CREATE DATABASE MYNFT'
-    db.query(sql, (err,result)=>{
+
+app.post('/createUser',(req,res) =>{
+    let user =req.body
+    let sql = 'INSERT INTO User SET ?';
+     console.log(req.body);
+     let query = db.query(sql, user,(err,result)=>{
         if(err) throw err;
         console.log(result);
-        res.send('Database created...');
-    });
+        res.send('user added');
+    })
 })
-app.get('/createtokenstable',(req,res)=>{
-    let sql = 'CREATE TABLE Token(tokenId int AUTO_INCREMENT, tokenName VARCHAR(255), tokenURI VARCHAR(255),tokenCreator VARCHAR(255),currentOwner VARCHAR(255),previousOwner VARCHAR(255), PRIMARY KEY (tokenId))'; 
-    db.query(sql, (err,result)=>{
-        if(err) throw err;
-        console.log(result);
-        res.send('Token table created');
-    });
-})
-app.get('/addtoken',(req,res) =>{
-    let token = tokenList[0];
+
+app.post('/mintToken',async(req,res) =>{
     let sql = 'INSERT INTO Token SET ?';
+    let token = req.body
     let query = db.query(sql, token,(err,result)=>{
         if(err) throw err;
         console.log(result);
@@ -68,10 +67,93 @@ app.get('/addtoken',(req,res) =>{
 });
 
 
-app.get('/transfer',async(req,res) =>{
-    const addresses = await web3.eth.getAccounts();
-    console.log(updateList);
-    let sql = `UPDATE Token SET previousOwner = '${transfer.transferFrom}', currentOwner = '${transfer.transferTo}' WHERE tokenId = ${transfer.tokenId}`;
+app.get('/getUser/:address', async(req,res)=>{
+    let sql = `SELECT * FROM User HAVING walletAddress = '${req.params.address}'`
+     db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+})
+
+app.get('/getToken/:address',async(req,res) =>{
+   
+    let sql = `SELECT * FROM Token HAVING currentOwner='${req.params.address}'`
+    console.log(req.params.address)
+    db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+
+})
+
+app.get('/getCreatedToken/:address',async(req,res) =>{
+   
+    let sql = `SELECT * FROM Token WHERE currentOwner='${req.params.address}' AND tokenCreator='${req.params.address}'`
+    console.log(req.params.address)
+    db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+
+})
+
+app.get('/searchMynft/:address',async(req,res)=>{
+
+    let result = req.query.search ;
+
+    if(result)
+    {
+        
+        let sql1= `SELECT * FROM Token WHERE itemName LIKE '${result}%' AND currentOwner='${req.params.address}' `
+        console.log(result)
+        db.query(sql1,(err,result)=>{
+            if(err) throw err;
+            console.log(result);
+            res.send(result);
+        });
+
+    }
+
+
+})
+
+app.patch('/updateProfile/:address',async(req,res)=>{
+    let update = req.body;
+    let sql = `UPDATE User SET ?  WHERE walletAddress='${req.params.address}'`;
+    db.query(sql,update,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send('profile updated');
+    });
+})
+
+app.get('/getAllToken',async(req,res) =>{
+    let sql = `SELECT * FROM Token WHERE forSale=true `
+    db.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+})
+
+app.get('/tokenSearch',async(req,res)=>{
+    const result = req.query.search;
+    console.log(result, "----")
+
+    let sql = `SELECT * FROM Token WHERE itemName LIKE '${result}%' AND forSale=true  OR tokenId ='${result}'`;
+    db.query(sql,(err,result)=>{
+        if(err) throw err;
+        res.send(result);
+    });
+})
+
+
+app.patch('/transfer/:nftId/:preowner/:postowner',async(req,res) =>{
+   
+    let sql = `UPDATE Token SET previousOwner = '${req.params.preowner}', currentOwner = '${req.params.postowner}',forSale=false WHERE tokenId = '${req.params.nftId}'`;
     let query = db.query(sql,(err,result)=>{
         if(err) throw err;
         console.log(result);
@@ -79,6 +161,38 @@ app.get('/transfer',async(req,res) =>{
     });
 })
 
-app.listen('3000',()=>{
-    console.log('server started on port 3000');
+app.patch('/tokenForSale/:tokenId/:price', (req,res) =>{
+    console.log(req.params)
+    let sql = `UPDATE Token  SET forSale = true ,tokenPrice ='${req.params.price}' WHERE tokenId = ${req.params.tokenId}`;
+    let query = db.query(sql,(err,result)=>{
+        if(err) throw err;
+        res.send('Successfully set to sale');
+   });
+})
+
+app.patch('/removeTokenFromSale/:tokenId', (req,res) =>{
+    let sql = `UPDATE Token  SET forSale = false WHERE tokenId = ${req.params.tokenId}`;
+    let query = db.query(sql,(err,result)=>{
+        if(err) throw err;
+        res.send('Successfully remove from sale');
+   });
+})
+
+app.patch('/priceChange/:price/:tokenId',(req,res)=>{
+    let sql = `UPDATE Token SET tokenPrice='${req.params.price}' WHERE tokenId = '${req.params.tokenId}'`;
+    let query = db.query(sql,(err,result)=>{
+        if(err) throw err;
+        res.send('price changed successfully')
+    })
+})
+app.patch('/removeFromSale/:tokenId',(req,res)=>{
+    let sql = `UPDATE Token SET forSale=false, tokenPrice=0 WHERE tokenId='${req.params.tokenId}'`
+    let query = db.query(sql,(err,result)=>{
+        if(err) throw err;
+        res.send('Token removed from sale successfully');
+    })
+})
+
+app.listen('5000',()=>{
+    console.log('server started on port 5000');
 })

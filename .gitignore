@@ -1,9 +1,11 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
 
 # dependencies
 /node_modules
+/src/abis
 /.pnp
 .pnp.js
+package-lock.json
 
 # testing
 /coverage
@@ -21,3 +23,12 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+package-lock.json
+src/abis
+scripts
+<<<<<<< HEAD
+*.json
+src/abis
+=======
+*.json
+>>>>>>> 34dbbebd6d3f753f2374c9239ef9b18ea78622b7
