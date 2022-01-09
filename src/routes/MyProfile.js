@@ -9,6 +9,7 @@ const MyProfile = () => {
     let [currentAccount, setCurrentAccount] = useState(null);
     let [userNft, setUserNft] = useState(null);
     let [userData, setUserData] = useState(null);
+  
     const connectWalletButton = () => {
         const connectWallet = async () => {
             let account = await connectWalletHandler();
@@ -36,6 +37,18 @@ const MyProfile = () => {
 
     }
 
+    const getCreatedNFT = () => {
+        if (currentAccount) {
+            let account = currentAccount.slice(2,)
+            axios.get(`http://localhost:5000/getCreatedToken/${account}`).then((response) => {
+                setUserNft(response.data);
+            }).catch((e) => {
+                console.log(e)
+            })
+        }
+
+    }
+
     const getUserData = () => {
         if (currentAccount) {
             let account = currentAccount.slice(2,)
@@ -43,13 +56,17 @@ const MyProfile = () => {
                 if (response.data.length > 0) {
                     setUserData(response.data);
                 }
+            }).catch((e) => {
+                console.log(e)
             })
         }
 
     }
 
     const showProfile = () => (
+        
         <div>
+
             <div className="aligncenter">
                 <h1>Profile</h1>
             </div>
@@ -66,9 +83,18 @@ const MyProfile = () => {
             <div className="box">
                 <div className="smallbox">
                     <div className="align">
-                        <p>My Collection    </p>
-                        <p>Created    </p>
-                        <p>Histroy  </p>
+                    <Button  onClick={getUserNFT} variant="primary" type="submit" >
+                    My NFTs 
+                    </Button> 
+                    <Button  onClick={getCreatedNFT}variant="primary" type="submit" >
+                     Created
+                    </Button>  
+                    <Button   onClick={(e) => {
+                             e.preventDefault();
+                            window.location.href=`https://ropsten.etherscan.io/address/${currentAccount}/`;
+                             }}variant="primary" type="submit" >
+                      Activity
+                    </Button>
                         <Link to="/profileSettings"><img className="imgicon" src="https://img.icons8.com/ios-filled/50/000000/settings.png" />{' '}</Link>
                     </div>
                 </div>
@@ -76,15 +102,18 @@ const MyProfile = () => {
                     {userNft && <div>
                         <Container >
                             <Row>
-                                {userNft.map((nft) => (
-                                    <Card className="nft-card" key={nft.tokenId} style={{ width: '30rem' }}>
-                                        <Card.Img variant="top" src={nft.url} />
-                                        <Card.Body className="card-body">
-                                            <Card.Title><p>{nft.itemName}</p></Card.Title>
-                                            <Button variant="primary">Description</Button>
-                                        </Card.Body>
-                                    </Card>
-                                ))}
+                            {userNft.map((nft) => {
+                            let link = `/Sellnft/${nft.tokenId}`
+                            return (
+                                <Card className="nft-card" key={nft.tokenId} style={{ width: '30rem' }}>
+                                    <Card.Img variant="top" src={nft.url} />
+                                    <Card.Body className="card-body">
+                                        <Card.Title><p>{nft.itemName}</p></Card.Title>
+                                        <Card.Link style={{ textDecoration: 'none' }} href={link}><Button variant="primary">Description</Button></Card.Link>
+                                    </Card.Body>
+                                </Card>
+                            )
+                        })}
                             </Row>
                         </Container>
 
@@ -109,17 +138,24 @@ const MyProfile = () => {
         ethereum.on("accountsChanged", (accounts) => {
             setCurrentAccount(accounts[0]);
         })
-
+        
     }
     useEffect(() => {
         accountChanged();
+       
+        
+        
     })
     useEffect(() => {
         const loader = async () => {
             const account = await checkWalletIsConnected();
             setCurrentAccount(account);
+            
             getUserNFT();
             getUserData();
+           
+            
+            
         }
         return loader()
     }, [currentAccount])

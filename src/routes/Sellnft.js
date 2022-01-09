@@ -11,6 +11,7 @@ import { BsClock } from 'react-icons/bs';
 import { CgDetailsMore } from 'react-icons/cg';
 import "../styles/buynft.css";
 import axios from "axios";
+import {address} from '../config';
 import { tokenUriHandler, sellTokenHandler, priceChangeHandler, removeFromSaleHandler, checkWalletIsConnected,transferTokenHandler } from "../components/LoadBlockchain";
 
 
@@ -295,42 +296,9 @@ const Sellnft = () => {
           </div>
 
           <div className='title2'>
-            <Col>
-              <Card>
-                <Accordion className='details' defaultActiveKey="0" flush  >
-                  <Accordion.Item className='accitem2' eventKey="0"  >
-                    <Accordion.Header className='accheader'  ><h3><RiArrowUpDownFill style={{ color: 'black' }} />Item Activity</h3></Accordion.Header>
-                    <Accordion.Body  >
-                      <Table responsive size="lg" striped bordered hover>
-                        <thead>
-
-                          <tr style={{ fontSize: '18px', fontStyle: 'oblique' }}>
-                            <th>Event</th>
-                            <th>From</th>
-                            <th>To</th>
-                            <th>Date</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr style={{ fontSize: '15px' }}>
-                            <td><BiTransfer style={{ color: 'darkslategrey' }} /> Transfer</td>
-                            <td ><Card.Link style={{ textDecoration: 'none' }} href="#">3CCFDC</Card.Link></td>
-                            <td ><Card.Link style={{ textDecoration: 'none' }} href="#">B9E820</Card.Link></td>
-                            <td >29 december 2021</td>
-                          </tr>
-                          <tr style={{ fontSize: '15px' }}>
-                            <td><MdChildFriendly style={{ color: 'darkslategrey' }} /> minted</td>
-                            <td ><Card.Link style={{ textDecoration: 'none' }} href="#">3CCFDC</Card.Link></td>
-                            <td ><Card.Link style={{ textDecoration: 'none' }} href="#">B9E820</Card.Link></td>
-                            <td >29 december 2021</td>
-                          </tr>
-                        </tbody>
-                      </Table>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                </Accordion>
-              </Card>
-            </Col>
+          <Button  onClick={(e) => {
+             e.preventDefault();
+            window.location.href=`https://ropsten.etherscan.io/token/${address}?a=${params.nftId}`}} variant="outline-secondary">Item Activity</Button>{' '}
           </div>
         </Row>
       </Container>
